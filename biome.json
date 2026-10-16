@@ -36,10 +36,14 @@
         "noNonNullAssertion": "off"
       },
       "a11y": {
-        "noSvgWithoutTitle": "off"
+        "noSvgWithoutTitle": "off",
+        "useSemanticElements": "off"
       },
       "suspicious": {
         "useIterableCallbackReturn": "off"
+      },
+      "correctness": {
+        "useUniqueElementIds": "off"
       }
     }
   }

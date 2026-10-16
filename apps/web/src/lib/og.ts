@@ -9,7 +9,7 @@ function wrap(text: string, max = 26): string[] {
   const lines: string[] = [];
   let cur = '';
   for (const w of words) {
-    if ((cur + ' ' + w).trim().length > max) {
+    if (`${cur} ${w}`.trim().length > max) {
       lines.push(cur.trim());
       cur = w;
     } else cur += ` ${w}`;
