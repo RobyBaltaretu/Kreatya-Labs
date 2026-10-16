@@ -9,3 +9,4 @@ preview-dist
 test-results
 playwright-report
 .env
+.video-frames

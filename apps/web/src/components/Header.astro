@@ -18,9 +18,9 @@ const active = (href: string) => path === href || path.startsWith(`${href}/`);
   <div class="wrap flex h-16 items-center justify-between gap-6">
     <a href="/" class="flex items-center gap-2.5 font-display text-[1.0625rem] font-semibold tracking-tight" aria-label={`${siteConfig.name}, inicio`}>
       <svg viewBox="0 0 32 32" class="h-8 w-8" aria-hidden="true">
-        <rect x="1.5" y="1.5" width="29" height="29" rx="6" fill="none" stroke="currentColor" stroke-width="2"></rect>
-        <path d="M10 8v16M10 16l9-8M13 13.5 21 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
-        <circle cx="22.5" cy="9.5" r="2.5" fill="var(--signal)"></circle>
+        <rect x="1" y="1" width="30" height="30" rx="7" fill="var(--signal)"></rect>
+        <path d="M10.5 8v16M10.5 16.5 19 8M13.6 13.4 21 24" fill="none" stroke="#151515" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M25 6v20" stroke="#151515" stroke-width="2" stroke-linecap="round"></path>
       </svg>
       <span>Kreatya Labs</span>
     </a>
@@ -62,7 +62,7 @@ const active = (href: string) => path === href || path.startsWith(`${href}/`);
     left: 0.75rem;
     right: 0.75rem;
     bottom: 0.2rem;
-    border-top: 2px solid var(--signal);
+    border-top: 2px solid var(--fg);
   }
   /* Menú móvil: se despliega como una lámina que baja (Emil: ease-drawer, salida más rápida). */
   .menu-movil {

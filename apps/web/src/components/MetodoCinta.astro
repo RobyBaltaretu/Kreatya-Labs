@@ -1,0 +1,97 @@
+---
+/** El método sobre una cinta métrica: cada fase cae en su semana real. */
+const fases = [
+  { semana: 0, titulo: 'Diagnóstico', plazo: '45 minutos', texto: 'Revisamos tu proceso y detectamos dónde se pierden las horas.' },
+  { semana: 1, titulo: 'Plano', plazo: 'semanas 1–2', texto: 'Módulos, integraciones, plazo y precio cerrado por fase.' },
+  { semana: 5, titulo: 'Primer módulo en uso', plazo: 'semanas 4–6', texto: 'Tu equipo ya trabaja con él. Entregas cada dos semanas.' },
+  { semana: 8, titulo: 'Evolución', plazo: 'cada mes', texto: 'Mejoras continuas con una bolsa de horas.' },
+];
+const TOTAL = 9; // semanas visibles en la cinta
+---
+<div class="metodo">
+  <div class="metodo-cinta" aria-hidden="true">
+    {Array.from({ length: TOTAL + 1 }, (_, i) => <span class:list={['metodo-num', i === 0 && 'primero', i === TOTAL && 'ultimo']} style={`left:${(i / TOTAL) * 100}%`}>{i === 0 ? '0' : `${i} sem`}</span>)}
+    {fases.map((f) => <span class="metodo-hito" style={`left:${(f.semana / TOTAL) * 100}%`}></span>)}
+  </div>
+  <ol class="metodo-fases">
+    {fases.map((f, i) => (
+      <li class="metodo-fase" style={`--pos:${(f.semana / TOTAL) * 100}%; --i:${i}`}>
+        <span class="metodo-punto" aria-hidden="true"></span>
+        <p class="medida text-mark">{f.plazo}</p>
+        <h3 class="mt-1 text-2xl">{f.titulo}</h3>
+        <p class="mt-2 text-muted">{f.texto}</p>
+      </li>
+    ))}
+  </ol>
+</div>
+<style>
+  .metodo-cinta {
+    position: relative;
+    height: 48px;
+    border-radius: 6px;
+    background-color: var(--signal);
+    background-image:
+      repeating-linear-gradient(90deg, #151515 0 1.5px, transparent 1.5px calc(100% / 45)),
+      repeating-linear-gradient(90deg, #151515 0 2px, transparent 2px calc(100% / 9));
+    background-size: 100% 10px, 100% 22px;
+    background-repeat: repeat-x;
+    color: #151515;
+  }
+  .metodo-num {
+    position: absolute;
+    top: 24px;
+    transform: translateX(-50%);
+    font-size: 0.8125rem;
+    font-weight: 720;
+    font-stretch: 78%;
+    white-space: nowrap;
+  }
+  .metodo-num.primero {
+    transform: translateX(6px);
+  }
+  .metodo-num.ultimo {
+    transform: translateX(calc(-100% - 6px));
+  }
+  .metodo-hito {
+    position: absolute;
+    bottom: -9px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 9px solid var(--mark);
+    transform: translateX(-50%);
+  }
+  .metodo-fases {
+    display: grid;
+    gap: 2.25rem;
+    margin-top: 1.75rem;
+  }
+  .metodo-fase {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  .metodo-punto {
+    position: absolute;
+    left: 0;
+    top: 0.3rem;
+    width: 2px;
+    height: 1.1rem;
+    background: var(--mark);
+  }
+  @media (min-width: 900px) {
+    .metodo-fases {
+      position: relative;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .metodo-fase {
+      padding-left: 0;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--line);
+    }
+    .metodo-punto {
+      display: none;
+    }
+  }
+</style>

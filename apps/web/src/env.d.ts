@@ -5,3 +5,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_API_URL?: string;
   readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
 }
+declare module '*.woff2?url' {
+  const url: string;
+  export default url;
+}

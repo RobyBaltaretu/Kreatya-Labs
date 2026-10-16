@@ -26,13 +26,13 @@ export function mockupSvg(opts: {
         : kind === 'cover'
           ? [1280, 720]
           : [1440, 900];
-  const ink = '#14213D',
-    paper = '#F7F5F0',
-    blue = '#3A6EA5',
-    signal = '#FF6B2C',
-    green = '#2E9E6A',
-    line = '#D9D4C7';
-  const grid = `<defs><pattern id="g${h}" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="${blue}" stroke-opacity=".10"/></pattern></defs>`;
+  const ink = '#151515',
+    paper = '#F2F2EF',
+    blue = '#55554F',
+    signal = '#FFCC00',
+    green = '#0B7A47',
+    line = '#D4D4CD';
+  const grid = `<defs><pattern id="g${h}" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="${ink}" stroke-opacity=".05"/></pattern></defs>`;
 
   if (kind === 'mobile') {
     const rows = Array.from({ length: 6 }, (_, i) => {

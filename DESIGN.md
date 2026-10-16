@@ -1,35 +1,32 @@
-# Diseño — «El plano de tu negocio»
+# Diseño — «A medida»
 
-Mundo fijado por la hipótesis de solución (sección 4). Este documento recoge cómo se ejecuta.
+Sustituye al mundo «El plano de tu negocio» a petición del cliente (lo veía genérico).
+La expresión española «a medida» se toma al pie de la letra: el mundo del sastre y de la cinta métrica.
 
 ## Modo y escena
-- Web pública: **Persuade**. Panel: **Operate**.
-- Escena: gerente en su despacho, de día → tema claro por defecto. El modo oscuro reproduce la cianotipia (fondo azul tinta, líneas claras), no una inversión mecánica.
+- Web pública: **Persuade**. Panel: **Operate** (hereda tokens, sin rediseño).
+- Escena: gerente en su despacho, de día → tema claro; el oscuro es un negro de imprenta con el mismo amarillo.
 
-## Color (estrategia: comprometida en el plano, contenida en la lectura)
-- `--ink #14213D` texto y líneas · `--paper #F7F5F0` papel · `--signal #FF6B2C` solo acción · `--blueprint #3A6EA5` retícula y diagramas · `--success #2E9E6A` métricas de impacto.
-- El azul tinta es material, no acento: el hero es una lámina de cianotipia a sangre y el cierre vuelve a ella.
-- La retícula solo aparece donde hay un plano debajo (hero y lámina del diagnóstico). Nunca como textura de sección.
-- El naranja señal se reserva al CTA principal y al foco del plano; nunca decora.
+## Color (estrategia comprometida)
+- `--signal #FFCC00` amarillo de cinta métrica: campo a sangre en el hero y en el cierre, cinta del método, CTA.
+- `--ink #151515` negro de imprenta (texto, superficies oscuras, CTA sobre amarillo).
+- `--mark #C8231B` rojo de las marcas de 10 cm: solo para medidas y plazos.
+- `--paper #F2F2EF` papel neutro (no crema) · `--success #0B7A47` métricas de impacto.
+- Contextos `.sobre-amarillo` y `.sobre-tinta` reasignan los tokens para mantener el contraste.
 
 ## Tipografía
-- Titulares: Space Grotesk (fijada por el brief; General Sans es la alternativa aprobada si se dispone de los ficheros). Peso 600, tracking −0,03 em, escala fluida con `clamp()`, máximo 6 rem.
-- Texto: Inter, 17 px, medida 62–70 ch.
-- Datos y cotas: JetBrains Mono, solo para medidas, plazos, cifras tabulares y el cajetín. Nunca como «disfraz técnico» de etiquetas.
-- Sin antetítulos sobre los encabezados: el titular se sostiene solo.
+- Una superfamilia: **Archivo** (Omnibus-Type), eje de anchura 62–125 %.
+- Titulares a 74 % de anchura, peso 720–760, interlineado 0,86–0,98: la voz condensada de una cinta métrica.
+- Texto a 100 %, 17 px, medida 62–70 ch. Datos y plazos con `.medida` (80 %, cifras tabulares).
+- Sin antetítulos; sin monoespaciada.
 
-## Composición
-- Más espacio sobre un encabezado que debajo. Escala de espaciado base 4.
-- Sin rejillas de tarjetas idénticas: los pilares son filas editoriales; los dolores, un selector; los testimonios, una cita protagonista.
-- Las tarjetas-ficha imitan una ficha de obra con cajetín (sector, plazo, empresa). Elevación declarada una sola vez: borde, y sombra suave solo en hover.
-- Iconos dibujados en SVG con un solo trazo de 1,5 px (componente `Icon`); nunca glifos Unicode.
+## Firma
+- **El titular se entalla**: al cargar, cada línea pasa de 104 % a 74 % de anchura con Motion, como una prenda que se ajusta.
+- **La cinta**: se desenrolla bajo el hero y marca «6 semanas · primer módulo en uso»; el método se dibuja sobre otra cinta con sus semanas reales.
+- **La película** (`apps/web/video`): 12 s compuestos con Motion y renderizados a MP4/WebM (`node scripts/render-hero-video.mjs`).
 
-## Movimiento (principios de Emil Kowalski)
-- Momento de autor único: el plano del proceso se traza y se convierte en la interfaz terminada (≈ 1,8 s, una vez).
-- Curvas: `--ease-out cubic-bezier(0.23, 1, 0.32, 1)`, `--ease-in-out cubic-bezier(0.77, 0, 0.175, 1)`. Nunca `ease-in` ni rebotes.
-- Interfaz < 300 ms; salidas más rápidas que entradas; pulsación `scale(0.97)` en 120 ms.
-- Hover solo con `(hover: hover) and (pointer: fine)`. Transiciones en vez de keyframes en lo interactivo. Nada animado en acciones de teclado ni en filtros.
-- `prefers-reduced-motion`: sin desplazamientos; se conservan opacidad y color.
-
-## Superficies del navegador
-Selección en naranja señal, cursor de texto en azul plano, scrollbars y `accent-color` de la paleta, cifras tabulares en datos, subrayado con `text-underline-offset`.
+## Movimiento (Emil Kowalski)
+- Curvas `cubic-bezier(0.23, 1, 0.32, 1)` / `(0.77, 0, 0.175, 1)`; nunca ease-in ni rebote.
+- Interfaz < 300 ms; pulsación `scale(0.97)`; hover solo con puntero fino.
+- La película se detiene fuera de pantalla, tiene botón de pausa y no se reproduce con reduced motion.
+- Todo es visible sin JS: las animaciones parten de un estado legible y tienen un respaldo CSS a los 2,6 s.

@@ -3,9 +3,9 @@
  * Uso: @import "tailwindcss"; @import "@kreatya/ui/theme.css";
  * Decisiones en /DESIGN.md.
  */
-@import '@fontsource-variable/inter/wght.css';
-@import '@fontsource-variable/space-grotesk/wght.css';
-@import '@fontsource-variable/jetbrains-mono/wght.css';
+/* Archivo (Omnibus-Type): una superfamilia con eje de anchura 62–125 %.
+   Titulares condensados, texto a anchura normal, datos con cifras tabulares. */
+@import '@fontsource-variable/archivo/wdth.css';
 @import './tokens.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
@@ -30,9 +30,10 @@
   --color-positive: var(--positive);
   --color-positive-strong: var(--positive-strong);
 
-  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --font-display: 'Archivo Variable', 'Arial Narrow', ui-sans-serif, sans-serif;
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Archivo Variable', ui-sans-serif, sans-serif;
+  --color-mark: var(--mark);
 
   --ease-out: var(--ease-out);
   --ease-in-out: var(--ease-in-out);
@@ -56,10 +57,16 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.08;
+    font-weight: 720;
+    font-stretch: 74%;
+    letter-spacing: -0.012em;
+    line-height: 0.98;
     text-wrap: balance;
+  }
+  h3,
+  h4 {
+    font-stretch: 86%;
+    line-height: 1.1;
   }
   p {
     text-wrap: pretty;
@@ -88,43 +95,36 @@
 }
 
 @layer components {
-  /* Contexto sobre azul tinta: el texto secundario se tiñe del azul, nunca gris. */
-  .sobre-tinta,
-  .lamina {
-    --fg: var(--paper);
-    --fg-muted: #c9d3e4;
-    --line: #2f4168;
-    --diagram: #8fb4e0;
-    --positive: #5fd39b;
-    --positive-strong: #5fd39b;
-    --focus: #ffb38f;
+  /* Contexto sobre negro: el texto secundario se aclara, nunca gris medio. */
+  .sobre-tinta {
+    --fg: #f2f2ee;
+    --fg-muted: #bdbdb4;
+    --line: #3a3a35;
+    --diagram: #f2f2ee;
+    --positive: #4fd08e;
+    --positive-strong: #4fd08e;
+    --mark: #ff6a5f;
+    --focus: #ffcc00;
     --bg-raised: var(--tinta-2);
     color: var(--fg);
   }
-  /* Lámina de cianotipia: retícula solo donde hay un plano debajo. */
-  .lamina {
-    --grid: rgb(143 180 224 / 0.09);
-    --grid-strong: rgb(143 180 224 / 0.17);
-    background-color: var(--ink);
-    color: var(--paper);
-    background-image:
-      linear-gradient(var(--grid-strong) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px),
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size:
-      120px 120px,
-      120px 120px,
-      24px 24px,
-      24px 24px;
-    background-position: -1px -1px;
+  /* Contexto sobre amarillo cinta. */
+  .sobre-amarillo {
+    --fg: #151515;
+    --fg-muted: #3d3a2a;
+    --line: rgb(21 21 21 / 0.25);
+    --diagram: #151515;
+    --mark: #a3170f;
+    --focus: #151515;
+    background: var(--signal);
+    color: var(--fg);
   }
   /* Medida o dato: mono solo para cifras, plazos y cajetines. */
   .medida {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-stretch: 80%;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0;
+    letter-spacing: 0.01em;
   }
 
   .btn {
@@ -134,8 +134,9 @@
     gap: 0.5rem;
     min-height: 44px;
     padding: 0.625rem 1.125rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
+    border-radius: 999px;
+    font-weight: 650;
+    font-stretch: 92%;
     line-height: 1.2;
     white-space: nowrap;
     -webkit-tap-highlight-color: transparent;
@@ -157,7 +158,12 @@
   }
   .btn-primary {
     background: var(--signal);
-    color: var(--ink);
+    color: #151515;
+  }
+  /* Negro de imprenta: el CTA sobre campos amarillos. */
+  .btn-ink {
+    background: #151515;
+    color: var(--signal);
   }
   .btn-secondary {
     background: transparent;
@@ -166,7 +172,10 @@
   }
   @media (hover: hover) and (pointer: fine) {
     .btn-primary:hover {
-      background: #ff8248;
+      background: #ffd633;
+    }
+    .btn-ink:hover {
+      background: #2a2a27;
     }
     .btn-secondary:hover {
       background: color-mix(in oklab, currentColor 8%, transparent);

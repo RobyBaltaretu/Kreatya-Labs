@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>A medida · película del hero</title>
+<style>
+  @font-face { font-family: 'Archivo'; src: url('__FONT__') format('woff2-variations'); font-weight: 100 900; font-stretch: 62% 125%; }
+  :root { --ink: #151515; --paper: #F2F2F0; --amarillo: #FFCC00; --rojo: #D7261E; --verde: #0B7A47; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; background: var(--ink); font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
+  .escena { position: relative; width: 1280px; height: 720px; overflow: hidden; background: var(--ink); color: var(--paper); }
+
+  .reloj { position: absolute; left: 48px; top: 40px; font-size: 22px; font-stretch: 100%; color: #A9A9A1; opacity: 0; }
+  .reloj strong { color: var(--paper); font-weight: 600; }
+  .contador { position: absolute; right: 48px; top: 30px; text-align: right; opacity: 0; }
+  .contador-valor { display: block; font-size: 96px; line-height: 0.9; font-weight: 750; font-stretch: 70%; color: var(--rojo); font-variant-numeric: tabular-nums; }
+  .contador span:last-child { font-size: 20px; color: #A9A9A1; }
+
+  .pieza { position: absolute; left: 50%; top: 50%; width: 260px; margin: -48px 0 0 -130px; padding: 16px 18px; border-radius: 12px; background: #FFFFFF; color: var(--ink); box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.6); opacity: 0; }
+  .pieza small { display: block; font-size: 13px; font-weight: 600; color: #6B6B64; margin-bottom: 6px; font-stretch: 100%; }
+  .pieza p { font-size: 18px; line-height: 1.25; font-weight: 600; font-stretch: 88%; }
+  .pieza.excel small { color: #1D7044; } .pieza.mail small { color: #2A5BB8; } .pieza.wa small { color: #128C4A; } .pieza.postit { background: #FFE97A; }
+
+  .cinta { position: absolute; left: 0; right: 0; top: 330px; height: 64px; background: var(--amarillo); color: var(--ink); clip-path: inset(0 100% 0 0);
+    background-image: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 16px), repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 80px);
+    background-size: 100% 14px, 100% 26px; background-repeat: repeat-x; background-position: 40px 0, 40px 0; }
+  .cinta span { position: absolute; top: 30px; font-size: 22px; font-weight: 750; font-stretch: 75%; transform: translateX(-50%); }
+  .cinta span.r { color: var(--rojo); }
+  .rotulo-medida { position: absolute; left: 0; right: 0; top: 432px; text-align: center; font-size: 44px; font-weight: 700; font-stretch: 72%; opacity: 0; }
+  .rotulo-medida em { font-style: normal; color: var(--amarillo); }
+
+  .app { position: absolute; left: 140px; top: 70px; width: 1000px; height: 560px; border-radius: 18px; background: var(--paper); color: var(--ink); overflow: hidden; clip-path: inset(100% 0 0 0 round 18px); display: grid; grid-template-columns: 200px 1fr; grid-template-rows: 48px 1fr; }
+  .barra { grid-column: 1 / -1; background: #1F1F1D; display: flex; align-items: center; gap: 8px; padding: 0 18px; color: #A9A9A1; font-size: 15px; }
+  .barra i { width: 11px; height: 11px; border-radius: 50%; background: #3A3A36; } .barra i:first-child { background: var(--amarillo); }
+  .barra b { margin-left: auto; margin-right: auto; font-weight: 500; }
+  .lateral { list-style: none; padding: 22px 14px; background: #E8E8E3; display: grid; align-content: start; gap: 6px; }
+  .lateral li { padding: 10px 12px; border-radius: 8px; font-size: 16px; font-weight: 600; color: #55554F; opacity: 0; }
+  .lateral li.on { background: var(--ink); color: var(--amarillo); }
+  .contenido { padding: 26px 30px; display: grid; align-content: start; gap: 18px; }
+  .contenido h2 { font-size: 34px; font-weight: 750; font-stretch: 72%; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .kpi { background: #FFFFFF; border-radius: 12px; padding: 14px 16px; opacity: 0; }
+  .kpi small { font-size: 14px; color: #55554F; font-weight: 600; }
+  .kpi strong { display: block; font-size: 44px; line-height: 1; margin-top: 4px; font-weight: 750; font-stretch: 70%; font-variant-numeric: tabular-nums; }
+  .kpi-valor { color: var(--verde); }
+  .tabla { background: #FFFFFF; border-radius: 12px; padding: 6px 16px; }
+  .fila { display: grid; grid-template-columns: 90px 1fr 120px; align-items: center; padding: 12px 0; border-bottom: 1px solid #E5E5E0; font-size: 17px; opacity: 0; }
+  .fila:last-child { border: 0; }
+  .fila b { font-variant-numeric: tabular-nums; color: #55554F; font-weight: 600; }
+  .estado { justify-self: end; padding: 4px 12px; border-radius: 99px; font-size: 14px; font-weight: 600; background: #E9E9E4; color: #55554F; }
+  .copiloto { position: absolute; right: 36px; bottom: 30px; display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: 14px; background: var(--ink); color: var(--paper); font-size: 16px; opacity: 0; box-shadow: 0 16px 36px -14px rgb(0 0 0 / 0.5); }
+  .copiloto i { width: 14px; height: 14px; border-radius: 50%; background: var(--amarillo); }
+  .copiloto strong { display: block; }
+  .copiloto span { color: #A9A9A1; font-size: 14px; }
+
+  .cierre { position: absolute; inset: 0; background: var(--amarillo); color: var(--ink); clip-path: inset(100% 0 0 0); padding: 96px 96px 0; }
+  .cierre h1 { font-size: 150px; line-height: 0.88; font-weight: 780; font-stretch: 66%; letter-spacing: -0.01em; }
+  .cierre-linea { display: block; overflow: hidden; } .cierre-linea > span { display: block; }
+  .cierre-pie { position: absolute; left: 96px; bottom: 74px; font-size: 26px; font-weight: 600; opacity: 0; }
+  .cierre-pie b { font-weight: 800; }
+  .cierre-cinta { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: var(--ink); transform-origin: left; transform: scaleX(0);
+    background-image: repeating-linear-gradient(90deg, var(--amarillo) 0 2px, transparent 2px 16px); background-size: 100% 12px; background-repeat: repeat-x; }
+</style>
+</head>
+<body>
+<div class="escena">
+  <p class="reloj"><strong>Lunes, 9:14</strong> · otra semana igual</p>
+  <p class="contador"><span class="contador-valor">0</span><span>horas a mano esta semana</span></p>
+
+  <div class="pieza excel"><small>Excel</small><p>Pedidos_v3_FINAL (2).xlsx</p></div>
+  <div class="pieza mail"><small>Correo</small><p>RE: RE: RE: albarán 88213</p></div>
+  <div class="pieza wa"><small>WhatsApp · Marta</small><p>¿Dónde está mi pedido?</p></div>
+  <div class="pieza postit"><small>Pósit</small><p>Llamar a Juan por la factura</p></div>
+  <div class="pieza"><small>PDF escaneado</small><p>Factura_scan_0034.pdf</p></div>
+  <div class="pieza excel"><small>Excel</small><p>Stock tienda 4 (no tocar)</p></div>
+  <div class="pieza"><small>Teléfono</small><p>3 llamadas perdidas</p></div>
+
+  <div class="cinta" aria-hidden="true">__TICKS__</div>
+  <p class="rotulo-medida">Primero medimos <em>tu proceso real.</em></p>
+
+  <div class="app">
+    <div class="barra"><i></i><i></i><i></i><b>tunegocio.es/pedidos</b></div>
+    <ul class="lateral"><li class="on">Pedidos</li><li>Almacén</li><li>Facturas</li><li>Clientes</li><li>Informes</li></ul>
+    <div class="contenido">
+      <h2>Pedidos de hoy</h2>
+      <div class="kpis">
+        <div class="kpi"><small>Tiempo de facturación</small><strong class="kpi-valor">−0 %</strong></div>
+        <div class="kpi"><small>Horas ahorradas / semana</small><strong>12 h</strong></div>
+        <div class="kpi"><small>Errores de tecleo</small><strong>0</strong></div>
+      </div>
+      <div class="tabla">
+        <div class="fila"><b>#2041</b><span>Ferretería Sol · 12 palés</span><span class="estado">Facturado</span></div>
+        <div class="fila"><b>#2042</b><span>Hnos. Vidal · 4 palés</span><span class="estado">Facturado</span></div>
+        <div class="fila"><b>#2043</b><span>Talleres Norte · 200 uds BR-50</span><span class="estado">Facturado</span></div>
+        <div class="fila"><b>#2044</b><span>Frutas Ribera · 8 palés</span><span class="estado">Facturado</span></div>
+        <div class="fila"><b>#2045</b><span>Clínica Alba · material fungible</span><span class="estado">Facturado</span></div>
+      </div>
+    </div>
+    <div class="copiloto"><i></i><div><strong>Copiloto</strong><span>12 albaranes leídos y conciliados</span></div></div>
+  </div>
+
+  <div class="cierre">
+    <h1><span class="cierre-linea"><span>Hecho a</span></span><span class="cierre-linea"><span>tu medida.</span></span></h1>
+    <p class="cierre-pie"><b>Kreatya Labs</b> · Software a medida + IA · en uso en 6 semanas</p>
+    <div class="cierre-cinta"></div>
+  </div>
+</div>
+<script>__SCRIPT__</script>
+</body>
+</html>

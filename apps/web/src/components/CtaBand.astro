@@ -9,14 +9,14 @@ const {
   label = siteConfig.primaryCta.label,
 } = Astro.props;
 ---
-<section class="sobre-tinta bg-tinta">
+<section class="sobre-amarillo">
   <div class="wrap grid gap-10 py-20 sm:py-28 md:grid-cols-[1.6fr_1fr] md:items-end">
     <div>
       <h2 class="text-title max-w-[18ch]">{title}</h2>
-      <p class="mt-5 max-w-[56ch] text-lead" style="color: #c9d3e4">{text}</p>
+      <p class="mt-5 max-w-[56ch] text-lead text-muted">{text}</p>
     </div>
     <div class="flex md:justify-end">
-      <a href={href} class="btn btn-primary btn-draw text-lg" data-cta="band">{label}<Icon name="arrow-right" /></a>
+      <a href={href} class="btn btn-ink btn-draw text-lg" data-cta="band">{label}<Icon name="arrow-right" /></a>
     </div>
   </div>
 </section>

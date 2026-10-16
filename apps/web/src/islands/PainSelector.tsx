@@ -52,7 +52,7 @@ export default function PainSelector({ options }: { options: PainOption[] }) {
         className="dolor-panel grid content-start gap-5 rounded-xl sobre-tinta bg-tinta p-5 sm:p-7"
         aria-live="polite"
       >
-        <p className="text-lead" style={{ color: '#c9d3e4' }}>
+        <p className="text-lead" style={{ color: '#bdbdb4' }}>
           {o.detail}
         </p>
         <a
@@ -68,17 +68,17 @@ export default function PainSelector({ options }: { options: PainOption[] }) {
             className="aspect-[16/10] w-full rounded-md object-cover"
           />
           <span className="grid gap-1">
-            <span className="text-sm" style={{ color: '#c9d3e4' }}>
+            <span className="text-sm" style={{ color: '#bdbdb4' }}>
               {o.project.client}
             </span>
             <span className="font-display text-lg font-semibold leading-snug">
               {o.project.title}
             </span>
             <span className="mt-1">
-              <strong className="font-display text-2xl font-semibold" style={{ color: '#5fd39b' }}>
+              <strong className="font-display text-2xl font-semibold" style={{ color: '#4fd08e' }}>
                 {o.project.metric}
               </strong>{' '}
-              <span className="text-sm" style={{ color: '#c9d3e4' }}>
+              <span className="text-sm" style={{ color: '#bdbdb4' }}>
                 {o.project.metricLabel}
               </span>
             </span>

@@ -14,6 +14,12 @@ importers:
       '@playwright/test':
         specifier: 1.56.1
         version: 1.56.1
+      esbuild:
+        specifier: 0.25.12
+        version: 0.25.12
+      motion:
+        specifier: 14.3.0
+        version: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       turbo:
         specifier: 2.5.8
         version: 2.5.8
@@ -109,6 +115,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ~3.6.0
         version: 3.6.1
+      '@fontsource-variable/archivo':
+        specifier: ^5.2.0
+        version: 5.3.0
       '@kreatya/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -124,6 +133,9 @@ importers:
       astro:
         specifier: ~5.18.0
         version: 5.18.2(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.64.7)(tsx@4.23.15)(typescript@5.9.3)(yaml@2.9.1)
+      motion:
+        specifier: 14.3.0
+        version: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react:
         specifier: ^19.2.0
         version: 19.3.1
@@ -187,13 +199,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@fontsource-variable/inter':
-        specifier: ^5.2.0
-        version: 5.3.0
-      '@fontsource-variable/jetbrains-mono':
-        specifier: ^5.2.0
-        version: 5.3.0
-      '@fontsource-variable/space-grotesk':
+      '@fontsource-variable/archivo':
         specifier: ^5.2.0
         version: 5.3.0
     devDependencies:
@@ -1094,14 +1100,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource-variable/inter@5.3.0':
-    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
-
-  '@fontsource-variable/jetbrains-mono@5.3.0':
-    resolution: {integrity: sha512-F32xpS2NsGYoQi2ADSkKTgpJj7ozajsGgDJ8woTnqjmIB+dxDIqImjl4pXZVEExu8UFZ2ndhmX18EBS/hdz3Lw==}
-
-  '@fontsource-variable/space-grotesk@5.3.0':
-    resolution: {integrity: sha512-2IxmvfB08i9vnGB3Ym/AXvhRE+8XOjWMXIyDum03c+tPwH0FUoMNQfGpU8NXPxjbws0Vvss3AH0Zqt4oJBBAdw==}
+  '@fontsource-variable/archivo@5.3.0':
+    resolution: {integrity: sha512-HogK8FJelrD1o7TlZlkIVtHgc20bO5PZRWE7mUeUTdMN055alznQV6/00J00IBeu8FQAH4s3zW9UJNvKExXf+g==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2322,6 +2322,17 @@ packages:
     resolution: {integrity: sha512-Wp1zXWPVUPBmfoa3Cqc9ctaKuzKAV6uLstRqlR56kSjplf5uAce+qeyYym7F+PHbGTk+tCEdkCW6RD7DX/gBZw==}
     engines: {node: '>=20'}
 
+  framer-motion@14.3.0:
+    resolution: {integrity: sha512-d8WCrU0ZQn7ukKMykCsDyIOwb/taZeDqqrDBK0du5GO0AO/ynz8fdR/LIIz9Pyy3n3tGwrneR+n0egyrrLa3fw==}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -2702,6 +2713,23 @@ packages:
   miniflare@5.20261012.1-beta:
     resolution: {integrity: sha512-8Canhy6g9+vAhqMc0o80YphqYIwpiA3aAp8aX+uDXU7J/qbUeoZzcII9c2V1P4uT/eHD4SB93qet1o1bRY3BuQ==}
     engines: {node: '>=22.0.0'}
+
+  motion-dom@14.3.0:
+    resolution: {integrity: sha512-rcKO4aEJzAqDEsrH6qFzhLZxs7bNqZpiUEuEATz9LaRwt6dG7hZEbcFUSHNR8NECaKYM0Iuw6Iv6NpWEGXDI+w==}
+
+  motion-utils@14.1.1:
+    resolution: {integrity: sha512-3VvN5Uvf8B6qG+OfOui6Nht5EWp+vLuU3IqcAj7ItZGKqtmTjCebl5sGZF7/08gEHRnEl1AP/fIwbcEyVrcQGQ==}
+
+  motion@14.3.0:
+    resolution: {integrity: sha512-yh/nHYjikl68+FTxAMywFYzzj21/oGY7RGCfkqN5zpuT1rk3rp0lKfVU8EUq0A64qQeGnxuKUJWP85MipqdLBw==}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -4284,11 +4312,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@fontsource-variable/inter@5.3.0': {}
-
-  '@fontsource-variable/jetbrains-mono@5.3.0': {}
-
-  '@fontsource-variable/space-grotesk@5.3.0': {}
+  '@fontsource-variable/archivo@5.3.0': {}
 
   '@img/colour@1.1.0': {}
 
@@ -5468,6 +5492,15 @@ snapshots:
     dependencies:
       tiny-inflate: 1.0.3
 
+  framer-motion@14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+    dependencies:
+      motion-dom: 14.3.0
+      motion-utils: 14.1.1
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+
   fsevents@2.3.2:
     optional: true
 
@@ -6047,6 +6080,20 @@ snapshots:
       - '@types/node'
       - bufferutil
       - utf-8-validate
+
+  motion-dom@14.3.0:
+    dependencies:
+      motion-utils: 14.1.1
+
+  motion-utils@14.1.1: {}
+
+  motion@14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+    dependencies:
+      framer-motion: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
 
   mrmime@2.0.1: {}
 

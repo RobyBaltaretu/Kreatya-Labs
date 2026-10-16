@@ -3,29 +3,20 @@ interface LogoProps {
   title?: string;
 }
 
-/** Isotipo: una «K» trazada como cota de plano. */
+/** Isotipo: la lengüeta de una cinta métrica con la «K». */
 export function Logo({ className, title = 'Kreatya Labs' }: LogoProps) {
   return (
     <svg viewBox="0 0 32 32" className={className} role="img" aria-label={title}>
-      <rect
-        x="1.5"
-        y="1.5"
-        width="29"
-        height="29"
-        rx="5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
+      <rect x="1" y="1" width="30" height="30" rx="7" fill="#FFCC00" />
       <path
-        d="M10 8v16M10 16l9-8M13 13.5 21 24"
+        d="M10.5 8v16M10.5 16.5 19 8M13.6 13.4 21 24"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
+        stroke="#151515"
+        strokeWidth="2.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="22.5" cy="9.5" r="2.5" fill="var(--signal)" />
+      <path d="M25 6v20" stroke="#151515" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }

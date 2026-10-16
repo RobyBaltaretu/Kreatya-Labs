@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import CookieBanner from '../islands/CookieBanner';
 import { breadcrumbs as breadcrumbLd, organization } from '../lib/jsonld';
+import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
 import '../styles/global.css';
 
 interface Props {
@@ -31,6 +32,7 @@ const schemas = [...organization(), ...(breadcrumbs ? [breadcrumbLd(breadcrumbs)
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)" />
@@ -50,6 +52,7 @@ const schemas = [...organization(), ...(breadcrumbs ? [breadcrumbLd(breadcrumbs)
     <meta name="twitter:image" content={og} />
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
     <script is:inline>
+      document.documentElement.classList.add('js');
       try { const t = localStorage.getItem('k_theme'); if (t) document.documentElement.dataset.theme = t; if (localStorage.getItem('k_consent')) document.documentElement.dataset.consent = '1'; } catch {}
     </script>
   </head>

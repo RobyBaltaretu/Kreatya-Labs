@@ -49,6 +49,7 @@ Comprobaciones:
 pnpm lint && pnpm typecheck && pnpm test
 pnpm --filter @kreatya/web build && VITE_HASH_ROUTER=1 pnpm --filter @kreatya/admin build && pnpm e2e
 pnpm preview:static                       # web + panel en preview-dist/, servible desde cualquier ruta
+node scripts/render-hero-video.mjs        # re-renderiza la película del hero (Motion → MP4/WebM)
 ```
 
 ## Cambiar el esquema de base de datos

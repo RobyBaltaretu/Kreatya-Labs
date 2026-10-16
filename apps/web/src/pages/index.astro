@@ -1,7 +1,8 @@
 ---
 import { siteConfig } from '@kreatya/shared/site.config';
 import { Icon } from '@kreatya/ui';
-import BlueprintHero from '../components/BlueprintHero.astro';
+import Hero from '../components/Hero.astro';
+import MetodoCinta from '../components/MetodoCinta.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -46,37 +47,9 @@ const pillars = [
   { title: 'La IA hará el trabajo pesado de tu equipo.', text: 'Leer facturas, resumir llamadas, clasificar correos. La aplicamos donde ahorra horas medibles; tu equipo revisa y decide.' },
   { title: 'Sabrás cuánto cuesta antes de empezar.', text: 'Publicamos rangos y cerramos presupuesto por fase. Sin coste por usuario. El código y los datos son tuyos desde el primer día.' },
 ];
-const method = [
-  { title: 'Diagnóstico', time: '45 min', text: 'Revisamos tu proceso y detectamos dónde se pierden horas.' },
-  { title: 'Plano', time: '1–2 semanas', text: 'Módulos, integraciones, plazo y precio cerrado por fase.' },
-  { title: 'Construcción', time: 'sprints de 2 semanas', text: 'Primer módulo en uso en 4–6 semanas.' },
-  { title: 'Evolución', time: 'mensual', text: 'Mejoras continuas con una bolsa de horas.' },
-];
 ---
 <Base title={`Software a medida que entiende tu negocio | ${siteConfig.name}`} description={siteConfig.description} jsonld={[faqPage(homeFaqs)]}>
-  <!-- Lámina: el plano de tu negocio -->
-  <section class="lamina" aria-labelledby="hero-title">
-    <div class="wrap grid items-center gap-12 pb-10 pt-14 sm:pt-20 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:pb-14 lg:pt-24">
-      <div class="grid gap-7">
-        <h1 id="hero-title" class="text-display max-w-[11ch]">Software a medida que entiende tu negocio</h1>
-        <p class="max-w-[46ch] text-lead" style="color:#c9d3e4">Construimos el sistema que tu empresa necesita, con IA que quita a tu equipo el trabajo repetitivo. En uso en semanas y con el precio claro desde el principio.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/diagnostico" class="btn btn-primary btn-draw text-lg" data-cta="hero">Diagnóstico gratuito<Icon name="arrow-right" /></a>
-          <a href="/proyectos" class="btn btn-secondary text-lg" data-cta="hero-proyectos">Ver proyectos en vivo</a>
-        </div>
-        <p class="text-sm" style="color:#c9d3e4">{s.stats.projectsDelivered} proyectos entregados · {s.stats.averageRating.toLocaleString('es-ES')}/5 de media en {s.stats.reviews} reseñas</p>
-      </div>
-      <BlueprintHero />
-    </div>
-    <div class="wrap pb-6">
-      <dl class="cajetin ml-auto grid max-w-xl grid-cols-2 border border-[#8fb4e0]/45 text-[0.8125rem] sm:grid-cols-4" aria-label="Cajetín del plano">
-        <div><dt>Proyecto</dt><dd>Tu negocio</dd></div>
-        <div><dt>Plano</dt><dd>Del Excel al sistema</dd></div>
-        <div><dt>Primer módulo</dt><dd class="medida">4–6 sem.</dd></div>
-        <div><dt>Escala</dt><dd class="medida">1:1</dd></div>
-      </dl>
-    </div>
-  </section>
+  <Hero projects={s.stats.projectsDelivered} rating={s.stats.averageRating} reviews={s.stats.reviews} />
 
   <section class="wrap seccion" aria-labelledby="frena">
     <div class="seccion-titulo grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-14">
@@ -124,19 +97,7 @@ const method = [
 
   <section class="wrap seccion" aria-labelledby="metodo">
     <h2 id="metodo" class="seccion-titulo text-title max-w-[14ch]">Lo usarás en semanas, no en años</h2>
-    <ol class="grid gap-10 md:grid-cols-4 md:gap-0">
-      {method.map((m, i) => (
-        <li class="relative grid content-start gap-2 md:pr-8">
-          <div class="mb-3 flex items-center gap-3" aria-hidden="true">
-            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-tinta font-display text-sm font-semibold text-paper">{i + 1}</span>
-            {i < method.length - 1 && <span class="hidden h-px flex-1 bg-diagram/50 md:block"></span>}
-          </div>
-          <h3 class="text-xl">{m.title}</h3>
-          <p class="medida text-diagram">{m.time}</p>
-          <p class="text-muted">{m.text}</p>
-        </li>
-      ))}
-    </ol>
+    <MetodoCinta />
   </section>
 
   <section class="border-y border-line bg-raised" aria-labelledby="calc">
@@ -162,27 +123,3 @@ const method = [
   <div class="border-t border-line"><Faq faqs={homeFaqs} /></div>
   <CtaBand />
 </Base>
-<style>
-  .cajetin > div {
-    padding: 0.55rem 0.8rem;
-    border-color: rgb(143 180 224 / 0.45);
-  }
-  .cajetin > div + div {
-    border-left-width: 1px;
-  }
-  @media (max-width: 639px) {
-    .cajetin > div:nth-child(3) {
-      border-left-width: 0;
-    }
-    .cajetin > div:nth-child(n + 3) {
-      border-top-width: 1px;
-    }
-  }
-  .cajetin dt {
-    color: #8fb4e0;
-    font-size: 0.75rem;
-  }
-  .cajetin dd {
-    color: #f7f5f0;
-  }
-</style>
