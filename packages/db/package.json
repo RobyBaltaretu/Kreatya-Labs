@@ -1,0 +1,27 @@
+{
+  "name": "@kreatya/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./seed": "./seed/content.ts"
+  },
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "seed:sql": "tsx seed/to-sql.ts > seed/seed.sql",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kreatya/shared": "workspace:*",
+    "drizzle-orm": "0.44.7"
+  },
+  "devDependencies": {
+    "drizzle-kit": "0.31.5",
+    "tsx": "^4.20.0",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

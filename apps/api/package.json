@@ -1,0 +1,31 @@
+{
+  "name": "@kreatya/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/app.ts"
+  },
+  "scripts": {
+    "dev": "wrangler dev --persist-to ../../.wrangler/state",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply kreatya-db --local --persist-to ../../.wrangler/state",
+    "db:seed:local": "wrangler d1 execute kreatya-db --local --persist-to ../../.wrangler/state --file=../../packages/db/seed/seed.sql",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kreatya/db": "workspace:*",
+    "@kreatya/shared": "workspace:*",
+    "drizzle-orm": "0.44.7",
+    "hono": "^4.10.0",
+    "jose": "^6.1.0",
+    "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4",
+    "wrangler": "^4.40.0"
+  }
+}

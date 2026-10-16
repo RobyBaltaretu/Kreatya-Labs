@@ -1,0 +1,6 @@
+ENVIRONMENT=development
+BUILD_TOKEN=dev-build-token
+DEV_USER_EMAIL=admin@kreatya.es
+TURNSTILE_SECRET=
+RESEND_API_KEY=
+DEPLOY_HOOK_URL=

@@ -1,0 +1,60 @@
+/*
+ * Tokens de diseño de Kreatya Labs — «El plano de tu negocio».
+ * Paleta base (sección 4): ink, paper, signal, blueprint, success.
+ * Contraste AA verificado: texto ink sobre signal (5,7:1), blueprint sobre paper (5:1).
+ */
+:root {
+  --ink: #14213d;
+  --paper: #f7f5f0;
+  --signal: #ff6b2c;
+  --blueprint: #3a6ea5;
+  --success: #2e9e6a;
+
+  /* Semánticos (modo claro) */
+  --bg: var(--paper);
+  --bg-raised: #ffffff;
+  --fg: var(--ink);
+  --fg-muted: #4a5468;
+  --line: #d9d4c7;
+  --grid: rgb(58 110 165 / 0.09);
+  --grid-strong: rgb(58 110 165 / 0.18);
+  --accent: var(--signal);
+  --on-accent: var(--ink);
+  --diagram: var(--blueprint);
+  --positive: #1f7a50; /* success oscurecido para texto pequeño (AA) */
+  --positive-strong: var(--success);
+  --focus: #1d4ed8;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--ink);
+    --bg-raised: #1b2b4d;
+    --fg: var(--paper);
+    --fg-muted: #b7c0d1;
+    --line: #2f4168;
+    --grid: rgb(127 167 214 / 0.1);
+    --grid-strong: rgb(127 167 214 / 0.22);
+    --diagram: #8fb4e0;
+    --positive: #5fd39b;
+    --positive-strong: #5fd39b;
+    --focus: #ffb38f;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: var(--ink);
+  --bg-raised: #1b2b4d;
+  --fg: var(--paper);
+  --fg-muted: #b7c0d1;
+  --line: #2f4168;
+  --grid: rgb(127 167 214 / 0.1);
+  --grid-strong: rgb(127 167 214 / 0.22);
+  --diagram: #8fb4e0;
+  --positive: #5fd39b;
+  --positive-strong: #5fd39b;
+  --focus: #ffb38f;
+  color-scheme: dark;
+}
