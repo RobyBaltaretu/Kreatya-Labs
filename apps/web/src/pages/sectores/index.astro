@@ -1,0 +1,27 @@
+---
+import CtaBand from '../../components/CtaBand.astro';
+import Base from '../../layouts/Base.astro';
+import { getSnapshot } from '../../lib/snapshot';
+const s = await getSnapshot();
+---
+<Base title="Software a medida por sector" description="Software a medida para industria, logística, retail, salud, agroalimentario y servicios profesionales. Casos reales y módulos típicos por sector." breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Sectores', href: '/sectores' }]}>
+  <section class="wrap pb-16 pt-8">
+    <p class="eyebrow">Sectores</p>
+    <h1 class="h-display mt-3 text-4xl sm:text-6xl">Conocemos cómo trabaja tu sector</h1>
+    <ul class="mt-10 grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+      {s.sectors.map((x) => {
+        const n = s.projects.filter((p) => p.sectors.includes(x.slug)).length;
+        return (
+          <li class="bg-raised">
+            <a href={`/sectores/${x.slug}`} class="group grid h-full content-start gap-3 p-6 hover:bg-bg">
+              <h2 class="text-2xl font-semibold group-hover:text-diagram">{x.name}</h2>
+              <p class="text-muted">{x.tagline}</p>
+              <p class="cota mt-2">{n} {n === 1 ? 'caso publicado' : 'casos publicados'} →</p>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+  <CtaBand />
+</Base>

@@ -1,0 +1,49 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { siteConfig } from '@kreatya/shared/site.config';
+import Base from '../../layouts/Base.astro';
+
+const c = siteConfig.contact;
+const id = `${siteConfig.legalName}, con domicilio en ${c.address.street}, ${c.address.postalCode} ${c.address.city}, y email ${c.email}`;
+const docs = {
+  'aviso-legal': {
+    title: 'Aviso legal',
+    body: [
+      `En cumplimiento de la Ley 34/2002 de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de que este sitio web es titularidad de ${id}.`,
+      'El acceso a la web es gratuito y atribuye la condición de usuario. Los contenidos, el diseño y el código son propiedad de su titular o se usan con licencia; no se permite su reproducción sin autorización.',
+      'Los casos de éxito publicados cuentan con el consentimiento de los clientes o se presentan de forma anónima.',
+      '[Pendiente de revisión jurídica: completar NIF, datos registrales y legislación aplicable.]',
+    ],
+  },
+  privacidad: {
+    title: 'Política de privacidad',
+    body: [
+      `Responsable del tratamiento: ${id}.`,
+      'Finalidades: atender solicitudes de diagnóstico, demos y calculadoras; enviar la información solicitada; y gestionar la relación comercial. Base jurídica: consentimiento del interesado y aplicación de medidas precontractuales.',
+      'Conservación: mientras dure la relación y, después, durante los plazos legales. Los ficheros de la demo de IA no se almacenan.',
+      'Encargados de tratamiento: Cloudflare (alojamiento e infraestructura), Resend o Brevo (email transaccional) y Cal.com (agenda). No se ceden datos a terceros salvo obligación legal.',
+      'Derechos: acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a ' + c.email + '. Puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).',
+      'Uso de IA: el asistente y las demos indican claramente que se trata de un sistema de inteligencia artificial, conforme al Reglamento (UE) 2024/1689.',
+      '[Pendiente de revisión jurídica.]',
+    ],
+  },
+  cookies: {
+    title: 'Política de cookies',
+    body: [
+      'Esta web no utiliza cookies de analítica ni de publicidad. La analítica se hace con Cloudflare Web Analytics y eventos propios anónimos, sin cookies.',
+      'Guardamos en tu navegador (almacenamiento local) tu elección sobre cookies y, durante la sesión, un identificador anónimo para medir el embudo de diagnóstico.',
+      'Solo con tu consentimiento cargamos contenidos de terceros: vídeos de YouTube (en modo de privacidad mejorada) y la agenda de Cal.com, que pueden instalar sus propias cookies.',
+      'Puedes cambiar tu elección en cualquier momento desde «Configurar cookies», en el pie de página.',
+    ],
+  },
+} as const;
+
+export const getStaticPaths = (() => ['aviso-legal', 'privacidad', 'cookies'].map((slug) => ({ params: { slug } }))) satisfies GetStaticPaths;
+const doc = docs[Astro.params.slug as keyof typeof docs];
+---
+<Base title={doc.title} description={`${doc.title} de ${siteConfig.name}.`} ogImage="/og/home.png" breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: doc.title, href: `/legal/${Astro.params.slug}` }]}>
+  <section class="wrap pb-20 pt-8">
+    <h1 class="h-display text-4xl sm:text-5xl">{doc.title}</h1>
+    <div class="prose-k mt-8">{doc.body.map((p) => <p>{p}</p>)}</div>
+  </section>
+</Base>

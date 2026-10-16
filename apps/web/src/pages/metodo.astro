@@ -1,0 +1,29 @@
+---
+import CtaBand from '../components/CtaBand.astro';
+import Base from '../layouts/Base.astro';
+const phases = [
+  { n: 1, name: 'Diagnóstico', time: '45 min · gratis', does: 'Revisamos tu proceso actual, las herramientas que usas y dónde se pierden horas.', get: 'Estimación orientativa de plazo y precio.' },
+  { n: 2, name: 'Plano', time: '1–2 semanas', does: 'Entrevistamos a quien hace el trabajo, dibujamos el flujo real y priorizamos módulos por impacto.', get: 'Plano del sistema, prototipo navegable y presupuesto cerrado por fase.' },
+  { n: 3, name: 'Construcción por sprints', time: 'Sprints de 2 semanas', does: 'Construimos primero el módulo que más duele. Cada sprint termina con algo que tu equipo usa.', get: 'Primer módulo en uso en 4–6 semanas. Demo cada 2 semanas.' },
+  { n: 4, name: 'Evolución', time: 'Mensual', does: 'Medimos el uso real, corregimos y añadimos lo siguiente con una bolsa de horas.', get: 'Informe mensual con horas ahorradas y próximos pasos.' },
+];
+---
+<Base title="Método: de diagnóstico a software en uso" description="Cómo trabajamos: diagnóstico gratuito, plano con presupuesto cerrado, sprints de 2 semanas y primer módulo en uso en 4–6 semanas." breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Método', href: '/metodo' }]}>
+  <section class="wrap pb-12 pt-8">
+    <p class="eyebrow">Método</p>
+    <h1 class="h-display mt-3 max-w-[18ch] text-4xl sm:text-6xl">Lo usarás en semanas, no en años</h1>
+    <p class="mt-6 max-w-[60ch] text-lg text-muted">Metodología ágil adaptada a pymes: entregas útiles cada dos semanas y presupuesto cerrado por fase para que siempre sepas qué pagas y qué recibes.</p>
+  </section>
+  <section class="wrap pb-20">
+    <ol class="relative grid gap-6 border-l border-dashed border-diagram pl-8">
+      {phases.map((p) => (
+        <li class="relative grid gap-4 border border-line bg-raised p-6 md:grid-cols-[1fr_2fr]">
+          <span class="absolute -left-[3.05rem] top-6 grid h-9 w-9 place-items-center rounded-full border-2 border-diagram bg-bg font-mono font-semibold">{p.n}</span>
+          <div><h2 class="text-2xl font-semibold">{p.name}</h2><p class="cota mt-1">{p.time}</p></div>
+          <dl class="grid gap-3"><div><dt class="text-sm font-semibold">Qué hacemos</dt><dd class="text-muted">{p.does}</dd></div><div><dt class="text-sm font-semibold">Qué recibes</dt><dd class="text-muted">{p.get}</dd></div></dl>
+        </li>
+      ))}
+    </ol>
+  </section>
+  <CtaBand />
+</Base>

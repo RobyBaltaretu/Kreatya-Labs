@@ -1,0 +1,37 @@
+---
+import { COMPANY_SIZE_LABELS, COMPANY_SIZES, SOLUTION_KINDS } from '@kreatya/shared';
+import CtaBand from '../../components/CtaBand.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ProjectFilters from '../../islands/ProjectFilters';
+import Base from '../../layouts/Base.astro';
+import { KIND_LABELS } from '../../lib/projects';
+import { getSnapshot } from '../../lib/snapshot';
+
+const s = await getSnapshot();
+const usedTech = new Set(s.projects.flatMap((p) => p.technologies));
+---
+<Base
+  title="Casos de éxito de software a medida"
+  description={`${s.projects.length} proyectos de software a medida e IA con métricas reales: ERP, CRM, apps y portales para pymes. Filtra por sector y prueba las demos.`}
+  breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Proyectos', href: '/proyectos' }]}
+>
+  <section class="wrap pb-10 pt-8">
+    <p class="eyebrow">Portfolio</p>
+    <h1 class="h-display mt-3 text-4xl sm:text-6xl">Proyectos que puedes probar</h1>
+    <p class="mt-4 max-w-[60ch] text-lg text-muted">Cada caso explica el problema de negocio, cómo trabajaba el equipo antes y después, y las métricas conseguidas. Los marcados con «Demo disponible» se pueden recorrer.</p>
+  </section>
+  <section class="wrap pb-20" aria-label="Listado de proyectos">
+    <ProjectFilters
+      client:load
+      sectors={s.sectors.map((x) => ({ value: x.slug, label: x.name }))}
+      kinds={SOLUTION_KINDS.map((k) => ({ value: k, label: KIND_LABELS[k] }))}
+      technologies={s.technologies.filter((t) => usedTech.has(t.slug)).map((t) => ({ value: t.slug, label: t.name }))}
+      sizes={COMPANY_SIZES.map((k) => ({ value: k, label: COMPANY_SIZE_LABELS[k] }))}
+      suggestions={s.projects.filter((p) => p.featured).slice(0, 3).map((p) => ({ href: `/proyectos/${p.slug}`, title: p.title }))}
+    />
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {s.projects.map((p, i) => <ProjectCard project={p} snapshot={s} index={i} headingLevel="h2" eager={i < 3} />)}
+    </div>
+  </section>
+  <CtaBand title="¿Tu caso no aparece?" text="Muchos de nuestros proyectos están bajo NDA. Cuéntanos tu proceso y te enseñamos casos parecidos en la llamada." />
+</Base>

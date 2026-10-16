@@ -1,0 +1,22 @@
+---
+import { siteConfig } from '@kreatya/shared/site.config';
+interface Props { title?: string; text?: string; href?: string; label?: string; }
+const {
+  title = '¿Dibujamos el plano de tu negocio?',
+  text = 'En 45 minutos analizamos tu proceso y te damos una estimación orientativa de plazo y precio. Sin compromiso.',
+  href = siteConfig.primaryCta.href,
+  label = siteConfig.primaryCta.label,
+} = Astro.props;
+---
+<section class="bg-ink text-paper" data-theme-band>
+  <div class="wrap reticula grid gap-8 py-16 sm:py-20 md:grid-cols-[2fr_1fr] md:items-end" style="--grid: rgb(143 180 224 / .08); --grid-strong: rgb(143 180 224 / .16)">
+    <div>
+      <p class="cota" style="color:#8fb4e0">Siguiente paso</p>
+      <h2 class="mt-3 text-3xl font-semibold sm:text-5xl">{title}</h2>
+      <p class="mt-4 max-w-[60ch] text-lg" style="color:#c9d3e4">{text}</p>
+    </div>
+    <div class="flex md:justify-end">
+      <a href={href} class="btn btn-primary btn-draw text-lg" data-cta="band">{label} <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>

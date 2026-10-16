@@ -1,0 +1,52 @@
+---
+import { siteConfig } from '@kreatya/shared/site.config';
+import { getSnapshot } from '../lib/snapshot';
+
+const s = await getSnapshot();
+const { contact } = siteConfig;
+const year = 2026;
+---
+<footer class="border-t border-line bg-raised">
+  <div class="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="grid content-start gap-4">
+      <p class="font-display text-xl font-semibold">{siteConfig.name}</p>
+      <p class="max-w-xs text-muted">{siteConfig.claim}</p>
+      <address class="not-italic text-sm leading-7 text-muted">
+        {siteConfig.legalName}<br />
+        {contact.address.street}, {contact.address.postalCode} {contact.address.city}<br />
+        <a class="hover:text-diagram" href={`tel:${contact.phone.replaceAll(' ', '')}`}>{contact.phone}</a> ·
+        <a class="hover:text-diagram" href={`mailto:${contact.email}`}>{contact.email}</a>
+      </address>
+    </div>
+    <nav aria-label="Soluciones">
+      <p class="cota mb-3">Soluciones</p>
+      <ul class="grid gap-2 text-sm">{s.solutions.map((x) => <li><a class="hover:text-diagram" href={`/soluciones/${x.slug}`}>{x.name}</a></li>)}</ul>
+    </nav>
+    <nav aria-label="Sectores">
+      <p class="cota mb-3">Sectores</p>
+      <ul class="grid gap-2 text-sm">{s.sectors.map((x) => <li><a class="hover:text-diagram" href={`/sectores/${x.slug}`}>{x.name}</a></li>)}</ul>
+    </nav>
+    <nav aria-label="Empresa">
+      <p class="cota mb-3">Empresa</p>
+      <ul class="grid gap-2 text-sm">
+        <li><a class="hover:text-diagram" href="/empresa">Quiénes somos</a></li>
+        <li><a class="hover:text-diagram" href="/metodo">Método</a></li>
+        <li><a class="hover:text-diagram" href="/precios">Precios</a></li>
+        <li><a class="hover:text-diagram" href="/blog">Blog y guías</a></li>
+        <li><a class="hover:text-diagram" href={siteConfig.social.linkedin} rel="noopener">LinkedIn</a></li>
+        <li><a class="hover:text-diagram" href={siteConfig.social.youtube} rel="noopener">YouTube</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-line">
+    <div class="wrap flex flex-wrap items-center justify-between gap-4 py-5 text-sm text-muted">
+      <p>© {year} {siteConfig.legalName}. El código y los datos de nuestros clientes son suyos.</p>
+      <ul class="flex flex-wrap gap-4">
+        <li><a class="hover:text-diagram" href="/legal/aviso-legal">Aviso legal</a></li>
+        <li><a class="hover:text-diagram" href="/legal/privacidad">Privacidad</a></li>
+        <li><a class="hover:text-diagram" href="/legal/cookies">Cookies</a></li>
+        <li><button type="button" class="hover:text-diagram underline-offset-2" data-open-cookies>Configurar cookies</button></li>
+      </ul>
+    </div>
+  </div>
+</footer>

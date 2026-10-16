@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Landing from '../../components/Landing.astro';
+import Base from '../../layouts/Base.astro';
+import { faqPage, service } from '../../lib/jsonld';
+import { getSnapshot } from '../../lib/snapshot';
+
+export const getStaticPaths = (async () => (await getSnapshot()).sectors.map((x) => ({ params: { slug: x.slug } }))) satisfies GetStaticPaths;
+const s = await getSnapshot();
+const x = s.sectors.find((y) => y.slug === Astro.params.slug)!;
+const projects = s.projects.filter((p) => p.sectors.includes(x.slug));
+const faqs = [...s.faqs.filter((f) => f.scope === 'sector' && f.scopeSlug === x.slug), ...s.faqs.filter((f) => f.scope === 'home').slice(0, 3)];
+const path = `/sectores/${x.slug}`;
+---
+<Base title={x.seo.title ?? `Software para ${x.name}`} description={x.seo.description ?? x.tagline} jsonld={[service(`Software a medida para ${x.name.toLowerCase()}`, x.seo.description ?? x.tagline, path), faqPage(faqs)]}
+  breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Sectores', href: '/sectores' }, { name: x.name, href: path }]}>
+  <Landing eyebrow={`Sector · ${x.name}`} title={`Software a medida para ${x.name.toLowerCase()}`} tagline={x.tagline} pain={x.pain} modules={x.modules} integrations={x.integrations} blocks={x.blocks} projects={projects} faqs={faqs} snapshot={s} ctaHref={`/diagnostico?sector=${x.slug}`} />
+</Base>

@@ -1,0 +1,20 @@
+---
+import type { Block } from '@kreatya/shared';
+interface Props { blocks: Block[]; }
+const { blocks } = Astro.props;
+const slugify = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+<div class="prose-k">
+  {blocks.map((b) => {
+    switch (b.type) {
+      case 'h2': return <h2 id={b.id ?? slugify(b.text)}>{b.text}</h2>;
+      case 'h3': return <h3>{b.text}</h3>;
+      case 'p': return <p>{b.text}</p>;
+      case 'answer': return <p class="border-l-2 border-signal bg-raised py-4 pl-5 pr-4 text-lg">{b.text}</p>;
+      case 'list': return b.ordered ? <ol>{b.items.map((i) => <li>{i}</li>)}</ol> : <ul>{b.items.map((i) => <li>{i}</li>)}</ul>;
+      case 'quote': return <blockquote class="border-l-2 border-diagram pl-5 font-display text-xl">{b.text}{b.cite && <footer class="mt-2 font-sans text-sm text-muted">— {b.cite}</footer>}</blockquote>;
+      case 'callout': return <aside class="border border-line bg-raised p-5"><p class="font-semibold">{b.title}</p><p class="mt-1 text-muted">{b.text}</p></aside>;
+      case 'image': return <figure><img src={b.src} alt={b.alt} width={b.width} height={b.height} loading="lazy" class="border border-line" />{b.caption && <figcaption class="mt-2 text-sm text-muted">{b.caption}</figcaption>}</figure>;
+    }
+  })}
+</div>

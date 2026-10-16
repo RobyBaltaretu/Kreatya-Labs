@@ -1,0 +1,24 @@
+---
+import CtaBand from '../../components/CtaBand.astro';
+import Base from '../../layouts/Base.astro';
+import { getSnapshot } from '../../lib/snapshot';
+const s = await getSnapshot();
+---
+<Base title="Soluciones de software a medida" description="ERP, CRM, apps móviles, portales de cliente e integraciones a medida para pymes, con IA aplicada donde ahorra horas." breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Soluciones', href: '/soluciones' }]}>
+  <section class="wrap pb-16 pt-8">
+    <p class="eyebrow">Soluciones</p>
+    <h1 class="h-display mt-3 text-4xl sm:text-6xl">Sistemas completos, a la medida de tu proceso</h1>
+    <ul class="mt-10 grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+      {s.solutions.map((x) => (
+        <li class="bg-raised">
+          <a href={`/soluciones/${x.slug}`} class="group grid h-full content-start gap-3 p-6 hover:bg-bg">
+            <h2 class="text-2xl font-semibold group-hover:text-diagram">{x.name}</h2>
+            <p class="text-muted">{x.tagline}</p>
+            <p class="cota mt-2">{x.modules.length} módulos típicos →</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <CtaBand />
+</Base>

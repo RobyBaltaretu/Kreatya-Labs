@@ -5,7 +5,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./site.config": "./src/site.config.ts"
+    "./site.config": "./src/site.config.ts",
+    "./calc": "./src/calc.ts",
+    "./enums": "./src/enums.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

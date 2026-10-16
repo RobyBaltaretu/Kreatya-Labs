@@ -1,0 +1,31 @@
+---
+import type { ProcessStep } from '@kreatya/shared';
+
+interface Props { before: ProcessStep[]; after: ProcessStep[]; }
+const { before, after } = Astro.props;
+const rows = [
+  { label: 'Antes', steps: before, tone: 'muted' },
+  { label: 'Después', steps: after, tone: 'positive' },
+] as const;
+---
+<div class="grid gap-6 border border-line bg-raised p-5 sm:p-8">
+  {rows.map((r) => (
+    <div class="grid gap-3">
+      <div class="flex items-baseline justify-between gap-4">
+        <p class="cota">{r.label}</p>
+        <p class="font-mono text-xs text-muted tabular-nums">{r.steps.length} pasos</p>
+      </div>
+      <ol class="flex flex-wrap items-center gap-2" aria-label={`Proceso ${r.label.toLowerCase()}`}>
+        {r.steps.map((s, i) => (
+          <li class="flex items-center gap-2">
+            <span class:list={[
+              'rounded-sm border px-3 py-2 text-sm',
+              r.tone === 'positive' ? 'border-positive-strong bg-bg font-semibold' : 'border-dashed border-line text-muted line-through decoration-line',
+            ]}>{s.label}</span>
+            {i < r.steps.length - 1 && <svg viewBox="0 0 24 12" class="h-3 w-6 text-diagram" aria-hidden="true"><path d="M0 6h20M16 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,14 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PostPage from '../../components/PostPage.astro';
+import Base from '../../layouts/Base.astro';
+import { blogPosting } from '../../lib/jsonld';
+import { getSnapshot } from '../../lib/snapshot';
+export const getStaticPaths = (async () => (await getSnapshot()).posts.filter((p) => p.kind === 'guia').map((p) => ({ params: { slug: p.slug } }))) satisfies GetStaticPaths;
+const s = await getSnapshot();
+const post = s.posts.find((p) => p.kind === 'guia' && p.slug === Astro.params.slug)!;
+const author = s.authors.find((a) => a.slug === post.authorSlug) ?? { name: 'Kreatya Labs', role: '' };
+---
+<Base title={post.seo.title ?? post.title} description={post.seo.description ?? post.excerpt} jsonld={[blogPosting(post, author)]} breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Guías', href: '/blog' }, { name: post.title, href: `/guias/${post.slug}` }]}>
+  <PostPage post={post} snapshot={s} />
+</Base>

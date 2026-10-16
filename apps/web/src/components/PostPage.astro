@@ -1,0 +1,36 @@
+---
+import type { ContentSnapshot, Post } from '@kreatya/shared';
+import Blocks from './Blocks.astro';
+import CtaBand from './CtaBand.astro';
+import ProjectCard from './ProjectCard.astro';
+import { formatDate } from '../lib/snapshot';
+interface Props { post: Post; snapshot: ContentSnapshot; }
+const { post, snapshot: s } = Astro.props;
+const author = s.authors.find((a) => a.slug === post.authorSlug);
+const project = s.projects.find((p) => p.slug === post.projectSlug);
+const solution = s.solutions.find((x) => x.slug === post.solutionSlug);
+---
+<article class="wrap grid gap-12 pb-16 pt-8 lg:grid-cols-[2fr_1fr]">
+  <div class="min-w-0">
+    <p class="eyebrow">{post.kind === 'guia' ? 'Guía' : 'Blog'}</p>
+    <h1 class="h-display mt-3 text-4xl sm:text-5xl">{post.title}</h1>
+    <p class="mt-4 text-sm text-muted">
+      Por <strong class="text-fg">{author?.name}</strong> · <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+      {post.updatedAt !== post.publishedAt && <> · actualizado <time datetime={post.updatedAt}>{formatDate(post.updatedAt)}</time></>}
+    </p>
+    <div class="mt-8"><Blocks blocks={post.blocks} /></div>
+    {author && (
+      <aside class="mt-12 border border-line bg-raised p-5" aria-label="Sobre el autor">
+        <p class="font-display text-lg font-semibold">{author.name}</p>
+        <p class="cota">{author.role}</p>
+        <p class="mt-2 text-sm text-muted">{author.bio}</p>
+        <ul class="mt-2 flex flex-wrap gap-2 text-xs">{author.credentials.map((c) => <li class="rounded-sm border border-line px-2 py-0.5">{c}</li>)}</ul>
+      </aside>
+    )}
+  </div>
+  <aside class="grid content-start gap-6">
+    {solution && <a href={`/soluciones/${solution.slug}`} class="border border-line bg-raised p-5 hover:border-diagram"><p class="cota">Solución relacionada</p><p class="mt-1 font-display text-lg font-semibold">{solution.name}</p></a>}
+    {project && <ProjectCard project={project} snapshot={s} index={s.projects.indexOf(project)} />}
+  </aside>
+</article>
+<CtaBand />

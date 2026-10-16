@@ -87,6 +87,17 @@ export const publicRoutes = new Hono<AppEnv>()
         })
         .returning({ id: leads.id });
       leadId = row!.id;
+    } else if (input.type === 'calc_inversion') {
+      const result = estimateInvestment(input.input);
+      const [row] = await db
+        .insert(leads)
+        .values({
+          ...base,
+          answers: { input: input.input, result },
+          estimatedValue: (result.min + result.max) / 2,
+        })
+        .returning({ id: leads.id });
+      leadId = row!.id;
     } else {
       const result = calculateSavings(input.input);
       const [row] = await db

@@ -1,0 +1,84 @@
+---
+import { siteConfig } from '@kreatya/shared/site.config';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import CookieBanner from '../islands/CookieBanner';
+import { breadcrumbs as breadcrumbLd, organization } from '../lib/jsonld';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonld?: unknown[];
+  breadcrumbs?: { name: string; href: string }[];
+  canonical?: string;
+}
+const { title, description, ogImage, noindex = false, jsonld = [], breadcrumbs, canonical } = Astro.props;
+const fullTitle = title.includes(siteConfig.name) ? title : `${title} | ${siteConfig.name}`;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site).toString();
+const ogSlug = Astro.url.pathname.replace(/^\/|\/$/g, '').replaceAll('/', '--') || 'home';
+const og = new URL(ogImage ?? `/og/${ogSlug}.png`, Astro.site).toString();
+const schemas = [...organization(), ...(breadcrumbs ? [breadcrumbLd(breadcrumbs)] : []), ...jsonld];
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>{fullTitle}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14213d" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <script is:inline>
+      try { const t = localStorage.getItem('k_theme'); if (t) document.documentElement.dataset.theme = t; } catch {}
+    </script>
+  </head>
+  <body class="min-h-screen bg-bg text-fg">
+    <Header />
+    {breadcrumbs && breadcrumbs.length > 1 && (
+      <nav aria-label="Migas de pan" class="wrap pt-6 text-sm text-muted">
+        <ol class="flex flex-wrap items-center gap-2">
+          {breadcrumbs.map((b, i) => (
+            <li class="flex items-center gap-2">
+              {i > 0 && <span aria-hidden="true" class="text-line">/</span>}
+              {i < breadcrumbs.length - 1 ? <a class="hover:text-diagram" href={b.href}>{b.name}</a> : <span aria-current="page" class="text-fg">{b.name}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <CookieBanner client:idle />
+    <script>
+      import { track } from '../lib/track';
+      track('page_view');
+      document.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement).closest<HTMLElement>('[data-cta]');
+        if (a) track('cta_click', { cta: a.dataset.cta ?? '' });
+      });
+    </script>
+  </body>
+</html>

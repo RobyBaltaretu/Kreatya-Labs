@@ -80,10 +80,29 @@ export const savingsLeadSchema = contactSchema.pick({ name: true, email: true })
   turnstileToken: z.string().optional(),
 });
 
+export const investmentInputSchema = z.object({
+  modules: z.number().int().min(1).max(50),
+  users: z.number().int().min(1).max(10000),
+  integrations: z.number().int().min(0).max(50),
+  ai: z.boolean(),
+});
+
+export const investmentLeadSchema = z.object({
+  type: z.literal('calc_inversion'),
+  name: z.string().trim().max(120).default('Calculadora de inversión'),
+  email: z.string().trim().email('Email no válido').max(200),
+  input: investmentInputSchema,
+  consent: z.literal(true),
+  sourcePath: z.string().max(300).optional(),
+  utm: utmSchema.optional(),
+  turnstileToken: z.string().optional(),
+});
+
 export const leadInputSchema = z.discriminatedUnion('type', [
   diagnosticLeadSchema,
   demoRequestSchema,
   savingsLeadSchema,
+  investmentLeadSchema,
 ]);
 export type LeadInput = z.infer<typeof leadInputSchema>;
 

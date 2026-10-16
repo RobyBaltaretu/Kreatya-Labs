@@ -1,0 +1,4 @@
+# Web pública de Kreatya Labs — Cloudflare Pages (estático)
+name = "kreatya-web"
+pages_build_output_dir = "./dist"
+compatibility_date = "2025-09-01"

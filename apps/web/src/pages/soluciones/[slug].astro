@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Landing from '../../components/Landing.astro';
+import Base from '../../layouts/Base.astro';
+import { faqPage, service } from '../../lib/jsonld';
+import { getSnapshot } from '../../lib/snapshot';
+
+export const getStaticPaths = (async () => (await getSnapshot()).solutions.map((x) => ({ params: { slug: x.slug } }))) satisfies GetStaticPaths;
+const s = await getSnapshot();
+const x = s.solutions.find((y) => y.slug === Astro.params.slug)!;
+const projects = s.projects.filter((p) => p.solutions.includes(x.slug));
+const faqs = s.faqs.filter((f) => (f.scope === 'solution' && f.scopeSlug === x.slug) || f.scope === 'pricing').slice(0, 4);
+const path = `/soluciones/${x.slug}`;
+---
+<Base title={x.seo.title ?? x.name} description={x.seo.description ?? x.tagline} jsonld={[service(x.name, x.seo.description ?? x.tagline, path), faqPage(faqs)]}
+  breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Soluciones', href: '/soluciones' }, { name: x.name, href: path }]}>
+  <Landing eyebrow="Solución" title={x.name} tagline={x.tagline} pain="" modules={x.modules} integrations={x.integrations} blocks={x.blocks} projects={projects} faqs={faqs} snapshot={s} ctaHref={`/diagnostico?tipo=${x.kind}`} />
+</Base>

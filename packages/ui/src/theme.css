@@ -64,7 +64,7 @@
 
 @layer components {
   /* Retícula de plano técnico */
-  .bg-blueprint {
+  .reticula {
     background-image:
       linear-gradient(var(--grid-strong) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px),

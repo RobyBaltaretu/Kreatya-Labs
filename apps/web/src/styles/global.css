@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+@import '@kreatya/ui/theme.css';
+@source '../../../../packages/ui/src';
+
+@layer base {
+  body {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .prose-k {
+    max-width: 68ch;
+  }
+  .prose-k > * + * {
+    margin-top: 1rem;
+  }
+  .prose-k h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    line-height: 1.2;
+  }
+  .prose-k h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+  }
+  .prose-k ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .prose-k ul > li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  .prose-k ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 0.75rem;
+    border-top: 1.5px solid var(--diagram);
+  }
+  .prose-k ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+  }
+  .prose-k a {
+    color: var(--diagram);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-left: max(32px, env(safe-area-inset-left, 0px));
+      padding-right: max(32px, env(safe-area-inset-right, 0px));
+    }
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--diagram);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.5rem;
+    border-top: 1.5px solid currentColor;
+  }
+  /* Línea de cota horizontal con extremos */
+  .dim {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--diagram);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .dim::before,
+  .dim::after {
+    content: '';
+    flex: 1;
+    height: 7px;
+    border-top: 1px solid currentColor;
+    border-inline: 1px solid currentColor;
+    transform: translateY(3px);
+  }
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  /* CTA que «se dibuja» como un trazo de plano */
+  .btn-draw {
+    position: relative;
+    isolation: isolate;
+  }
+  .btn-draw::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border: 1px dashed var(--diagram);
+    border-radius: 0.6rem;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.45s ease;
+    z-index: -1;
+  }
+  .btn-draw:hover::after,
+  .btn-draw:focus-visible::after {
+    clip-path: inset(0 0 0 0);
+  }
+  .sr-only-focusable:not(:focus) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}

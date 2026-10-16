@@ -1,0 +1,39 @@
+---
+import type { Metric } from '@kreatya/shared';
+
+interface Props { metrics: Metric[]; }
+const { metrics } = Astro.props;
+---
+<dl class="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+  {metrics.map((m) => (
+    <div class="flex flex-col gap-2 bg-raised p-6">
+      <dt class="order-2 text-sm text-muted">{m.description}</dt>
+      <dd class="order-1 font-display text-4xl font-semibold tracking-tight text-positive-strong tabular-nums">
+        {m.prefix}<span data-count={m.value}>{new Intl.NumberFormat('es-ES').format(m.value)}</span><span class="text-2xl">{m.unit === '%' ? ' %' : ` ${m.unit}`}</span>
+      </dd>
+    </div>
+  ))}
+</dl>
+<script>
+  // Contador animado: el valor final ya está en el HTML (sin JS se ve completo).
+  const fmt = new Intl.NumberFormat('es-ES');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        io.unobserve(e.target);
+        const el = e.target as HTMLElement;
+        const target = Number(el.dataset.count);
+        const start = performance.now();
+        const step = (t: number) => {
+          const k = Math.min(1, (t - start) / 900);
+          el.textContent = fmt.format(Math.round(target * (1 - (1 - k) ** 3)));
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-count]').forEach((el) => io.observe(el));
+  }
+</script>
