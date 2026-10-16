@@ -1,22 +1,20 @@
 ---
 import type { Faq } from '@kreatya/shared';
+import { Icon } from '@kreatya/ui';
 interface Props { faqs: Faq[]; title?: string; }
 const { faqs, title = 'Preguntas frecuentes' } = Astro.props;
 ---
-<section class="wrap py-20" aria-labelledby="faq-title">
-  <div class="grid gap-10 lg:grid-cols-[1fr_2fr]">
-    <div>
-      <p class="eyebrow">FAQ</p>
-      <h2 id="faq-title" class="mt-3 text-3xl font-semibold sm:text-4xl">{title}</h2>
-    </div>
-    <div class="divide-y divide-line border-y border-line">
+<section class="wrap seccion" aria-labelledby="faq-title">
+  <div class="grid gap-10 lg:grid-cols-[1fr_1.8fr] lg:gap-16">
+    <h2 id="faq-title" class="text-title max-w-[12ch]">{title}</h2>
+    <div class="border-t border-line">
       {faqs.map((f) => (
-        <details class="group py-5">
-          <summary class="flex cursor-pointer list-none items-start justify-between gap-6 font-display text-lg font-semibold [&::-webkit-details-marker]:hidden">
+        <details class="acordeon border-b border-line">
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-lg font-semibold [&::-webkit-details-marker]:hidden">
             {f.question}
-            <span aria-hidden="true" class="mt-1 font-mono text-diagram transition-transform group-open:rotate-45">+</span>
+            <span class="mt-0.5 text-diagram"><Icon name="plus" size={20} /></span>
           </summary>
-          <p class="mt-3 max-w-[65ch] text-muted">{f.answer}</p>
+          <p class="max-w-[64ch] pb-6 text-muted">{f.answer}</p>
         </details>
       ))}
     </div>

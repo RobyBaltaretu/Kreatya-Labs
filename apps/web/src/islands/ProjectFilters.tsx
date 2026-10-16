@@ -80,7 +80,7 @@ export default function ProjectFilters({
   const active = useMemo(() => KEYS.some((k) => f[k]), [f]);
   const select = (key: keyof Filters, label: string, options: Option[]) => (
     <label className="grid gap-1.5 text-sm" htmlFor={`f-${key}`}>
-      <span className="cota">{label}</span>
+      <span className="etiqueta">{label}</span>
       <select
         id={`f-${key}`}
         className="field"
@@ -101,7 +101,7 @@ export default function ProjectFilters({
     <div className="grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
         <label className="grid gap-1.5 text-sm" htmlFor="f-q">
-          <span className="cota">Buscar</span>
+          <span className="etiqueta">Buscar</span>
           <input
             id="f-q"
             type="search"

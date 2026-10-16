@@ -6,6 +6,7 @@ import {
   type SolutionKind,
 } from '@kreatya/shared/enums';
 import { siteConfig } from '@kreatya/shared/site.config';
+import { Icon } from '@kreatya/ui';
 import { useEffect, useRef, useState } from 'react';
 import { isPreviewMode, submitLead } from '../lib/api';
 import { track } from '../lib/track';
@@ -153,7 +154,7 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
     const calUrl = `https://cal.com/${siteConfig.calLink}?name=${encodeURIComponent(s.name)}&email=${encodeURIComponent(s.email)}`;
     return (
       <div className="grid gap-6 border border-line bg-raised p-6 sm:p-10">
-        <p className="cota">Paso final · reserva tu cita</p>
+        <p className="etiqueta">Paso final · reserva tu cita</p>
         <h2 ref={headingRef} tabIndex={-1} className="font-display text-3xl font-semibold">
           Gracias, {s.name.split(' ')[0]}. Ya tenemos tu diagnóstico.
         </h2>
@@ -233,10 +234,14 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
   );
 
   return (
-    <form className="grid gap-6 border border-line bg-raised p-5 sm:p-8" onSubmit={next} noValidate>
+    <form
+      className="grid gap-6 rounded-xl border border-line bg-raised p-5 sm:p-8"
+      onSubmit={next}
+      noValidate
+    >
       <div>
         <div className="flex items-baseline justify-between gap-4">
-          <p className="cota">
+          <p className="etiqueta">
             Paso {step + 1} de {STEPS.length} · {STEPS[step]}
           </p>
           <p className="font-mono text-xs text-muted">
@@ -453,18 +458,24 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
           disabled={step === 0}
           hidden={step === 0}
         >
-          ← Atrás
+          <Icon name="arrow-left" />
+          Atrás
         </button>
         <button
           type="submit"
           className="btn btn-primary btn-draw ml-auto"
           disabled={status === 'sending'}
         >
-          {step < STEPS.length - 1
-            ? 'Siguiente →'
-            : status === 'sending'
-              ? 'Enviando…'
-              : 'Enviar y reservar cita'}
+          {step < STEPS.length - 1 ? (
+            <>
+              Siguiente
+              <Icon name="arrow-right" />
+            </>
+          ) : status === 'sending' ? (
+            'Enviando…'
+          ) : (
+            'Enviar y reservar cita'
+          )}
         </button>
       </div>
     </form>

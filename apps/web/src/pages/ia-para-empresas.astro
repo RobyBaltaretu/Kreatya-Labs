@@ -13,29 +13,28 @@ const total = s.aiUseCases.reduce((n, u) => n + u.hoursSaved, 0);
 const desc = 'Inteligencia artificial aplicada para pymes: lectura de facturas, resúmenes de llamadas, asistentes y propuestas. Casos de uso por departamento con horas ahorradas.';
 ---
 <Base title="Inteligencia artificial para empresas" description={desc} jsonld={[service('Inteligencia artificial para empresas', desc, '/ia-para-empresas'), faqPage(faqs)]} breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'IA para empresas', href: '/ia-para-empresas' }]}>
-  <section class="reticula border-b border-line">
+  <section class="border-b border-line">
     <div class="wrap grid gap-6 pb-14 pt-8">
-      <p class="eyebrow">IA aplicada</p>
-      <h1 class="h-display max-w-[18ch] text-4xl sm:text-6xl">IA que trabaja con tu equipo, no en su lugar</h1>
-      <p class="max-w-[62ch] border-l-2 border-signal bg-bg/80 py-3 pl-4 text-lg">La IA en una pyme funciona cuando se aplica a tareas repetitivas y medibles: leer facturas, resumir llamadas, clasificar correos o responder preguntas frecuentes. La IA propone y tu equipo revisa y decide. Con los {s.aiUseCases.length} casos de esta página, un equipo tipo ahorra unas {total} horas a la semana.</p>
+      <h1 class="text-title max-w-[22ch]">IA que trabaja con tu equipo, no en su lugar</h1>
+      <p class="max-w-[60ch] text-lead text-muted">La IA en una pyme funciona cuando se aplica a tareas repetitivas y medibles: leer facturas, resumir llamadas, clasificar correos o responder preguntas frecuentes. La IA propone y tu equipo revisa y decide. Con los {s.aiUseCases.length} casos de esta página, un equipo tipo ahorra unas {total} horas a la semana.</p>
     </div>
   </section>
 
-  <section class="wrap py-16" aria-labelledby="casos-uso">
-    <h2 id="casos-uso" class="text-3xl font-semibold">Casos de uso por departamento</h2>
-    <div class="mt-8 grid gap-10">
+  <section class="wrap seccion" aria-labelledby="casos-uso">
+    <h2 id="casos-uso" class="seccion-titulo text-title">Casos de uso por departamento</h2>
+    <div class="grid gap-14">
       {departments.map((d) => (
-        <div class="grid gap-4 lg:grid-cols-[1fr_3fr]">
-          <h3 class="cota pt-2 text-sm">{d}</h3>
-          <ul class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-4 lg:grid-cols-[1fr_3fr] lg:gap-12">
+          <h3 class="text-xl">{d}</h3>
+          <ul class="border-t border-line">
             {s.aiUseCases.filter((u) => u.department === d).map((u) => (
-              <li class="grid content-start gap-2 border border-line bg-raised p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <h4 class="font-display text-lg font-semibold">{u.title}</h4>
-                  <p class="shrink-0 font-display text-xl font-semibold text-positive-strong tabular-nums">{u.hoursSaved} h<span class="text-sm font-normal text-muted">/sem</span></p>
+              <li class="grid gap-2 border-b border-line py-5 sm:grid-cols-[1fr_auto] sm:gap-8">
+                <div>
+                  <h4 class="font-display text-lg font-semibold tracking-tight">{u.title}</h4>
+                  <p class="mt-1 max-w-[60ch] text-muted">{u.description}</p>
+                  {u.demoKey && <a href="#demo" class="enlace mt-2 inline-block text-sm">Probar la mini demo</a>}
                 </div>
-                <p class="text-muted">{u.description}</p>
-                {u.demoKey && <a href="#demo" class="text-sm text-diagram underline underline-offset-4">Probar mini demo</a>}
+                <p class="font-display text-2xl font-semibold text-positive-strong tabular-nums sm:text-right">{u.hoursSaved} h<span class="block font-sans text-sm font-normal text-muted">a la semana</span></p>
               </li>
             ))}
           </ul>
@@ -46,15 +45,15 @@ const desc = 'Inteligencia artificial aplicada para pymes: lectura de facturas, 
 
   <section id="demo" class="border-y border-line bg-raised" aria-labelledby="demo-title">
     <div class="wrap grid gap-6 py-16">
-      <h2 id="demo-title" class="text-3xl font-semibold">Mini demo: lectura de documentos</h2>
+      <h2 id="demo-title" class="text-title">Mini demo: lectura de documentos</h2>
       <AiDocDemo client:visible />
     </div>
   </section>
 
-  <section class="wrap grid gap-8 py-16 lg:grid-cols-[1fr_2fr]" aria-labelledby="privacidad">
-    <h2 id="privacidad" class="text-3xl font-semibold">Privacidad y cumplimiento</h2>
+  <section class="wrap seccion grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-16" aria-labelledby="privacidad">
+    <h2 id="privacidad" class="text-title">Privacidad y cumplimiento</h2>
     <div class="prose-k">
-      <p class="border-l-2 border-signal bg-raised py-4 pl-5 pr-4 text-lg">Tus datos se procesan en infraestructura europea siempre que es posible, nunca se usan para entrenar modelos y cada proveedor queda documentado en un acuerdo de encargo de tratamiento.</p>
+      <p class="respuesta">Tus datos se procesan en infraestructura europea siempre que es posible, nunca se usan para entrenar modelos y cada proveedor queda documentado en un acuerdo de encargo de tratamiento.</p>
       <ul>
         <li><strong>RGPD:</strong> evaluación de impacto cuando procede, minimización de datos y registro de actividades de tratamiento.</li>
         <li><strong>Reglamento europeo de IA:</strong> clasificamos cada caso de uso por nivel de riesgo e informamos a los usuarios cuando interactúan con un sistema de IA.</li>

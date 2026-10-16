@@ -2,44 +2,83 @@
 @import '@kreatya/ui/theme.css';
 @source '../../../../packages/ui/src';
 
+/* Escala tipográfica (Persuade): fluida, máximo 6rem, pasos claros. */
+@theme {
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.75rem);
+  --text-display--line-height: 0.98;
+  --text-title: clamp(2rem, 1.45rem + 2.2vw, 3.25rem);
+  --text-title--line-height: 1.04;
+  --text-heading: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  --text-heading--line-height: 1.12;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-lead--line-height: 1.5;
+}
+
 @layer base {
   body {
     font-size: 1.0625rem;
-    line-height: 1.6;
+    line-height: 1.62;
   }
+  h1 {
+    letter-spacing: -0.035em;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-left: max(40px, env(safe-area-inset-left, 0px));
+      padding-right: max(40px, env(safe-area-inset-right, 0px));
+    }
+  }
+  /* Ritmo: sección generosa, encabezado más cerca de su contenido que de lo anterior. */
+  .seccion {
+    padding-block: clamp(4.5rem, 3rem + 6vw, 8.5rem);
+  }
+  .seccion-titulo {
+    margin-bottom: clamp(1.75rem, 1.25rem + 1.5vw, 2.75rem);
+  }
+
   .prose-k {
-    max-width: 68ch;
+    max-width: 66ch;
   }
   .prose-k > * + * {
-    margin-top: 1rem;
+    margin-top: 1.1em;
   }
   .prose-k h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-top: 2.5rem;
-    line-height: 1.2;
+    font-size: var(--text-heading);
+    margin-top: 2.6em;
+  }
+  .prose-k h2 + * {
+    margin-top: 0.75em;
   }
   .prose-k h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-top: 1.75rem;
+    font-size: 1.25rem;
+    margin-top: 2em;
   }
   .prose-k ul {
     list-style: none;
     padding: 0;
     display: grid;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
   .prose-k ul > li {
     position: relative;
-    padding-left: 1.5rem;
+    padding-left: 1.4rem;
   }
   .prose-k ul > li::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 0.7em;
-    width: 0.75rem;
+    top: 0.72em;
+    width: 0.7rem;
     border-top: 1.5px solid var(--diagram);
   }
   .prose-k ol {
@@ -49,66 +88,15 @@
   .prose-k a {
     color: var(--diagram);
     text-decoration: underline;
-    text-underline-offset: 3px;
   }
-}
+  /* Respuesta directa (GEO): entradilla, sin franja lateral. */
+  .respuesta {
+    font-size: var(--text-lead);
+    line-height: 1.55;
+    color: var(--fg);
+  }
 
-@layer components {
-  .wrap {
-    width: 100%;
-    max-width: 76rem;
-    margin-inline: auto;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-  }
-  @media (min-width: 768px) {
-    .wrap {
-      padding-left: max(32px, env(safe-area-inset-left, 0px));
-      padding-right: max(32px, env(safe-area-inset-right, 0px));
-    }
-  }
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--diagram);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .eyebrow::before {
-    content: '';
-    width: 1.5rem;
-    border-top: 1.5px solid currentColor;
-  }
-  /* Línea de cota horizontal con extremos */
-  .dim {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--diagram);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .dim::before,
-  .dim::after {
-    content: '';
-    flex: 1;
-    height: 7px;
-    border-top: 1px solid currentColor;
-    border-inline: 1px solid currentColor;
-    transform: translateY(3px);
-  }
-  .h-display {
-    font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.02;
-  }
-  /* CTA que «se dibuja» como un trazo de plano */
+  /* CTA que «se dibuja» como un trazo de plano (solo con puntero fino). */
   .btn-draw {
     position: relative;
     isolation: isolate;
@@ -117,16 +105,42 @@
     content: '';
     position: absolute;
     inset: -5px;
-    border: 1px dashed var(--diagram);
-    border-radius: 0.6rem;
+    border: 1px dashed currentColor;
+    border-radius: 0.75rem;
+    opacity: 0.55;
     clip-path: inset(0 100% 0 0);
-    transition: clip-path 0.45s ease;
-    z-index: -1;
+    transition: clip-path 160ms var(--ease-out);
+    pointer-events: none;
   }
-  .btn-draw:hover::after,
+  @media (hover: hover) and (pointer: fine) {
+    .btn-draw:hover::after {
+      clip-path: inset(0 0 0 0);
+      transition-duration: 420ms;
+    }
+  }
   .btn-draw:focus-visible::after {
     clip-path: inset(0 0 0 0);
   }
+
+  .enlace {
+    color: var(--diagram);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+    transition: text-decoration-color var(--dur-ui) ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .enlace:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  /* Etiqueta de campo o dato: sans, sin mayúsculas espaciadas. */
+  .etiqueta {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+  }
+
   .sr-only-focusable:not(:focus) {
     position: absolute;
     width: 1px;
@@ -134,8 +148,135 @@
     overflow: hidden;
     clip: rect(0 0 0 0);
   }
+
+  /* Acordeón: altura animada donde el navegador lo soporta (mejora progresiva). */
+  details.acordeon {
+    interpolate-size: allow-keywords;
+  }
+  details.acordeon::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 240ms var(--ease-out),
+      content-visibility 240ms allow-discrete;
+  }
+  details.acordeon[open]::details-content {
+    block-size: auto;
+  }
+  details.acordeon summary svg {
+    transition: transform 200ms var(--ease-out);
+  }
+  details.acordeon[open] summary svg {
+    transform: rotate(45deg);
+  }
 }
 
+/* Transiciones entre páginas: rápidas y sin desplazamientos largos. */
 @view-transition {
   navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-group(*) {
+  animation-duration: 260ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* Selector de dolores */
+.dolor {
+  color: var(--fg-muted);
+  transition: color 160ms ease;
+}
+.dolor[aria-checked='true'] {
+  color: var(--fg);
+}
+.dolor-marca {
+  border: 1.5px solid var(--line);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 200ms var(--ease-out);
+}
+.dolor[aria-checked='true'] .dolor-marca {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dolor:hover {
+    color: var(--fg);
+  }
+  .dolor:hover .dolor-marca {
+    transform: translateX(3px);
+  }
+}
+.dolor-panel {
+  animation: panel-entra 220ms var(--ease-out);
+}
+@keyframes panel-entra {
+  from {
+    opacity: 0.4;
+    filter: blur(3px);
+  }
+}
+
+/* Filas enlazadas (índices de soluciones, sectores y blog) */
+.fila svg {
+  transition: transform 200ms var(--ease-out);
+}
+.fila h2 {
+  transition: color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .fila:hover h2 {
+    color: var(--diagram);
+  }
+  .fila:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+/* Lightbox: entra con escala 0,96 + opacidad (modal centrado); sale rápido. */
+dialog.lightbox {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 160ms ease,
+    transform 160ms var(--ease-out),
+    overlay 160ms allow-discrete,
+    display 160ms allow-discrete;
+}
+dialog.lightbox[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: 240ms;
+}
+@starting-style {
+  dialog.lightbox[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+dialog.lightbox::backdrop {
+  background: rgb(20 33 61 / 0);
+  transition:
+    background-color 200ms ease,
+    overlay 200ms allow-discrete,
+    display 200ms allow-discrete;
+}
+dialog.lightbox[open]::backdrop {
+  background: rgb(20 33 61 / 0.82);
+}
+@starting-style {
+  dialog.lightbox[open]::backdrop {
+    background: rgb(20 33 61 / 0);
+  }
+}
+
+/* Banner de cookies: oculto antes de pintar si ya hay consentimiento. */
+html[data-consent] .cookie-banner {
+  display: none;
 }

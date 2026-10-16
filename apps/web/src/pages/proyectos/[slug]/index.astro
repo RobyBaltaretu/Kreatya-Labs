@@ -41,8 +41,7 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
     <!-- 1. Cabecera -->
     <header class="wrap grid gap-8 pb-12 pt-8 lg:grid-cols-[1.4fr_1fr]" style={`view-transition-name: ficha-${p.slug}`}>
       <div class="grid content-start gap-5">
-        <p class="eyebrow">{client}{p.confidential && ' · proyecto bajo NDA'}</p>
-        <h1 class="h-display text-4xl sm:text-5xl lg:text-6xl">{p.title}</h1>
+        <h1 class="text-title max-w-[20ch]">{p.title}</h1>
         <p class="max-w-[60ch] text-lg text-muted">{p.summary}</p>
         <div class="flex flex-wrap gap-3">
           {hasDemo && <a href={p.demoType === 'on_request' ? '#demo' : `/proyectos/${p.slug}/demo`} class="btn btn-primary btn-draw" data-cta="probar-demo">Probar la demo</a>}
@@ -50,11 +49,11 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
         </div>
       </div>
       <dl class="grid grid-cols-2 self-start border border-line bg-raised text-sm">
-        <div class="border-b border-r border-line p-4"><dt class="cota">Sector</dt><dd class="mt-1 font-medium">{p.sectors.map((sl) => <a class="hover:text-diagram" href={`/sectores/${sl}`}>{sectorName(s, sl)}</a>)}</dd></div>
-        <div class="border-b border-line p-4"><dt class="cota">Plazo</dt><dd class="mt-1 font-medium tabular-nums">{p.durationWeeks} semanas</dd></div>
-        <div class="border-b border-r border-line p-4"><dt class="cota">Servicios</dt><dd class="mt-1 grid gap-1 font-medium">{services.map((x) => <a class="inline-block py-1 hover:text-diagram" href={`/soluciones/${x.slug}`}>{x.name}</a>)}</dd></div>
-        <div class="border-b border-line p-4"><dt class="cota">Empresa</dt><dd class="mt-1 font-medium">{COMPANY_SIZE_LABELS[p.companySize]}</dd></div>
-        <div class="col-span-2 p-4"><dt class="cota">Stack</dt><dd class="mt-1 font-medium">{tech.join(' · ')}</dd></div>
+        <div class="border-b border-r border-line p-4"><dt class="etiqueta">Sector</dt><dd class="mt-1 font-medium">{p.sectors.map((sl) => <a class="hover:text-diagram" href={`/sectores/${sl}`}>{sectorName(s, sl)}</a>)}</dd></div>
+        <div class="border-b border-line p-4"><dt class="etiqueta">Plazo</dt><dd class="mt-1 font-medium tabular-nums">{p.durationWeeks} semanas</dd></div>
+        <div class="border-b border-r border-line p-4"><dt class="etiqueta">Servicios</dt><dd class="mt-1 grid gap-1 font-medium">{services.map((x) => <a class="inline-block py-1 hover:text-diagram" href={`/soluciones/${x.slug}`}>{x.name}</a>)}</dd></div>
+        <div class="border-b border-line p-4"><dt class="etiqueta">Empresa</dt><dd class="mt-1 font-medium">{COMPANY_SIZE_LABELS[p.companySize]}</dd></div>
+        <div class="col-span-2 p-4"><dt class="etiqueta">Stack</dt><dd class="mt-1 font-medium">{tech.join(' · ')}</dd></div>
       </dl>
     </header>
 
@@ -65,26 +64,26 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
       )}
     </section>
 
-    <div class="wrap grid gap-16 pb-20">
+    <div class="wrap grid gap-20 pb-24 sm:gap-28">
       <!-- 3. El reto -->
-      <section class="grid gap-4 lg:grid-cols-[1fr_2fr]" aria-labelledby="reto">
-        <h2 id="reto" class="text-2xl font-semibold sm:text-3xl">El reto</h2>
+      <section class="grid max-w-4xl gap-5" aria-labelledby="reto">
+        <h2 id="reto" class="text-heading">El reto</h2>
         <p class="max-w-[65ch] text-lg">{p.challenge}</p>
       </section>
 
       <!-- 4. Antes / después -->
-      <section class="grid gap-4 lg:grid-cols-[1fr_2fr]" aria-labelledby="proceso">
-        <h2 id="proceso" class="text-2xl font-semibold sm:text-3xl">Antes y después del proceso</h2>
+      <section class="grid max-w-4xl gap-5" aria-labelledby="proceso">
+        <h2 id="proceso" class="text-heading">Antes y después del proceso</h2>
         <ProcessDiagram before={p.processBefore} after={p.processAfter} />
       </section>
 
       <!-- 5. La solución -->
-      <section class="grid gap-4 lg:grid-cols-[1fr_2fr]" aria-labelledby="solucion">
-        <h2 id="solucion" class="text-2xl font-semibold sm:text-3xl">La solución</h2>
+      <section class="grid max-w-4xl gap-5" aria-labelledby="solucion">
+        <h2 id="solucion" class="text-heading">La solución</h2>
         <div class="grid max-w-[65ch] gap-4 text-lg">
           <p>{p.solution}</p>
           {p.aiRole && (
-            <p class="flex gap-3 border-l-2 border-signal bg-raised p-4 text-base"><span class="cota shrink-0 pt-0.5">Papel de la IA</span><span>{p.aiRole}</span></p>
+            <div class="rounded-xl bg-raised p-5 text-base ring-1 ring-line"><h3 class="flex items-center gap-2 font-sans text-sm font-semibold tracking-normal"><span class="inline-block h-2.5 w-2.5 rounded-full bg-signal" aria-hidden="true"></span>Papel de la IA</h3><p class="mt-2">{p.aiRole}</p></div>
           )}
           <p class="text-base text-muted">Tipo de solución: {kinds.map((k) => KIND_LABELS[k]).join(', ')}.</p>
         </div>
@@ -93,14 +92,14 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
       <!-- 6. Galería -->
       {p.gallery.length > 0 && (
         <section aria-labelledby="galeria">
-          <h2 id="galeria" class="mb-6 text-2xl font-semibold sm:text-3xl">Capturas</h2>
+          <h2 id="galeria" class="mb-6 text-heading">Capturas</h2>
           <Gallery client:visible items={p.gallery} />
         </section>
       )}
 
       <!-- 7. Resultados -->
       <section aria-labelledby="resultados">
-        <h2 id="resultados" class="mb-6 text-2xl font-semibold sm:text-3xl">Resultados</h2>
+        <h2 id="resultados" class="mb-6 text-heading">Resultados</h2>
         <Metrics metrics={p.metrics} />
       </section>
 
@@ -109,9 +108,8 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
 
       <!-- 9. Vista previa -->
       {hasDemo && (
-        <section id="demo" aria-labelledby="demo-title" class="grid gap-4 border border-line reticula p-5 sm:p-8">
-          <p class="eyebrow">Vista previa</p>
-          <h2 id="demo-title" class="text-2xl font-semibold sm:text-3xl">Prueba la solución</h2>
+        <section id="demo" aria-labelledby="demo-title" class="grid gap-4 border border-line p-5 sm:p-8">
+          <h2 id="demo-title" class="text-heading">Prueba la solución</h2>
           {p.demoType === 'on_request' ? (
             <>
               <p class="max-w-[60ch] text-muted">Esta demo contiene datos de un entorno real anonimizado. Déjanos tus datos y te enviamos un acceso temporal.</p>
@@ -131,7 +129,7 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
     {related.length > 0 && (
       <section class="border-t border-line bg-raised" aria-labelledby="relacionados">
         <div class="wrap py-16">
-          <h2 id="relacionados" class="text-2xl font-semibold sm:text-3xl">Proyectos relacionados</h2>
+          <h2 id="relacionados" class="text-heading">Proyectos relacionados</h2>
           <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => <ProjectCard project={r} snapshot={s} index={s.projects.indexOf(r)} />)}
           </div>

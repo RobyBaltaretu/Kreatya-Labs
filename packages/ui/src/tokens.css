@@ -24,6 +24,19 @@
   --positive: #1f7a50; /* success oscurecido para texto pequeño (AA) */
   --positive-strong: var(--success);
   --focus: #1d4ed8;
+  --placeholder: #5b6476;
+  /* Superficie azul tinta (bandas y paneles); en oscuro se eleva un paso para no fundirse. */
+  --tinta: var(--ink);
+  --tinta-2: #1b2b4d;
+  --shadow-lift: 0 1px 2px rgb(20 33 61 / 0.06), 0 12px 32px -12px rgb(20 33 61 / 0.22);
+
+  /* Movimiento (Emil Kowalski): curvas propias, nunca ease-in ni rebote */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press: 120ms;
+  --dur-ui: 200ms;
+  --dur-overlay: 280ms;
   color-scheme: light;
 }
 
@@ -40,6 +53,10 @@
     --positive: #5fd39b;
     --positive-strong: #5fd39b;
     --focus: #ffb38f;
+    --placeholder: #9aa6bd;
+    --tinta: #1b2b4d;
+    --tinta-2: #24365e;
+    --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -14px rgb(0 0 0 / 0.55);
     color-scheme: dark;
   }
 }
@@ -56,5 +73,9 @@
   --positive: #5fd39b;
   --positive-strong: #5fd39b;
   --focus: #ffb38f;
+  --placeholder: #9aa6bd;
+  --tinta: #1b2b4d;
+  --tinta-2: #24365e;
+  --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -14px rgb(0 0 0 / 0.55);
   color-scheme: dark;
 }

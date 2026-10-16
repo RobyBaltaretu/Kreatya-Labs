@@ -46,7 +46,7 @@ export default function DemoRequestForm({
         setStatus(r.ok ? 'ok' : r.message);
       }}
     >
-      <p className="cota">Acceso a la demo completa</p>
+      <p className="etiqueta">Acceso a la demo completa</p>
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="grid gap-1.5 text-sm" htmlFor="dr-name">
           Nombre

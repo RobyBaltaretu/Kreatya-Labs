@@ -43,7 +43,7 @@ const doc = docs[Astro.params.slug as keyof typeof docs];
 ---
 <Base title={doc.title} description={`${doc.title} de ${siteConfig.name}.`} ogImage="/og/home.png" breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: doc.title, href: `/legal/${Astro.params.slug}` }]}>
   <section class="wrap pb-20 pt-8">
-    <h1 class="h-display text-4xl sm:text-5xl">{doc.title}</h1>
+    <h1 class="text-title">{doc.title}</h1>
     <div class="prose-k mt-8">{doc.body.map((p) => <p>{p}</p>)}</div>
   </section>
 </Base>

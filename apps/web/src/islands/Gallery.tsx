@@ -1,3 +1,4 @@
+import { Icon } from '@kreatya/ui';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Item {
@@ -51,7 +52,7 @@ export default function Gallery({ items }: { items: Item[] }) {
                 className="aspect-[4/3] w-full object-contain p-3 transition-transform group-hover:scale-[1.02]"
               />
               <span className="flex items-center justify-between border-t border-line px-3 py-2 text-xs">
-                <span className="cota">{DEVICE_LABEL[it.device]}</span>
+                <span className="etiqueta">{DEVICE_LABEL[it.device]}</span>
                 <span className="text-muted">Ampliar</span>
               </span>
             </button>
@@ -61,7 +62,7 @@ export default function Gallery({ items }: { items: Item[] }) {
       <dialog
         ref={dialogRef}
         aria-label="Galería ampliada"
-        className="m-auto max-h-[92vh] w-[min(96vw,1200px)] max-w-none bg-bg p-0 text-fg backdrop:bg-ink/80"
+        className="lightbox m-auto max-h-[92vh] w-[min(96vw,1200px)] max-w-none rounded-xl bg-bg p-0 text-fg"
         onClose={() => setOpen(null)}
         onKeyDown={(e) => {
           if (e.key === 'ArrowRight') move(1);
@@ -101,7 +102,7 @@ export default function Gallery({ items }: { items: Item[] }) {
                   onClick={() => move(-1)}
                   aria-label="Imagen anterior"
                 >
-                  ←
+                  <Icon name="arrow-left" />
                 </button>
                 <button
                   type="button"
@@ -109,7 +110,7 @@ export default function Gallery({ items }: { items: Item[] }) {
                   onClick={() => move(1)}
                   aria-label="Imagen siguiente"
                 >
-                  →
+                  <Icon name="arrow-right" />
                 </button>
                 <button type="button" className="btn btn-primary" onClick={() => setOpen(null)}>
                   Cerrar

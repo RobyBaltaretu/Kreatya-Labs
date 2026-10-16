@@ -1,3 +1,4 @@
+import { Icon } from '@kreatya/ui';
 import { Fragment, useState } from 'react';
 import { track } from '../lib/track';
 
@@ -108,9 +109,9 @@ export default function AiDocDemo() {
           </button>
         ))}
       </div>
-      <div className="grid gap-px border border-line bg-line md:grid-cols-2">
+      <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">
         <div className="bg-raised p-5">
-          <p className="cota mb-3">Documento</p>
+          <p className="etiqueta mb-3">Documento</p>
           <div
             className={`grid gap-1.5 font-mono text-[0.8rem] leading-relaxed ${phase === 'reading' ? 'motion-safe:animate-pulse' : ''}`}
           >
@@ -120,7 +121,7 @@ export default function AiDocDemo() {
           </div>
         </div>
         <div className="bg-bg p-5" aria-live="polite">
-          <p className="cota mb-3 flex items-center gap-2">
+          <p className="etiqueta mb-3 flex items-center gap-2">
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-signal" aria-hidden="true" />{' '}
             Copiloto · datos extraídos
           </p>
@@ -136,8 +137,9 @@ export default function AiDocDemo() {
                   </Fragment>
                 ))}
               </dl>
-              <p className="mt-4 border-t border-line pt-3 text-sm text-positive">
-                ✓ {sample.note}
+              <p className="mt-4 flex items-center gap-2 border-t border-line pt-3 text-sm text-positive">
+                <Icon name="check" size={16} />
+                {sample.note}
               </p>
             </>
           )}

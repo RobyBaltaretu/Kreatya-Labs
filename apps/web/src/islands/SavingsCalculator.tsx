@@ -75,7 +75,7 @@ export default function SavingsCalculator({ compact = false }: { compact?: boole
 
   return (
     <div
-      className={`grid gap-8 border border-line bg-raised p-5 sm:p-8 ${compact ? '' : 'lg:grid-cols-2'}`}
+      className={`grid gap-8 rounded-xl border border-line bg-raised p-5 sm:p-8 ${compact ? '' : 'lg:grid-cols-2'}`}
     >
       <div className="grid content-start gap-6">
         {slider(
@@ -111,8 +111,8 @@ export default function SavingsCalculator({ compact = false }: { compact?: boole
         )}
       </div>
       <div className="grid content-start gap-5">
-        <div className="reticula grid gap-1 border border-line bg-bg p-6">
-          <p className="cota">Ahorro anual estimado</p>
+        <div className="grid gap-1 rounded-xl sobre-tinta bg-tinta p-6">
+          <p className="etiqueta">Ahorro anual estimado</p>
           <p
             className="font-display text-5xl font-semibold tracking-tight text-positive-strong tabular-nums"
             aria-live="polite"

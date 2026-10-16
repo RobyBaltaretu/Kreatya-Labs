@@ -1,4 +1,5 @@
 ---
+import { Icon } from '@kreatya/ui';
 import type { GetStaticPaths } from 'astro';
 import DemoRequestForm from '../../../islands/DemoRequestForm';
 import DemoTour from '../../../islands/DemoTour';
@@ -18,11 +19,11 @@ const p = s.projects.find((x) => x.slug === Astro.params.slug)!;
   <div class="sticky z-30 border-b border-signal bg-signal text-ink" style="top: calc(4rem + env(safe-area-inset-top, 0px))">
     <div class="wrap flex flex-wrap items-center justify-between gap-3 py-2 text-sm font-semibold">
       <p>Datos de demostración · nada de lo que veas es real</p>
-      <a href={`/proyectos/${p.slug}`} class="underline underline-offset-4">← Volver a la ficha</a>
+      <a href={`/proyectos/${p.slug}`} class="inline-flex items-center gap-1.5 underline underline-offset-4"><Icon name="arrow-left" size={16} />Volver a la ficha</a>
     </div>
   </div>
   <section class="wrap grid gap-6 py-10">
-    <h1 class="h-display text-3xl sm:text-5xl">{p.title}</h1>
+    <h1 class="text-title">{p.title}</h1>
     {p.demoType === 'tour' && p.demoTour.length > 0 && <DemoTour client:load steps={p.demoTour} projectSlug={p.slug} />}
     {p.demoType === 'sandbox' && p.demoUrl && (
       <iframe src={p.demoUrl} title={`Demo navegable: ${p.title}`} sandbox="allow-scripts allow-forms allow-same-origin" class="h-[80vh] w-full border border-line" loading="lazy"></iframe>

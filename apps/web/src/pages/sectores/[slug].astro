@@ -14,5 +14,5 @@ const path = `/sectores/${x.slug}`;
 ---
 <Base title={x.seo.title ?? `Software para ${x.name}`} description={x.seo.description ?? x.tagline} jsonld={[service(`Software a medida para ${x.name.toLowerCase()}`, x.seo.description ?? x.tagline, path), faqPage(faqs)]}
   breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Sectores', href: '/sectores' }, { name: x.name, href: path }]}>
-  <Landing eyebrow={`Sector · ${x.name}`} title={`Software a medida para ${x.name.toLowerCase()}`} tagline={x.tagline} pain={x.pain} modules={x.modules} integrations={x.integrations} blocks={x.blocks} projects={projects} faqs={faqs} snapshot={s} ctaHref={`/diagnostico?sector=${x.slug}`} />
+  <Landing title={`Software a medida para ${x.name.toLowerCase()}`} tagline={x.tagline} pain={x.pain} modules={x.modules} integrations={x.integrations} blocks={x.blocks} projects={projects} faqs={faqs} snapshot={s} ctaHref={`/diagnostico?sector=${x.slug}`} />
 </Base>

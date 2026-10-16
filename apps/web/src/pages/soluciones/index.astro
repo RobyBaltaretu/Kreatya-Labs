@@ -1,23 +1,26 @@
 ---
+import { Icon } from '@kreatya/ui';
 import CtaBand from '../../components/CtaBand.astro';
 import Base from '../../layouts/Base.astro';
 import { getSnapshot } from '../../lib/snapshot';
 const s = await getSnapshot();
 ---
 <Base title="Soluciones de software a medida" description="ERP, CRM, apps móviles, portales de cliente e integraciones a medida para pymes, con IA aplicada donde ahorra horas." breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Soluciones', href: '/soluciones' }]}>
-  <section class="wrap pb-16 pt-8">
-    <p class="eyebrow">Soluciones</p>
-    <h1 class="h-display mt-3 text-4xl sm:text-6xl">Sistemas completos, a la medida de tu proceso</h1>
-    <ul class="mt-10 grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
-      {s.solutions.map((x) => (
-        <li class="bg-raised">
-          <a href={`/soluciones/${x.slug}`} class="group grid h-full content-start gap-3 p-6 hover:bg-bg">
-            <h2 class="text-2xl font-semibold group-hover:text-diagram">{x.name}</h2>
-            <p class="text-muted">{x.tagline}</p>
-            <p class="cota mt-2">{x.modules.length} módulos típicos →</p>
-          </a>
-        </li>
-      ))}
+  <section class="wrap pb-20 pt-10">
+    <h1 class="text-title max-w-[22ch]">Sistemas completos, a la medida de tu proceso</h1>
+    <ul class="mt-14 border-t border-line">
+      {s.solutions.map((x) => {
+        const n = s.projects.filter((p) => p.solutions.includes(x.slug)).length;
+        return (
+          <li>
+            <a href={`/soluciones/${x.slug}`} class="fila group grid gap-2 border-b border-line py-7 sm:grid-cols-[1fr_1.2fr_auto] sm:items-center sm:gap-10">
+              <h2 class="text-heading">{x.name}</h2>
+              <p class="text-muted">{x.tagline}</p>
+              <span class="flex items-center gap-3 text-sm text-muted">{n} {n === 1 ? 'caso' : 'casos'}<Icon name="arrow-right" /></span>
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </section>
   <CtaBand />

@@ -1,13 +1,13 @@
 ---
 /** Plantilla común de soluciones y sectores: dolor → módulos → caso → integraciones → FAQ → CTA. */
 import type { Block, ContentSnapshot, Faq as FaqT, Project } from '@kreatya/shared';
+import { Icon } from '@kreatya/ui';
 import Blocks from './Blocks.astro';
 import CtaBand from './CtaBand.astro';
 import Faq from './Faq.astro';
 import ProjectCard from './ProjectCard.astro';
 
 interface Props {
-  eyebrow: string;
   title: string;
   tagline: string;
   pain: string;
@@ -19,37 +19,42 @@ interface Props {
   snapshot: ContentSnapshot;
   ctaHref: string;
 }
-const { eyebrow, title, tagline, pain, modules, integrations, blocks, projects, faqs, snapshot, ctaHref } = Astro.props;
+const { title, tagline, pain, modules, integrations, blocks, projects, faqs, snapshot, ctaHref } = Astro.props;
 ---
-<section class="reticula border-b border-line">
-  <div class="wrap grid gap-6 pb-14 pt-8">
-    <p class="eyebrow">{eyebrow}</p>
-    <h1 class="h-display max-w-[18ch] text-4xl sm:text-6xl">{title}</h1>
-    <p class="max-w-[55ch] text-xl text-muted">{tagline}</p>
-    {pain && (
-      <p class="max-w-[60ch] border-l-2 border-signal bg-bg/80 py-3 pl-4"><span class="cota block">El dolor habitual</span>{pain}</p>
-    )}
-    <div class="flex flex-wrap gap-3"><a href={ctaHref} class="btn btn-primary btn-draw" data-cta="landing-hero">Diagnóstico gratuito</a><a href="#casos" class="btn btn-secondary">Ver casos</a></div>
-  </div>
-</section>
-<div class="wrap grid gap-12 py-16 lg:grid-cols-[2fr_1fr]">
-  <div class="min-w-0"><Blocks blocks={blocks} /></div>
-  <aside class="grid content-start gap-6 lg:sticky lg:top-24">
-    <div class="border border-line bg-raised p-5">
-      <h2 class="cota mb-3">Módulos típicos</h2>
-      <ul class="grid gap-2 text-sm">{modules.map((m) => <li class="flex gap-2"><span class="text-diagram" aria-hidden="true">▸</span>{m}</li>)}</ul>
+<section class="wrap grid gap-10 pb-16 pt-10 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:pb-20">
+  <div class="grid gap-6">
+    <h1 class="text-title max-w-[22ch]">{title}</h1>
+    <p class="max-w-[48ch] text-lead text-muted">{tagline}</p>
+    <div class="flex flex-wrap gap-3">
+      <a href={ctaHref} class="btn btn-primary btn-draw" data-cta="landing-hero">Diagnóstico gratuito<Icon name="arrow-right" /></a>
+      {projects.length > 0 && <a href="#casos" class="btn btn-secondary">Ver {projects.length === 1 ? 'el caso' : `${projects.length} casos`}</a>}
     </div>
-    <div class="border border-line bg-raised p-5">
-      <h2 class="cota mb-3">Integraciones habituales</h2>
-      <ul class="flex flex-wrap gap-2 text-sm">{integrations.map((m) => <li class="rounded-sm border border-line px-2 py-1">{m}</li>)}</ul>
+  </div>
+  {pain && (
+    <div class="rounded-xl sobre-tinta bg-tinta p-6 sm:p-7">
+      <h2 class="font-sans text-sm font-semibold tracking-normal" style="color:#c9d3e4">El dolor habitual</h2>
+      <p class="mt-2 font-display text-xl font-medium leading-snug tracking-tight">{pain}</p>
+    </div>
+  )}
+</section>
+<div class="wrap grid gap-14 border-t border-line pt-14 pb-20 lg:grid-cols-[1.7fr_1fr] lg:gap-20">
+  <div class="min-w-0"><Blocks blocks={blocks} /></div>
+  <aside class="grid content-start gap-10 lg:sticky lg:top-24">
+    <div>
+      <h2 class="font-sans text-base font-semibold tracking-normal">Módulos típicos</h2>
+      <ul class="mt-4 grid gap-2.5">{modules.map((m) => <li class="flex gap-2.5"><span class="mt-0.5 text-positive"><Icon name="check" size={18} /></span>{m}</li>)}</ul>
+    </div>
+    <div>
+      <h2 class="font-sans text-base font-semibold tracking-normal">Integraciones habituales</h2>
+      <ul class="mt-4 flex flex-wrap gap-2 text-sm">{integrations.map((m) => <li class="rounded-md border border-line px-2.5 py-1">{m}</li>)}</ul>
     </div>
   </aside>
 </div>
 {projects.length > 0 && (
-  <section id="casos" class="border-y border-line bg-raised" aria-labelledby="casos-title">
-    <div class="wrap py-16">
-      <h2 id="casos-title" class="text-2xl font-semibold sm:text-3xl">Casos relacionados</h2>
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{projects.slice(0, 3).map((p) => <ProjectCard project={p} snapshot={snapshot} index={snapshot.projects.indexOf(p)} />)}</div>
+  <section id="casos" class="border-t border-line bg-raised" aria-labelledby="casos-title">
+    <div class="wrap seccion">
+      <h2 id="casos-title" class="seccion-titulo text-title">Casos relacionados</h2>
+      <div class="grid gap-6 md:grid-cols-2">{projects.slice(0, 2).map((p) => <ProjectCard project={p} snapshot={snapshot} index={snapshot.projects.indexOf(p)} />)}</div>
     </div>
   </section>
 )}

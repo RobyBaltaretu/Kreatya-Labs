@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '@kreatya/shared/site.config';
+import { Icon } from '@kreatya/ui';
 
 const nav = [
   { href: '/soluciones', label: 'Soluciones' },
@@ -12,56 +13,93 @@ const nav = [
 const path = Astro.url.pathname;
 const active = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
-<a href="#contenido" class="sr-only-focusable fixed left-4 top-4 z-50 rounded bg-signal px-4 py-2 font-semibold text-ink">Saltar al contenido</a>
-<header class="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur" style="top: env(safe-area-inset-top, 0px)">
+<a href="#contenido" class="sr-only-focusable fixed left-4 top-4 z-50 rounded-lg bg-signal px-4 py-2 font-semibold text-ink">Saltar al contenido</a>
+<header class="site-header sticky z-40 border-b border-line/70 bg-bg/92 backdrop-blur-md" style="top: env(safe-area-inset-top, 0px)">
   <div class="wrap flex h-16 items-center justify-between gap-6">
-    <a href="/" class="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight" aria-label={`${siteConfig.name}, inicio`}>
+    <a href="/" class="flex items-center gap-2.5 font-display text-[1.0625rem] font-semibold tracking-tight" aria-label={`${siteConfig.name}, inicio`}>
       <svg viewBox="0 0 32 32" class="h-8 w-8" aria-hidden="true">
-        <rect x="1.5" y="1.5" width="29" height="29" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect>
+        <rect x="1.5" y="1.5" width="29" height="29" rx="6" fill="none" stroke="currentColor" stroke-width="2"></rect>
         <path d="M10 8v16M10 16l9-8M13 13.5 21 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
         <circle cx="22.5" cy="9.5" r="2.5" fill="var(--signal)"></circle>
       </svg>
-      <span>Kreatya<span class="text-muted font-normal"> Labs</span></span>
+      <span>Kreatya Labs</span>
     </a>
     <nav aria-label="Principal" class="hidden lg:block">
-      <ul class="flex items-center gap-1 text-[0.95rem]">
+      <ul class="flex items-center gap-0.5 text-[0.9375rem]">
         {nav.map((n) => (
-          <li><a href={n.href} class:list={['rounded px-3 py-2 hover:text-diagram', active(n.href) && 'text-diagram font-semibold']} aria-current={active(n.href) ? 'page' : undefined}>{n.label}</a></li>
+          <li>
+            <a href={n.href} class:list={['nav-link relative rounded-md px-3 py-2 text-muted transition-colors hover:text-fg', active(n.href) && 'is-active text-fg']} aria-current={active(n.href) ? 'page' : undefined}>{n.label}</a>
+          </li>
         ))}
       </ul>
     </nav>
     <div class="flex items-center gap-2">
-      <a href={siteConfig.primaryCta.href} class="btn btn-primary btn-draw hidden sm:inline-flex" data-cta="header">{siteConfig.primaryCta.label}</a>
-      <button type="button" class="btn btn-secondary px-3 lg:hidden" id="menu-open" aria-controls="menu-movil" aria-expanded="false">
+      <a href={siteConfig.primaryCta.href} class="btn btn-primary hidden min-h-10 py-2 sm:inline-flex" data-cta="header">{siteConfig.primaryCta.label}</a>
+      <button type="button" class="btn btn-secondary min-h-11 px-3 lg:hidden" id="menu-open" aria-controls="menu-movil" aria-expanded="false">
         <span class="sr-only">Abrir menú</span>
-        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+        <Icon name="menu" size={20} />
       </button>
     </div>
   </div>
 </header>
-<div id="menu-movil" class="reticula fixed inset-0 z-50 hidden flex-col bg-bg lg:hidden" role="dialog" aria-modal="true" aria-label="Menú">
-  <div class="wrap flex h-16 items-center justify-between" style="padding-top: env(safe-area-inset-top, 0px)">
-    <span class="cota">Menú</span>
-    <button type="button" class="btn btn-secondary px-3" id="menu-close"><span class="sr-only">Cerrar menú</span>
-      <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
-    </button>
+<div id="menu-movil" class="menu-movil fixed inset-0 z-50 sobre-tinta flex flex-col bg-tinta lg:hidden" role="dialog" aria-modal="true" aria-label="Menú" data-open="false" inert>
+  <div class="wrap flex h-16 items-center justify-end" style="margin-top: env(safe-area-inset-top, 0px)">
+    <button type="button" class="btn btn-secondary min-h-11 px-3" id="menu-close"><span class="sr-only">Cerrar menú</span><Icon name="x" size={20} /></button>
   </div>
-  <nav class="wrap flex-1 overflow-y-auto pb-8" aria-label="Principal móvil">
-    <ul class="grid gap-1 pt-6">
-      {[{ href: '/', label: 'Inicio' }, ...nav, { href: '/empresa', label: 'Empresa' }, { href: '/blog', label: 'Blog' }].map((n) => (
-        <li><a href={n.href} class="block border-b border-line py-4 font-display text-3xl font-semibold">{n.label}</a></li>
+  <nav class="wrap flex-1 overflow-y-auto pb-10" aria-label="Principal móvil">
+    <ul class="grid pt-4">
+      {[{ href: '/', label: 'Inicio' }, ...nav, { href: '/empresa', label: 'Empresa' }, { href: '/blog', label: 'Blog y guías' }].map((n, i) => (
+        <li class="menu-item" style={`--i:${i}`}><a href={n.href} class="block border-b border-paper/15 py-3.5 font-display text-[2rem] font-semibold tracking-tight">{n.label}</a></li>
       ))}
     </ul>
     <a href={siteConfig.primaryCta.href} class="btn btn-primary mt-8 w-full text-lg">{siteConfig.primaryCta.label}</a>
   </nav>
 </div>
+<style>
+  .nav-link.is-active::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.2rem;
+    border-top: 2px solid var(--signal);
+  }
+  /* Menú móvil: se despliega como una lámina que baja (Emil: ease-drawer, salida más rápida). */
+  .menu-movil {
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    transition:
+      clip-path 200ms var(--ease-out),
+      visibility 0s linear 200ms;
+  }
+  .menu-movil[data-open='true'] {
+    clip-path: inset(0 0 0 0);
+    visibility: visible;
+    transition:
+      clip-path 360ms var(--ease-drawer),
+      visibility 0s;
+  }
+  .menu-item {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 160ms ease,
+      transform 160ms var(--ease-out);
+  }
+  .menu-movil[data-open='true'] .menu-item {
+    opacity: 1;
+    transform: none;
+    transition-duration: 280ms;
+    transition-delay: calc(80ms + var(--i) * 30ms);
+  }
+</style>
 <script>
   const panel = document.getElementById('menu-movil')!;
   const openBtn = document.getElementById('menu-open')!;
   const closeBtn = document.getElementById('menu-close')!;
   const set = (open: boolean) => {
-    panel.classList.toggle('hidden', !open);
-    panel.classList.toggle('flex', open);
+    panel.dataset.open = String(open);
+    panel.inert = !open;
     openBtn.setAttribute('aria-expanded', String(open));
     document.documentElement.style.overflow = open ? 'hidden' : '';
     (open ? closeBtn : openBtn).focus();

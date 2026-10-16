@@ -113,7 +113,7 @@ test.describe('HU-03 · Probar una vista previa', () => {
       'aria-pressed',
       'true',
     );
-    await page.getByRole('button', { name: 'Siguiente →' }).click();
+    await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
     await expect(page.getByText('Paso 2 / 3')).toBeVisible();
     expect(await page.locator('meta[name="robots"]').getAttribute('content')).toContain('noindex');
   });

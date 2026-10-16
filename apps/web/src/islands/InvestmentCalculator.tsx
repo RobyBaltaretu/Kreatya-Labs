@@ -55,7 +55,7 @@ export default function InvestmentCalculator() {
   );
 
   return (
-    <div className="grid gap-8 border border-line bg-raised p-5 sm:p-8 lg:grid-cols-2">
+    <div className="grid gap-8 rounded-xl border border-line bg-raised p-5 sm:p-8 lg:grid-cols-2">
       <div>
         {stepper('inv-mod', 'Módulos principales', modules, setModules, 1, 12)}
         {stepper('inv-users', 'Usuarios', users, setUsers, 1, 500)}
@@ -82,8 +82,8 @@ export default function InvestmentCalculator() {
         </label>
       </div>
       <div className="grid content-start gap-4">
-        <div className="reticula border border-line bg-bg p-6">
-          <p className="cota">Inversión orientativa</p>
+        <div className="rounded-xl sobre-tinta bg-tinta p-6">
+          <p className="etiqueta">Inversión orientativa</p>
           <p
             className="mt-1 font-display text-4xl font-semibold tracking-tight tabular-nums"
             aria-live="polite"

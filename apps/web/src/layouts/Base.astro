@@ -50,7 +50,7 @@ const schemas = [...organization(), ...(breadcrumbs ? [breadcrumbLd(breadcrumbs)
     <meta name="twitter:image" content={og} />
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
     <script is:inline>
-      try { const t = localStorage.getItem('k_theme'); if (t) document.documentElement.dataset.theme = t; } catch {}
+      try { const t = localStorage.getItem('k_theme'); if (t) document.documentElement.dataset.theme = t; if (localStorage.getItem('k_consent')) document.documentElement.dataset.consent = '1'; } catch {}
     </script>
   </head>
   <body class="min-h-screen bg-bg text-fg">
@@ -71,7 +71,7 @@ const schemas = [...organization(), ...(breadcrumbs ? [breadcrumbLd(breadcrumbs)
       <slot />
     </main>
     <Footer />
-    <CookieBanner client:idle />
+    <CookieBanner client:load />
     <script>
       import { track } from '../lib/track';
       track('page_view');

@@ -13,10 +13,9 @@ const values = [
 ];
 ---
 <Base title="Empresa: quiénes somos" description={`${siteConfig.name}: estudio de arquitectura de software a medida e IA aplicada para pymes. Misión, valores y equipo.`} breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Empresa', href: '/empresa' }]}>
-  <section class="wrap grid gap-10 pb-16 pt-8 lg:grid-cols-2">
+  <section class="wrap grid gap-10 pb-20 pt-10 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-16">
     <div>
-      <p class="eyebrow">Empresa</p>
-      <h1 class="h-display mt-3 text-4xl sm:text-6xl">Un estudio de arquitectura para tu software</h1>
+      <h1 class="text-title max-w-[22ch]">Un estudio de arquitectura para tu software</h1>
     </div>
     <div class="grid content-end gap-4 text-lg">
       <p><strong>Visión.</strong> Que cualquier empresa, sea del tamaño o sector que sea, trabaje con un software pensado para su negocio y una IA que le quite horas de trabajo repetitivo a cada persona del equipo.</p>
@@ -24,26 +23,27 @@ const values = [
     </div>
   </section>
   <section class="border-y border-line bg-raised" aria-labelledby="valores">
-    <div class="wrap py-16">
-      <h2 id="valores" class="text-3xl font-semibold">Valores</h2>
-      <dl class="mt-8 grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-5">
-        {values.map(([t, d]) => <div class="bg-bg p-5"><dt class="font-display text-lg font-semibold">{t}</dt><dd class="mt-2 text-sm text-muted">{d}</dd></div>)}
+    <div class="wrap seccion grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <h2 id="valores" class="text-title">Cinco reglas que no negociamos</h2>
+      <dl class="grid">
+        {values.map(([t, d]) => (
+          <div class="grid gap-2 border-b border-line py-6 first:pt-0 last:border-0 sm:grid-cols-[1fr_1.3fr] sm:gap-10">
+            <dt class="text-xl font-display font-semibold tracking-tight">{t}</dt>
+            <dd class="text-muted">{d}</dd>
+          </div>
+        ))}
       </dl>
     </div>
   </section>
-  <section class="wrap py-16" aria-labelledby="equipo">
-    <h2 id="equipo" class="text-3xl font-semibold">Equipo</h2>
-    <p class="mt-3 max-w-[60ch] text-muted">Ingenieros y consultores de procesos. Aquí irán las fotografías reales del equipo trabajando (sin stock genérico).</p>
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="wrap seccion" aria-labelledby="equipo">
+    <h2 id="equipo" class="text-title">Equipo</h2>
+    <p class="mt-4 max-w-[60ch] text-lead text-muted">Ingenieros y consultores de procesos. {s.stats.projectsDelivered} proyectos entregados en {s.stats.yearsActive} años y {s.stats.reviews} reseñas de clientes.</p>
+    <ul class="mt-10 grid gap-8 sm:grid-cols-2">
       {s.authors.map((a) => (
-        <li class="border border-line bg-raised p-5"><p class="font-display text-lg font-semibold">{a.name}</p><p class="cota mt-1">{a.role}</p><p class="mt-3 text-sm text-muted">{a.bio}</p></li>
+        <li class="grid gap-1 border-t border-line pt-5"><p class="font-display text-lg font-semibold">{a.name}</p><p class="text-sm text-muted">{a.role}</p><p class="mt-2 text-muted">{a.bio}</p></li>
       ))}
     </ul>
-    <dl class="mt-10 grid max-w-xl grid-cols-3 border-y border-line py-4">
-      <div><dt class="cota">Proyectos</dt><dd class="font-display text-3xl font-semibold tabular-nums">{s.stats.projectsDelivered}</dd></div>
-      <div class="border-x border-line px-4"><dt class="cota">Años</dt><dd class="font-display text-3xl font-semibold tabular-nums">{s.stats.yearsActive}</dd></div>
-      <div class="pl-4"><dt class="cota">Reseñas</dt><dd class="font-display text-3xl font-semibold tabular-nums">{s.stats.reviews}</dd></div>
-    </dl>
+    <p class="mt-10 text-sm text-muted">Aquí irán las fotografías reales del equipo trabajando. Sin bancos de imágenes.</p>
   </section>
   <CtaBand />
 </Base>

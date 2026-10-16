@@ -70,14 +70,14 @@ function DashboardBody({ d }: { d: DashboardData }) {
     <>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Card className="grid gap-1 p-4">
-          <p className="cota">Leads cualificados</p>
+          <p className="text-xs font-semibold text-muted">Leads cualificados</p>
           <p className="font-display text-3xl font-semibold tabular-nums">
             {fmt.n(k.qualifiedLeads)}
           </p>
           <Delta now={k.qualifiedLeads} prev={k.qualifiedLeadsPrev} />
         </Card>
         <Card className="grid gap-1 p-4">
-          <p className="cota">Conversión</p>
+          <p className="text-xs font-semibold text-muted">Conversión</p>
           <p className="font-display text-3xl font-semibold tabular-nums">
             {fmt.pct(k.conversionRate)}
           </p>
@@ -86,14 +86,14 @@ function DashboardBody({ d }: { d: DashboardData }) {
           </Badge>
         </Card>
         <Card className="grid gap-1 p-4">
-          <p className="cota">Coste por lead</p>
+          <p className="text-xs font-semibold text-muted">Coste por lead</p>
           <p className="font-display text-3xl font-semibold tabular-nums">
             {k.costPerLead === null ? '—' : fmt.eur(k.costPerLead)}
           </p>
           <p className="text-xs text-muted">{fmt.n(k.sessions)} sesiones</p>
         </Card>
         <Card className="grid gap-1 p-4">
-          <p className="cota">Prueban una demo</p>
+          <p className="text-xs font-semibold text-muted">Prueban una demo</p>
           <p className="font-display text-3xl font-semibold tabular-nums">
             {fmt.pct(k.demoTryRate)}
           </p>

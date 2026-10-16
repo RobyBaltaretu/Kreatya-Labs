@@ -6,14 +6,13 @@ const pillars = { 'software-a-medida': 'Software a medida', 'ia-para-empresas': 
 ---
 <Base title="Blog y guías sobre software a medida e IA" description="Guías prácticas sobre precios de software a medida, cómo implantar IA en una pyme y digitalización por sector." breadcrumbs={[{ name: 'Inicio', href: '/' }, { name: 'Blog', href: '/blog' }]}>
   <section class="wrap pb-20 pt-8">
-    <p class="eyebrow">Recursos</p>
-    <h1 class="h-display mt-3 text-4xl sm:text-6xl">Blog y guías</h1>
+    <h1 class="text-title max-w-[22ch]">Blog y guías</h1>
     <ul class="mt-10 grid gap-6 md:grid-cols-2">
       {s.posts.map((p) => (
         <li class="border border-line bg-raised">
           <a href={`/${p.kind === 'guia' ? 'guias' : 'blog'}/${p.slug}`} class="group grid h-full content-start gap-3 p-6">
-            <p class="cota">{p.kind === 'guia' ? 'Guía' : 'Blog'} · {pillars[p.pillar]}</p>
-            <h2 class="text-2xl font-semibold group-hover:text-diagram">{p.title}</h2>
+            <p class="etiqueta">{p.kind === 'guia' ? 'Guía' : 'Blog'} · {pillars[p.pillar]}</p>
+            <h2 class="text-heading">{p.title}</h2>
             <p class="text-muted">{p.excerpt}</p>
             <p class="text-sm text-muted"><time datetime={p.publishedAt}>{formatDate(p.publishedAt)}</time></p>
           </a>

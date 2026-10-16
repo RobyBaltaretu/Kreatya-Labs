@@ -1,169 +1,188 @@
 ---
 import { siteConfig } from '@kreatya/shared/site.config';
+import { Icon } from '@kreatya/ui';
 import BlueprintHero from '../components/BlueprintHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Testimonial from '../components/Testimonial.astro';
 import AiDocDemo from '../islands/AiDocDemo';
+import PainSelector, { type PainOption } from '../islands/PainSelector';
 import SavingsCalculator from '../islands/SavingsCalculator';
 import Base from '../layouts/Base.astro';
 import { faqPage } from '../lib/jsonld';
-import { getSnapshot } from '../lib/snapshot';
+import { sectorName } from '../lib/projects';
+import { clientLabel, formatMetric, getSnapshot } from '../lib/snapshot';
 
 const s = await getSnapshot();
-const featured = s.projects.filter((p) => p.featured).slice(0, 6);
+const featured = s.projects.filter((p) => p.featured).slice(0, 5);
+const [leadProject, ...restFeatured] = featured;
 const homeFaqs = s.faqs.filter((f) => f.scope === 'home');
+const [mainQuote, ...otherQuotes] = s.testimonials;
 
-const pains = [
-  { label: 'Excel por todas partes', solution: 'software-a-medida', project: 'erp-fabricacion-metal' },
-  { label: 'Programas que no se hablan', solution: 'integraciones', project: 'stock-omnicanal-moda' },
-  { label: 'Tareas repetitivas', solution: 'software-a-medida', project: 'portal-clientes-asesoria' },
-  { label: 'Papel en la calle', solution: 'apps-moviles', project: 'albaran-digital-transportes-levante' },
-  { label: 'Clientes que llaman para todo', solution: 'portales-clientes', project: 'portal-seguimiento-envios' },
-  { label: 'Auditorías que paralizan', solution: 'software-a-medida', project: 'trazabilidad-cooperativa' },
+const painDefs = [
+  { label: 'Excel por todas partes', detail: 'Órdenes, partes y costes viven en hojas que nadie actualiza a la vez. El sistema y la planta cuentan historias distintas.', solution: 'erp-a-medida', project: 'erp-fabricacion-metal' },
+  { label: 'Programas que no se hablan', detail: 'La tienda online, el TPV y el ERP llevan cada uno su stock. Alguien pasa dos días por semana cuadrándolos.', solution: 'integraciones', project: 'stock-omnicanal-moda' },
+  { label: 'Tareas repetitivas', detail: 'Facturas que llegan por correo, WhatsApp y en mano, y alguien las teclea una a una al cierre del trimestre.', solution: 'portales-clientes', project: 'portal-clientes-asesoria' },
+  { label: 'Papel en la calle', detail: 'Los albaranes firmados vuelven días después en la cabina del camión y la factura sale a final de mes.', solution: 'apps-moviles', project: 'albaran-digital-transportes-levante' },
+  { label: 'Clientes que llaman para todo', detail: 'Cuatro de cada diez llamadas son para preguntar dónde está un envío.', solution: 'portales-clientes', project: 'portal-seguimiento-envios' },
+  { label: 'Auditorías que paralizan', detail: 'Reconstruir el origen de cada partida a partir de cuadernos en papel ocupa una semana entera.', solution: 'software-a-medida', project: 'trazabilidad-cooperativa' },
 ];
+const pains: PainOption[] = painDefs.flatMap((d) => {
+  const p = s.projects.find((x) => x.slug === d.project);
+  const sol = s.solutions.find((x) => x.slug === d.solution);
+  if (!p || !sol || !p.metrics[0]) return [];
+  return [{
+    label: d.label,
+    detail: d.detail,
+    project: { href: `/proyectos/${p.slug}`, title: p.title, client: clientLabel(p, sectorName(s, p.sectors[0])), metric: formatMetric(p.metrics[0]), metricLabel: p.metrics[0].description, cover: p.cover },
+    solution: { href: `/soluciones/${sol.slug}`, name: sol.name },
+  }];
+});
+
 const pillars = [
-  { title: 'Hecho para tu negocio', text: 'Primero entendemos tu proceso y después escribimos la primera línea. El software se adapta a ti, no al revés.', icon: 'M4 20h16M6 20V9l6-5 6 5v11M10 20v-6h4v6' },
-  { title: 'En uso en semanas', text: 'Un primer módulo útil en 4–6 semanas y entregas cada 2. Tu equipo trabaja con algo real desde el primer sprint.', icon: 'M4 12h16M14 6l6 6-6 6M4 6v12' },
-  { title: 'IA que trabaja con tu equipo', text: 'La aplicamos donde ahorra horas medibles: leer documentos, resumir, clasificar. Tu equipo revisa y decide.', icon: 'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6' },
-  { title: 'Precio claro desde el principio', text: 'Publicamos rangos y cerramos presupuesto por fase. Sin coste por usuario. El código y los datos son tuyos.', icon: 'M4 7h16v10H4zM4 11h16M8 15h3' },
+  { title: 'Hecho para tu negocio, no al revés.', text: 'Primero recorremos tu operativa y dibujamos el plano del proceso real. Después escribimos la primera línea. Si ya tienes un ERP para la contabilidad, lo integramos en lugar de sustituirlo.' },
+  { title: 'Lo usarás en semanas, no en años.', text: 'Construimos primero el módulo que más duele. Está en uso en 4–6 semanas y cada dos semanas entregamos algo que tu equipo ya puede usar.' },
+  { title: 'La IA hará el trabajo pesado de tu equipo.', text: 'Leer facturas, resumir llamadas, clasificar correos. La aplicamos donde ahorra horas medibles; tu equipo revisa y decide.' },
+  { title: 'Sabrás cuánto cuesta antes de empezar.', text: 'Publicamos rangos y cerramos presupuesto por fase. Sin coste por usuario. El código y los datos son tuyos desde el primer día.' },
 ];
 const method = [
-  { n: 1, title: 'Diagnóstico', time: '45 min', text: 'Revisamos tu proceso y detectamos dónde se pierden horas.' },
-  { n: 2, title: 'Plano', time: '1–2 semanas', text: 'Dibujamos el sistema: módulos, integraciones, plazo y precio cerrado por fase.' },
-  { n: 3, title: 'Construcción por sprints', time: 'Cada 2 semanas', text: 'Entregas que tu equipo usa desde el primer sprint. Primer módulo en 4–6 semanas.' },
-  { n: 4, title: 'Evolución', time: 'Mensual', text: 'Mejoras continuas con una bolsa de horas. El sistema crece con tu negocio.' },
+  { title: 'Diagnóstico', time: '45 min', text: 'Revisamos tu proceso y detectamos dónde se pierden horas.' },
+  { title: 'Plano', time: '1–2 semanas', text: 'Módulos, integraciones, plazo y precio cerrado por fase.' },
+  { title: 'Construcción', time: 'sprints de 2 semanas', text: 'Primer módulo en uso en 4–6 semanas.' },
+  { title: 'Evolución', time: 'mensual', text: 'Mejoras continuas con una bolsa de horas.' },
 ];
 ---
 <Base title={`Software a medida que entiende tu negocio | ${siteConfig.name}`} description={siteConfig.description} jsonld={[faqPage(homeFaqs)]}>
-  <!-- 1. Hero «Blueprint vivo» -->
-  <section class="reticula border-b border-line">
-    <div class="wrap grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.05fr_1fr] lg:py-24">
-      <div class="grid gap-6">
-        <p class="eyebrow">Software a medida + IA aplicada</p>
-        <h1 class="h-display text-[2.6rem] sm:text-6xl lg:text-[4.4rem]">Software a medida que <span class="relative whitespace-nowrap">entiende<svg class="absolute -bottom-2 left-0 h-3 w-full text-signal" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9C50 3 150 3 198 8" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"></path></svg></span> tu negocio</h1>
-        <p class="max-w-[52ch] text-lg text-muted sm:text-xl">Construimos el sistema que tu empresa necesita (ERP, CRM, apps, portales) con IA que quita a tu equipo el trabajo repetitivo. En uso en semanas, con precio claro desde el principio.</p>
+  <!-- Lámina: el plano de tu negocio -->
+  <section class="lamina" aria-labelledby="hero-title">
+    <div class="wrap grid items-center gap-12 pb-10 pt-14 sm:pt-20 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:pb-14 lg:pt-24">
+      <div class="grid gap-7">
+        <h1 id="hero-title" class="text-display max-w-[11ch]">Software a medida que entiende tu negocio</h1>
+        <p class="max-w-[46ch] text-lead" style="color:#c9d3e4">Construimos el sistema que tu empresa necesita, con IA que quita a tu equipo el trabajo repetitivo. En uso en semanas y con el precio claro desde el principio.</p>
         <div class="flex flex-wrap gap-3">
-          <a href="/diagnostico" class="btn btn-primary btn-draw text-lg" data-cta="hero">Diagnóstico gratuito</a>
+          <a href="/diagnostico" class="btn btn-primary btn-draw text-lg" data-cta="hero">Diagnóstico gratuito<Icon name="arrow-right" /></a>
           <a href="/proyectos" class="btn btn-secondary text-lg" data-cta="hero-proyectos">Ver proyectos en vivo</a>
         </div>
-        <!-- 2. Barra de prueba social -->
-        <dl class="mt-2 grid max-w-lg grid-cols-3 border-y border-line py-4">
-          <div><dt class="cota">Proyectos</dt><dd class="font-display text-2xl font-semibold tabular-nums">{s.stats.projectsDelivered}</dd></div>
-          <div class="border-x border-line px-4"><dt class="cota">Valoración</dt><dd class="font-display text-2xl font-semibold tabular-nums">{s.stats.averageRating.toLocaleString('es-ES')}<span class="text-base text-muted">/5</span></dd></div>
-          <div class="pl-4"><dt class="cota">Primer módulo</dt><dd class="font-display text-2xl font-semibold tabular-nums">4–6 <span class="text-base text-muted">sem.</span></dd></div>
-        </dl>
+        <p class="text-sm" style="color:#c9d3e4">{s.stats.projectsDelivered} proyectos entregados · {s.stats.averageRating.toLocaleString('es-ES')}/5 de media en {s.stats.reviews} reseñas</p>
       </div>
       <BlueprintHero />
     </div>
+    <div class="wrap pb-6">
+      <dl class="cajetin ml-auto grid max-w-xl grid-cols-2 border border-[#8fb4e0]/45 text-[0.8125rem] sm:grid-cols-4" aria-label="Cajetín del plano">
+        <div><dt>Proyecto</dt><dd>Tu negocio</dd></div>
+        <div><dt>Plano</dt><dd>Del Excel al sistema</dd></div>
+        <div><dt>Primer módulo</dt><dd class="medida">4–6 sem.</dd></div>
+        <div><dt>Escala</dt><dd class="medida">1:1</dd></div>
+      </dl>
+    </div>
   </section>
 
-  <!-- 3. ¿Qué te frena hoy? -->
-  <section class="wrap py-20" aria-labelledby="frena">
-    <p class="eyebrow">Empieza por el problema</p>
-    <h2 id="frena" class="mt-3 text-3xl font-semibold sm:text-4xl">¿Qué te frena hoy?</h2>
-    <ul class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {pains.map((p) => {
-        const project = s.projects.find((x) => x.slug === p.project);
-        return (
-          <li>
-            <a href={project ? `/proyectos/${project.slug}` : `/soluciones/${p.solution}`} class="group flex h-full items-start justify-between gap-4 border border-line bg-raised p-5 transition-colors hover:border-diagram">
-              <span>
-                <span class="block font-display text-lg font-semibold">{p.label}</span>
-                {project && <span class="mt-1 block text-sm text-muted">Mira cómo lo resolvimos: {project.metrics[0]?.prefix}{project.metrics[0]?.value}{project.metrics[0]?.unit === '%' ? ' %' : ` ${project.metrics[0]?.unit}`} {project.metrics[0]?.description}</span>}
-              </span>
-              <span aria-hidden="true" class="font-mono text-diagram transition-transform group-hover:translate-x-1">→</span>
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+  <section class="wrap seccion" aria-labelledby="frena">
+    <div class="seccion-titulo grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-14">
+      <h2 id="frena" class="text-title">¿Qué te frena hoy?</h2>
+      <p class="max-w-[48ch] text-lead text-muted">Elige lo que más se parece a tu día a día y te enseñamos cómo lo resolvimos para otra empresa.</p>
+    </div>
+    <PainSelector client:visible options={pains} />
   </section>
 
-  <!-- 4. Los 4 pilares -->
   <section class="border-y border-line bg-raised" aria-labelledby="pilares">
-    <div class="wrap py-20">
-      <p class="eyebrow">Cómo trabajamos</p>
-      <h2 id="pilares" class="mt-3 max-w-[22ch] text-3xl font-semibold sm:text-4xl">Alta personalización a precio medio, con IA incluida</h2>
-      <div class="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+    <div class="wrap seccion grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <h2 id="pilares" class="text-title max-w-[13ch] lg:sticky lg:top-28 lg:self-start">Personalización alta, precio medio, IA incluida</h2>
+      <ul class="grid">
         {pillars.map((p) => (
-          <div class="grid content-start gap-3 bg-bg p-6">
-            <svg viewBox="0 0 24 24" class="h-9 w-9 text-diagram" aria-hidden="true"><path d={p.icon} fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <h3 class="text-xl font-semibold">{p.title}</h3>
+          <li class="grid gap-3 border-b border-line py-8 first:pt-0 last:border-0 last:pb-0 sm:grid-cols-[1fr_1.15fr] sm:gap-10">
+            <h3 class="text-heading">{p.title}</h3>
             <p class="text-muted">{p.text}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
-  <!-- 5. Proyectos destacados -->
-  <section class="wrap py-20" aria-labelledby="destacados">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <p class="eyebrow">Portfolio</p>
-        <h2 id="destacados" class="mt-3 text-3xl font-semibold sm:text-4xl">Proyectos que ya están funcionando</h2>
-      </div>
-      <a href="/proyectos" class="text-diagram underline underline-offset-4">Ver los {s.projects.length} proyectos</a>
+  <section class="wrap seccion" aria-labelledby="destacados">
+    <div class="seccion-titulo flex flex-wrap items-end justify-between gap-4">
+      <h2 id="destacados" class="text-title max-w-[16ch]">Proyectos que ya están funcionando</h2>
+      <a href="/proyectos" class="enlace inline-flex items-center gap-1.5">Ver los {s.projects.length} proyectos<Icon name="arrow-right" size={16} /></a>
     </div>
-    <div class="-mx-4 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-3">
-      {featured.map((p, i) => <div class="w-[85%] shrink-0 snap-start sm:w-auto"><ProjectCard project={p} snapshot={s} index={i} /></div>)}
+    {leadProject && <ProjectCard project={leadProject} snapshot={s} index={0} lead eager />}
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      {restFeatured.map((p, i) => <ProjectCard project={p} snapshot={s} index={i + 1} />)}
     </div>
   </section>
 
-  <!-- 6. Demo IA en vivo -->
   <section class="border-y border-line bg-raised" aria-labelledby="demo-ia">
-    <div class="wrap grid gap-10 py-20 lg:grid-cols-[1fr_1.6fr]">
+    <div class="wrap seccion grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
       <div>
-        <p class="eyebrow">Pruébalo ahora</p>
-        <h2 id="demo-ia" class="mt-3 text-3xl font-semibold sm:text-4xl">La IA hace el trabajo pesado de tu equipo</h2>
-        <p class="mt-4 text-muted">Elige un documento de ejemplo y mira cómo el copiloto extrae los datos que hoy alguien teclea a mano. Es lo que usan nuestros clientes en administración, logística y atención al cliente.</p>
-        <a href="/ia-para-empresas" class="mt-6 inline-block text-diagram underline underline-offset-4">Ver casos de uso por departamento</a>
+        <h2 id="demo-ia" class="text-title">La IA hace el trabajo pesado de tu equipo</h2>
+        <p class="mt-5 max-w-[42ch] text-muted">Elige un documento de ejemplo y mira cómo el copiloto extrae lo que hoy alguien teclea a mano. Es lo que usan nuestros clientes en administración, logística y atención al cliente.</p>
+        <a href="/ia-para-empresas" class="enlace mt-6 inline-flex items-center gap-1.5">Casos de uso por departamento<Icon name="arrow-right" size={16} /></a>
       </div>
       <AiDocDemo client:visible />
     </div>
   </section>
 
-  <!-- 7. Método en 4 pasos -->
-  <section class="wrap py-20" aria-labelledby="metodo">
-    <p class="eyebrow">Método</p>
-    <h2 id="metodo" class="mt-3 text-3xl font-semibold sm:text-4xl">Lo usarás en semanas, no en años</h2>
-    <ol class="mt-10 grid gap-8 md:grid-cols-4 md:gap-0">
+  <section class="wrap seccion" aria-labelledby="metodo">
+    <h2 id="metodo" class="seccion-titulo text-title max-w-[14ch]">Lo usarás en semanas, no en años</h2>
+    <ol class="grid gap-10 md:grid-cols-4 md:gap-0">
       {method.map((m, i) => (
-        <li class="relative grid content-start gap-3 md:pr-6">
-          <div class="flex items-center gap-3">
-            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-ink font-mono font-semibold dark:border-paper">{m.n}</span>
-            {i < method.length - 1 && <span aria-hidden="true" class="hidden h-px flex-1 border-t border-dashed border-diagram md:block"></span>}
+        <li class="relative grid content-start gap-2 md:pr-8">
+          <div class="mb-3 flex items-center gap-3" aria-hidden="true">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-tinta font-display text-sm font-semibold text-paper">{i + 1}</span>
+            {i < method.length - 1 && <span class="hidden h-px flex-1 bg-diagram/50 md:block"></span>}
           </div>
-          <h3 class="text-xl font-semibold">{m.title}</h3>
-          <p class="cota">{m.time}</p>
+          <h3 class="text-xl">{m.title}</h3>
+          <p class="medida text-diagram">{m.time}</p>
           <p class="text-muted">{m.text}</p>
         </li>
       ))}
     </ol>
   </section>
 
-  <!-- 8. Calculadora de ahorro -->
-  <section class="border-y border-line reticula" aria-labelledby="calc">
-    <div class="wrap py-20">
-      <p class="eyebrow">Calculadora de ahorro</p>
-      <h2 id="calc" class="mt-3 text-3xl font-semibold sm:text-4xl">¿Cuánto te cuesta hoy el trabajo manual?</h2>
-      <p class="mt-3 max-w-[60ch] text-muted">Mueve los valores y mira el ahorro anual estimado de automatizar esas tareas.</p>
-      <div class="mt-8"><SavingsCalculator client:visible /></div>
+  <section class="border-y border-line bg-raised" aria-labelledby="calc">
+    <div class="wrap seccion">
+      <div class="seccion-titulo grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-14">
+        <h2 id="calc" class="text-title">¿Cuánto te cuesta hoy el trabajo manual?</h2>
+        <p class="max-w-[48ch] text-lead text-muted">Mueve los valores y mira el ahorro anual de automatizar esas tareas. La fórmula está a la vista.</p>
+      </div>
+      <SavingsCalculator client:visible />
     </div>
   </section>
 
-  <!-- 9. Testimonios -->
-  <section class="wrap py-20" aria-labelledby="testimonios">
-    <p class="eyebrow">Clientes</p>
-    <h2 id="testimonios" class="mt-3 text-3xl font-semibold sm:text-4xl">Lo que dicen quienes ya lo usan</h2>
-    <div class="mt-8 grid gap-5 md:grid-cols-2">
-      {s.testimonials.slice(0, 4).map((t) => <Testimonial t={t} />)}
-    </div>
-  </section>
+  {mainQuote && (
+    <section class="wrap seccion" aria-labelledby="testimonios">
+      <h2 id="testimonios" class="sr-only">Lo que dicen nuestros clientes</h2>
+      <div class="max-w-5xl"><Testimonial t={mainQuote} large /></div>
+      <div class="mt-16 grid gap-10 border-t border-line pt-10 md:grid-cols-3">
+        {otherQuotes.map((t) => <Testimonial t={t} />)}
+      </div>
+    </section>
+  )}
 
-  <!-- 10. FAQ + CTA final -->
-  <Faq faqs={homeFaqs} />
+  <div class="border-t border-line"><Faq faqs={homeFaqs} /></div>
   <CtaBand />
 </Base>
+<style>
+  .cajetin > div {
+    padding: 0.55rem 0.8rem;
+    border-color: rgb(143 180 224 / 0.45);
+  }
+  .cajetin > div + div {
+    border-left-width: 1px;
+  }
+  @media (max-width: 639px) {
+    .cajetin > div:nth-child(3) {
+      border-left-width: 0;
+    }
+    .cajetin > div:nth-child(n + 3) {
+      border-top-width: 1px;
+    }
+  }
+  .cajetin dt {
+    color: #8fb4e0;
+    font-size: 0.75rem;
+  }
+  .cajetin dd {
+    color: #f7f5f0;
+  }
+</style>

@@ -22,7 +22,7 @@ test.describe('HU-04 · Calcular el ahorro', () => {
 test.describe('HU-05 · Solicitar diagnóstico', () => {
   test('5 pasos con progreso, validación en línea y reserva al final', async ({ page }) => {
     await page.goto('/diagnostico');
-    const next = page.getByRole('button', { name: 'Siguiente →' });
+    const next = page.getByRole('button', { name: 'Siguiente', exact: true });
 
     await next.click();
     await expect(page.getByRole('alert')).toContainText('Elige el sector');

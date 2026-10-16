@@ -1,4 +1,5 @@
 ---
+import { Icon } from '@kreatya/ui';
 import type { Project } from '@kreatya/shared';
 interface Props { video: NonNullable<Project['mainVideo']>; title: string; }
 const { video, title } = Astro.props;
@@ -6,21 +7,19 @@ const pending = video.ref === 'pendiente';
 const mins = `${Math.floor(video.durationSeconds / 60)}:${String(video.durationSeconds % 60).padStart(2, '0')}`;
 const src = video.provider === 'youtube' ? `https://www.youtube-nocookie.com/embed/${video.ref}?autoplay=1&cc_load_policy=1&hl=es` : video.ref;
 ---
-<div class="video-facade relative aspect-video overflow-hidden border border-line bg-ink" data-src={pending ? '' : src} data-provider={video.provider} data-title={title}>
+<div class="video-facade relative aspect-video overflow-hidden rounded-xl bg-ink" data-src={pending ? '' : src} data-provider={video.provider} data-title={title}>
   <img src={video.poster} alt="" width="1280" height="720" fetchpriority="high" class="h-full w-full object-cover opacity-80" />
   {pending ? (
     <p class="absolute inset-0 grid place-items-center bg-ink/60 p-6 text-center font-display text-xl text-paper">Vídeo en producción · {mins} min</p>
   ) : (
     <button type="button" class="absolute inset-0 grid place-items-center text-paper" aria-label={`Reproducir vídeo: ${title} (${mins} min, con subtítulos)`}>
-      <span class="grid h-20 w-20 place-items-center rounded-full bg-signal text-ink shadow-xl transition-transform hover:scale-105">
-        <svg viewBox="0 0 24 24" class="ml-1 h-8 w-8" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg>
-      </span>
-      <span class="cota absolute bottom-4 left-4 bg-ink/80 px-2 py-1" style="color:#f7f5f0">{mins} · subtítulos</span>
+      <span class="play grid h-20 w-20 place-items-center rounded-full bg-signal pl-1 text-ink"><Icon name="play" size={30} /></span>
+      <span class="medida absolute bottom-4 left-4 rounded-md bg-ink/85 px-2 py-1 text-paper">{mins} · subtítulos</span>
     </button>
   )}
 </div>
 {video.transcript && (
-  <details class="mt-3 text-sm">
+  <details class="acordeon mt-3 text-sm">
     <summary class="cursor-pointer font-medium">Transcripción del vídeo</summary>
     <p class="mt-2 max-w-[70ch] text-muted">{video.transcript}</p>
   </details>
@@ -46,3 +45,16 @@ const src = video.provider === 'youtube' ? `https://www.youtube-nocookie.com/emb
     });
   });
 </script>
+<style>
+  .play {
+    transition: transform 160ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .video-facade button:hover .play {
+      transform: scale(1.04);
+    }
+  }
+  .video-facade button:active .play {
+    transform: scale(0.96);
+  }
+</style>

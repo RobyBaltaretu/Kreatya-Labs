@@ -4,21 +4,20 @@ import type { Metric } from '@kreatya/shared';
 interface Props { metrics: Metric[]; }
 const { metrics } = Astro.props;
 ---
-<dl class="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-  {metrics.map((m) => (
-    <div class="flex flex-col gap-2 bg-raised p-6">
-      <dt class="order-2 text-sm text-muted">{m.description}</dt>
-      <dd class="order-1 font-display text-4xl font-semibold tracking-tight text-positive-strong tabular-nums">
-        {m.prefix}<span data-count={m.value}>{new Intl.NumberFormat('es-ES').format(m.value)}</span><span class="text-2xl">{m.unit === '%' ? ' %' : ` ${m.unit}`}</span>
+<dl class="grid border-t border-line sm:grid-cols-2">
+  {metrics.map((m, i) => (
+    <div class:list={['grid gap-1 border-b border-line py-6', i % 2 === 0 ? 'sm:pr-8' : 'sm:border-l sm:pl-8']}>
+      <dt class="order-2 max-w-[32ch] text-muted">{m.description}</dt>
+      <dd class="order-1 font-display text-5xl font-semibold tracking-tight text-positive-strong tabular-nums">
+        {m.prefix}<span data-count={m.value}>{new Intl.NumberFormat('es-ES').format(m.value)}</span><span class="text-3xl">{m.unit === '%' ? ' %' : ` ${m.unit}`}</span>
       </dd>
     </div>
   ))}
 </dl>
 <script>
-  // Contador animado: el valor final ya está en el HTML (sin JS se ve completo).
+  // Contador: el valor final ya está en el HTML. Solo cuenta una vez y sin desplazamiento.
   const fmt = new Intl.NumberFormat('es-ES');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce && 'IntersectionObserver' in window) {
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (!e.isIntersecting) continue;
@@ -27,9 +26,10 @@ const { metrics } = Astro.props;
         const target = Number(el.dataset.count);
         const start = performance.now();
         const step = (t: number) => {
-          const k = Math.min(1, (t - start) / 900);
-          el.textContent = fmt.format(Math.round(target * (1 - (1 - k) ** 3)));
+          const k = Math.min(1, (t - start) / 700);
+          el.textContent = fmt.format(Math.round(target * (1 - 2 ** (-10 * k))));
           if (k < 1) requestAnimationFrame(step);
+          else el.textContent = fmt.format(target);
         };
         requestAnimationFrame(step);
       }

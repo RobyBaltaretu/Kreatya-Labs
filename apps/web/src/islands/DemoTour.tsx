@@ -1,3 +1,4 @@
+import { Icon } from '@kreatya/ui';
 import { useEffect, useState } from 'react';
 import { track } from '../lib/track';
 
@@ -42,11 +43,11 @@ export default function DemoTour({ steps, projectSlug }: { steps: Step[]; projec
             </button>
           ))}
         </div>
-        <p className="cota tabular-nums">
+        <p className="etiqueta tabular-nums">
           Paso {i + 1} / {steps.length}
         </p>
       </div>
-      <div className="reticula grid place-items-center border border-line p-3 sm:p-8">
+      <div className="grid place-items-center border border-line p-3 sm:p-8">
         <div
           className="relative w-full overflow-hidden rounded-lg border-[6px] border-ink bg-bg shadow-xl transition-[max-width] duration-300"
           style={{ maxWidth: DEVICES.find((d) => d.key === device)!.width }}
@@ -78,11 +79,13 @@ export default function DemoTour({ steps, projectSlug }: { steps: Step[]; projec
             disabled={i === 0}
             onClick={() => setI(i - 1)}
           >
-            ← Anterior
+            <Icon name="arrow-left" />
+            Anterior
           </button>
           {i < steps.length - 1 ? (
             <button type="button" className="btn btn-primary" onClick={() => setI(i + 1)}>
-              Siguiente →
+              Siguiente
+              <Icon name="arrow-right" />
             </button>
           ) : (
             <a className="btn btn-primary" href={`/diagnostico?desde=${projectSlug}`}>
