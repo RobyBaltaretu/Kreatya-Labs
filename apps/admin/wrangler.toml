@@ -1,0 +1,4 @@
+# Panel de gestión — Cloudflare Pages en admin.kreatya.es, protegido por Cloudflare Access
+name = "kreatya-admin"
+pages_build_output_dir = "./dist"
+compatibility_date = "2025-09-01"

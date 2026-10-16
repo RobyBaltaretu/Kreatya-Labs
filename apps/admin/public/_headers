@@ -1,0 +1,7 @@
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; connect-src 'self' https://api.kreatya.es; img-src 'self' data: https://kreatya.es; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'

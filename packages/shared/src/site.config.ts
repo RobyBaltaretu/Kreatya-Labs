@@ -12,7 +12,7 @@ export const siteConfig = {
     'Tu negocio, programado.',
   ],
   description:
-    'Desarrollo de software a medida e inteligencia artificial aplicada para pymes: ERP, CRM, apps y automatización con IA. Prueba nuestras demos y calcula tu ahorro.',
+    'Software a medida e IA aplicada para pymes: ERP, CRM, apps y automatización. Prueba nuestras demos y calcula cuánto ahorras.',
   url: 'https://kreatya.es',
   domains: {
     web: 'kreatya.es',

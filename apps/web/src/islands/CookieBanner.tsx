@@ -64,7 +64,7 @@ export default function CookieBanner() {
             No usamos cookies de analítica ni publicidad. Solo te pedimos permiso para cargar vídeos
             de YouTube y la agenda de Cal.com, que pueden instalar sus propias cookies.{' '}
             <a className="underline" href="/legal/cookies">
-              Más información
+              Política de cookies
             </a>
             .
           </p>

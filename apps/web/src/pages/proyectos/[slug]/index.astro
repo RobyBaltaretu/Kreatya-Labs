@@ -52,7 +52,7 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
       <dl class="grid grid-cols-2 self-start border border-line bg-raised text-sm">
         <div class="border-b border-r border-line p-4"><dt class="cota">Sector</dt><dd class="mt-1 font-medium">{p.sectors.map((sl) => <a class="hover:text-diagram" href={`/sectores/${sl}`}>{sectorName(s, sl)}</a>)}</dd></div>
         <div class="border-b border-line p-4"><dt class="cota">Plazo</dt><dd class="mt-1 font-medium tabular-nums">{p.durationWeeks} semanas</dd></div>
-        <div class="border-b border-r border-line p-4"><dt class="cota">Servicios</dt><dd class="mt-1 grid font-medium">{services.map((x) => <a class="hover:text-diagram" href={`/soluciones/${x.slug}`}>{x.name}</a>)}</dd></div>
+        <div class="border-b border-r border-line p-4"><dt class="cota">Servicios</dt><dd class="mt-1 grid gap-1 font-medium">{services.map((x) => <a class="inline-block py-1 hover:text-diagram" href={`/soluciones/${x.slug}`}>{x.name}</a>)}</dd></div>
         <div class="border-b border-line p-4"><dt class="cota">Empresa</dt><dd class="mt-1 font-medium">{COMPANY_SIZE_LABELS[p.companySize]}</dd></div>
         <div class="col-span-2 p-4"><dt class="cota">Stack</dt><dd class="mt-1 font-medium">{tech.join(' · ')}</dd></div>
       </dl>

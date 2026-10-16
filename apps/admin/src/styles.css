@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@import '@kreatya/ui/theme.css';
+
+:root {
+  --chart: #3a6ea5;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --chart: #6fa3e0;
+  }
+}
+:root[data-theme='dark'] {
+  --chart: #6fa3e0;
+}
+
+@theme inline {
+  --color-chart: var(--chart);
+}
+
+body {
+  font-size: 0.9375rem;
+}

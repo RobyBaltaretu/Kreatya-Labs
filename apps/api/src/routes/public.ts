@@ -1,6 +1,7 @@
 import { demoAccess, events, leads, projects, sectors } from '@kreatya/db';
 import {
   calculateSavings,
+  estimateInvestment,
   eventInputSchema,
   type LeadInput,
   leadInputSchema,
