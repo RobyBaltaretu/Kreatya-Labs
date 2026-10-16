@@ -9,7 +9,7 @@
  * Uso: node scripts/build-preview.mjs [salida=preview-dist]
  */
 import { execSync } from 'node:child_process';
-import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { dirname, join, relative, sep } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -29,6 +29,11 @@ await rm(out, { recursive: true, force: true });
 await cp(join(root, 'apps/web/dist'), out, { recursive: true });
 await rm(join(out, 'og'), { recursive: true, force: true }); // imágenes OG: innecesarias en la vista previa
 await cp(join(root, 'apps/admin/dist'), join(out, 'admin'), { recursive: true });
+// Algunos alojamientos (p. ej. artifacts) reservan los nombres con «_»: _astro → assets.
+await rename(join(out, '_astro'), join(out, 'assets'));
+for (const f of ['_headers', '_redirects']) await rm(join(out, f), { force: true });
+await rm(join(out, 'admin/_headers'), { force: true });
+await rm(join(out, 'admin/_redirects'), { force: true });
 
 async function* walk(dir) {
   for (const name of await readdir(dir)) {
@@ -67,7 +72,9 @@ for await (const file of walk(out)) {
     (_, attr, p) => `${attr}="${mapPath(p, rootRel)}"`,
   );
   // Rutas de medios dentro de las props serializadas de las islas.
-  html = html.replace(/(&quot;)\/(media|_astro)\//g, `$1${rootRel}$2/`);
+  html = html
+    .replace(/(&quot;)\/(media|_astro)\//g, `$1${rootRel}$2/`)
+    .replaceAll('_astro/', 'assets/');
   // Enlaces generados por las islas en tiempo de ejecución.
   html = html.replace(
     '</head>',
