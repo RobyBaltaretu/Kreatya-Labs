@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import CookieBanner from '../islands/CookieBanner';
 import { breadcrumbs as breadcrumbLd, organization } from '../lib/jsonld';
-import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import displayLatin from '@fontsource-variable/funnel-display/files/funnel-display-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 
 interface Props {
@@ -32,7 +32,7 @@ const schemas = [...organization(), ...(breadcrumbs ? [breadcrumbLd(breadcrumbs)
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
-    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)" />

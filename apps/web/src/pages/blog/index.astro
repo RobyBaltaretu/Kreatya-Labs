@@ -9,7 +9,7 @@ const pillars = { 'software-a-medida': 'Software a medida', 'ia-para-empresas': 
     <h1 class="text-title max-w-[22ch]">Blog y guías</h1>
     <ul class="mt-10 grid gap-6 md:grid-cols-2">
       {s.posts.map((p) => (
-        <li class="border border-line bg-raised">
+        <li class="rounded-3xl border border-line bg-raised">
           <a href={`/${p.kind === 'guia' ? 'guias' : 'blog'}/${p.slug}`} class="group grid h-full content-start gap-3 p-6">
             <p class="etiqueta">{p.kind === 'guia' ? 'Guía' : 'Blog'} · {pillars[p.pillar]}</p>
             <h2 class="text-heading">{p.title}</h2>

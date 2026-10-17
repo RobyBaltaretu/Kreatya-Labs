@@ -1,8 +1,8 @@
 ---
 /**
- * Hero «A medida». Campo amarillo de cinta métrica, titular que se entalla (anima su
- * anchura de 108 % a 74 % con Motion), la película de 12 s y una cinta que se desenrolla
- * hasta la marca del primer módulo en uso. Todo es visible sin JS; con reduced motion
+ * Hero «Líquido». El ámbar fluye (WebGL) y adopta formas; el titular aparece palabra a
+ * palabra con desenfoque (Motion); la película vive en un dispositivo con marco de
+ * vidrio líquido que refracta el ámbar de detrás. Todo legible sin JS; con reduced motion
  * no hay animación ni reproducción automática.
  */
 import { siteConfig } from '@kreatya/shared/site.config';
@@ -10,130 +10,84 @@ import { Icon } from '@kreatya/ui';
 
 interface Props { projects: number; rating: number; reviews: number }
 const { projects, rating, reviews } = Astro.props;
-// Cinta: 8 px por centímetro; números cada 10 cm, los múltiplos de 50 en rojo.
-const CM = 8;
-const marks = Array.from({ length: 33 }, (_, i) => i * 10);
-const markAt = 60; // la marca «6 semanas» cae en los 60 cm
+const palabras = ['Software', 'que', 'toma', 'la', 'forma', 'de', 'tu', 'negocio.'];
 ---
-<section class="hero sobre-amarillo relative overflow-hidden" aria-labelledby="hero-title">
-  <div class="wrap grid items-end gap-x-14 lg:items-center gap-y-12 pb-20 pt-12 sm:pt-16 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)] lg:pb-24 lg:pt-20">
+<section class="hero relative isolate overflow-hidden" aria-labelledby="hero-title">
+  <div class="liquido-respaldo absolute inset-0 -z-10" aria-hidden="true"></div>
+  <canvas class="liquido absolute inset-0 -z-10 h-full w-full" aria-hidden="true" data-liquido></canvas>
+
+  <div class="wrap grid items-center gap-x-12 gap-y-14 pb-24 pt-32 sm:pt-36 lg:min-h-[min(92svh,960px)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:pb-28">
     <div class="grid gap-8">
-      <h1 id="hero-title" class="titular" aria-label="Software hecho a tu medida">
-        <span class="linea" aria-hidden="true">Software</span>
-        <span class="linea" aria-hidden="true">hecho a</span>
-        <span class="linea" aria-hidden="true">tu medida<span class="punto">.</span></span>
+      <h1 id="hero-title" class="titular">
+        {palabras.map((p, i) => <><span class="palabra" style={`--i:${i}`}>{p}</span>{i < palabras.length - 1 && ' '}</>)}
       </h1>
-      <p class="max-w-[44ch] text-lead">Construimos el sistema que tu empresa necesita y le ponemos IA para quitarle a tu equipo el trabajo repetitivo. En uso en semanas, con el precio claro desde el primer día.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href={siteConfig.primaryCta.href} class="btn btn-ink btn-draw text-lg" data-cta="hero">Diagnóstico gratuito<Icon name="arrow-right" /></a>
-        <a href="/proyectos" class="btn btn-secondary text-lg" data-cta="hero-proyectos">Ver proyectos en vivo</a>
+      <p class="aparece max-w-[42ch] text-lead text-muted" style="--i:8">Construimos el sistema que tu empresa necesita, con IA que le quita a tu equipo el trabajo repetitivo. En uso en semanas, con el precio claro desde el primer día.</p>
+      <div class="aparece flex flex-wrap items-center gap-3" style="--i:9">
+        <a href={siteConfig.primaryCta.href} class="btn btn-primary text-[1.0625rem]" data-cta="hero">Diagnóstico gratuito<Icon name="arrow-right" /></a>
+        <a href="/proyectos" class="btn btn-glass glass-luz text-[1.0625rem]" data-cta="hero-proyectos">Ver proyectos en vivo</a>
       </div>
-      <p class="text-sm text-muted">{projects} proyectos entregados · {rating.toLocaleString('es-ES')}/5 de media en {reviews} reseñas</p>
+      <p class="aparece text-sm text-muted" style="--i:10">{projects} proyectos entregados · {rating.toLocaleString('es-ES')}/5 de media en {reviews} reseñas</p>
     </div>
 
-    <figure class="pelicula grid gap-3">
-      <div class="pantalla relative overflow-hidden rounded-2xl bg-[#151515] shadow-[0_30px_60px_-30px_rgb(21_21_21/0.6)]">
-        <img src="/video/a-medida-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async" class="block aspect-video w-full" />
-        <video class="video-capa absolute inset-px block h-[calc(100%-2px)] w-[calc(100%-2px)]" autoplay muted loop playsinline preload="auto" width="1280" height="720" aria-describedby="pelicula-desc" data-pelicula>
-          <source src="/video/a-medida.webm" type="video/webm" />
-          <source src="/video/a-medida.mp4" type="video/mp4" />
-        </video>
-        <button type="button" class="pelicula-boton absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full bg-[#151515]/80 text-[#f2f2ee]" data-pelicula-toggle aria-label="Pausar la película">
-          <span data-icono="pausa"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg></span>
-          <span data-icono="play" hidden><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z" fill="currentColor"></path></svg></span>
-        </button>
+    <figure class="dispositivo-wrap grid gap-4" data-dispositivo>
+      <div class="dispositivo glass rounded-[2rem] p-2.5 sm:p-3" data-glass data-glass-grosor="80" data-glass-bisel="26">
+        <div class="pantalla relative overflow-hidden rounded-[1.4rem] bg-[#0b0b0c]">
+          <img src="/video/a-medida-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async" class="block aspect-video w-full" />
+          <video class="video-capa absolute inset-px block h-[calc(100%-2px)] w-[calc(100%-2px)]" autoplay muted loop playsinline preload="auto" width="1280" height="720" aria-describedby="pelicula-desc" data-pelicula>
+            <source src="/video/a-medida.webm" type="video/webm" />
+            <source src="/video/a-medida.mp4" type="video/mp4" />
+          </video>
+          <button type="button" class="pelicula-boton btn-glass absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full text-[#f5f5f7]" data-pelicula-toggle aria-label="Pausar la película">
+            <span data-icono="pausa"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg></span>
+            <span data-icono="play" hidden><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z" fill="currentColor"></path></svg></span>
+          </button>
+        </div>
       </div>
-      <figcaption id="pelicula-desc" class="text-sm text-muted">Del Excel y el WhatsApp a una aplicación hecha a medida, en 12 segundos.</figcaption>
+      <figcaption id="pelicula-desc" class="text-sm"><span class="pie glass inline-block rounded-2xl px-3.5 py-2">Del Excel y el WhatsApp a una aplicación a medida, en 12 segundos.</span></figcaption>
     </figure>
-  </div>
-
-  <div class="cinta" aria-hidden="true" style={`--cm:${CM}px`}>
-    {marks.map((m) => <span class:list={['cinta-num', m % 50 === 0 && 'roja']} style={`left:${m * CM}px`}>{m}</span>)}
-    <span class="marca" style={`left:${markAt * CM}px`}><span class="marca-texto"><strong data-semanas>6</strong> semanas · primer módulo en uso</span></span>
   </div>
 </section>
 
 <style>
+  .liquido-respaldo {
+    background:
+      radial-gradient(40% 50% at 78% 42%, rgb(255 178 26 / 0.55), transparent 70%),
+      radial-gradient(30% 40% at 62% 78%, rgb(255 120 20 / 0.35), transparent 70%),
+      var(--bg);
+  }
+  .liquido {
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+  .liquido[data-listo] {
+    opacity: 1;
+  }
   .titular {
-    font-size: clamp(3.4rem, 1.4rem + 8.4vw, 9.25rem);
-    font-weight: 760;
-    font-stretch: 74%;
-    line-height: 0.86;
-    letter-spacing: -0.015em;
+    font-size: clamp(2.75rem, 1.1rem + 4.4vw, 4.75rem);
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    max-width: 12ch;
   }
-  .linea {
-    display: block;
-    white-space: nowrap;
+  .palabra {
+    display: inline-block;
   }
-  .punto {
-    color: var(--mark);
+  /* Con JS, las palabras parten desenfocadas; respaldo CSS a los 2,4 s si Motion no llega. */
+  :global(html.js) .palabra,
+  :global(html.js) .aparece {
+    opacity: 0;
+    filter: blur(10px);
+    animation: aparece-respaldo 0.01s 2.4s forwards;
   }
-  :global(html.js) .linea {
-    font-stretch: 104%;
-    animation: entalle-respaldo 0.01s 2.6s forwards;
+  @keyframes aparece-respaldo {
+    to { opacity: 1; filter: none; transform: none; }
   }
-  @keyframes entalle-respaldo {
-    to { font-stretch: 74%; }
+  .dispositivo {
+    --glass-tint: rgb(255 255 255 / 0.22);
   }
-
-  .cinta {
-    position: relative;
-    height: 64px;
-    background-color: var(--signal);
-    border-top: 2px solid #151515;
-    background-image:
-      repeating-linear-gradient(90deg, #151515 0 1.5px, transparent 1.5px var(--cm)),
-      repeating-linear-gradient(90deg, #151515 0 2px, transparent 2px calc(var(--cm) * 5)),
-      repeating-linear-gradient(90deg, #151515 0 2px, transparent 2px calc(var(--cm) * 10));
-    background-size: 100% 12px, 100% 20px, 100% 30px;
-    background-repeat: repeat-x;
-    overflow: hidden;
+  .pie {
+    --glass-tint: var(--glass-tint-strong);
   }
-  :global(html.js) .cinta {
-    clip-path: inset(0 100% 0 0);
-    animation: cinta-respaldo 0.01s 2.6s forwards;
-  }
-  @keyframes cinta-respaldo {
-    to { clip-path: inset(0 0 0 0); }
-  }
-  .cinta-num {
-    position: absolute;
-    top: 32px;
-    transform: translateX(-50%);
-    font-size: 0.95rem;
-    font-weight: 760;
-    font-stretch: 72%;
-    font-variant-numeric: tabular-nums;
-    color: #151515;
-  }
-  .cinta-num.roja {
-    color: #a3170f;
-  }
-  .cinta-num:first-child {
-    transform: translateX(2px);
-  }
-  .marca {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 0;
-    border-left: 2px solid var(--mark);
-  }
-  .marca-texto {
-    position: absolute;
-    left: 10px;
-    top: 34px;
-    white-space: nowrap;
-    font-size: 0.875rem;
-    font-weight: 650;
-    font-stretch: 90%;
-    background: #151515;
-    color: var(--signal);
-    padding: 0.15rem 0.55rem;
-    border-radius: 4px;
-    transform: translateY(-50%);
-  }
-  /* El póster es la imagen LCP; el vídeo aparece encima cuando ya se reproduce. */
   .video-capa {
     opacity: 0;
     transition: opacity 300ms ease;
@@ -142,36 +96,44 @@ const markAt = 60; // la marca «6 semanas» cae en los 60 cm
     opacity: 1;
   }
   .pelicula-boton {
-    transition: transform var(--dur-press) var(--ease-out), background-color var(--dur-ui) ease;
+    transition: transform var(--dur-press) var(--ease-out);
   }
   .pelicula-boton:active {
     transform: scale(0.94);
   }
-  @media (hover: hover) and (pointer: fine) {
-    .pelicula-boton:hover {
-      background: #151515;
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
-    :global(html.js) .linea { font-stretch: 74%; animation: none; }
-    :global(html.js) .cinta { clip-path: none; animation: none; }
+    :global(html.js) .palabra,
+    :global(html.js) .aparece { opacity: 1; filter: none; animation: none; }
+    .liquido { transition: none; }
   }
 </style>
 
 <script>
-  import { animate, stagger } from 'motion';
+  import { initLiquidGlass, initLuzGlass } from '@kreatya/ui/liquid-glass';
+  import { animate, scroll, stagger } from 'motion';
+  import { initLiquidField } from '../lib/liquid-field';
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = [0.23, 1, 0.32, 1] as const;
+
+  // Ámbar líquido: las gotas se reparten a la derecha para dejar el titular sobre papel.
+  const lienzo = document.querySelector<HTMLCanvasElement>('[data-liquido]');
+  if (lienzo) {
+    const ancho = innerWidth >= 1024;
+    initLiquidField(lienzo, ancho ? { bias: [0.76, 0.5], mascara: 0.44 } : { bias: [0.62, 0.2] });
+  }
+  initLiquidGlass();
+  initLuzGlass();
+
+  // Película: pausa accesible, se detiene fuera de pantalla.
   const video = document.querySelector<HTMLVideoElement>('[data-pelicula]')!;
   const toggle = document.querySelector<HTMLButtonElement>('[data-pelicula-toggle]')!;
   const iconos = { pausa: toggle.querySelector('[data-icono="pausa"]')!, play: toggle.querySelector('[data-icono="play"]')! };
   let pausadaPorUsuario = false;
-
   const pintar = () => {
-    const parada = video.paused;
-    iconos.pausa.toggleAttribute('hidden', parada);
-    iconos.play.toggleAttribute('hidden', !parada);
-    toggle.setAttribute('aria-label', parada ? 'Reproducir la película' : 'Pausar la película');
+    iconos.pausa.toggleAttribute('hidden', video.paused);
+    iconos.play.toggleAttribute('hidden', !video.paused);
+    toggle.setAttribute('aria-label', video.paused ? 'Reproducir la película' : 'Pausar la película');
   };
   const listo = () => video.setAttribute('data-listo', '');
   if (!video.paused && video.readyState >= 3) listo();
@@ -182,7 +144,6 @@ const markAt = 60; // la marca «6 semanas» cae en los 60 cm
     pausadaPorUsuario = !video.paused;
     video.paused ? video.play() : video.pause();
   });
-  // Un bucle no esencial se detiene fuera de pantalla o con reduced motion.
   if (reduce) video.pause();
   new IntersectionObserver(([e]) => {
     if (!e || reduce || pausadaPorUsuario) return;
@@ -191,13 +152,13 @@ const markAt = 60; // la marca «6 semanas» cae en los 60 cm
   pintar();
 
   if (!reduce) {
-    const ease = [0.23, 1, 0.32, 1] as const;
-    // 1 · El titular se entalla: de ancho a condensado, línea a línea.
-    animate('.hero .linea', { fontStretch: ['104%', '74%'] }, { duration: 0.9, delay: stagger(0.08, { startDelay: 0.1 }), ease });
-    // 2 · La cinta se desenrolla y la marca cuenta las semanas.
-    animate('.hero .cinta', { clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'] }, { duration: 1.3, delay: 0.35, ease });
-    const semanas = document.querySelector('[data-semanas]')!;
-    animate(0, 6, { duration: 1.1, delay: 0.55, ease, onUpdate: (v) => { semanas.textContent = String(Math.round(v)); } });
-    animate('.hero .marca-texto', { opacity: [0, 1], x: [-6, 0] }, { duration: 0.4, delay: 1.35, ease });
+    // Keynote: cada palabra se enfoca y asciende; el resto llega después.
+    animate('.hero .palabra', { opacity: [0, 1], filter: ['blur(10px)', 'blur(0px)'], y: ['0.28em', '0em'] }, { duration: 0.9, delay: stagger(0.055, { startDelay: 0.08 }), ease });
+    animate('.hero .aparece', { opacity: [0, 1], filter: ['blur(8px)', 'blur(0px)'], y: [10, 0] }, { duration: 0.8, delay: stagger(0.08, { startDelay: 0.55 }), ease });
+    animate('[data-dispositivo]', { opacity: [0, 1], scale: [0.94, 1], y: [24, 0] }, { duration: 1.1, delay: 0.3, ease });
+    // Al hacer scroll, el dispositivo se acerca y el titular se aleja (estilo página de producto).
+    const hero = document.querySelector<HTMLElement>('.hero')!;
+    scroll(animate('[data-dispositivo]', { scale: [1, 1.06], y: [0, -30] }, { ease: 'linear' }), { target: hero, offset: ['start start', 'end start'] });
+    scroll(animate('.hero .titular', { opacity: [1, 0.25], y: [0, -40] }, { ease: 'linear' }), { target: hero, offset: ['start start', 'end start'] });
   }
 </script>

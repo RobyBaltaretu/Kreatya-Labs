@@ -2,64 +2,75 @@
 <html lang="es">
 <head>
 <meta charset="utf-8" />
-<title>A medida · película del hero</title>
+<title>Líquido · película del hero</title>
 <style>
-  @font-face { font-family: 'Archivo'; src: url('__FONT__') format('woff2-variations'); font-weight: 100 900; font-stretch: 62% 125%; }
-  :root { --ink: #151515; --paper: #F2F2F0; --amarillo: #FFCC00; --rojo: #D7261E; --verde: #0B7A47; }
+  @font-face { font-family: 'Funnel Display'; src: url('__FONT_DISPLAY__') format('woff2-variations'); font-weight: 300 800; }
+  @font-face { font-family: 'Funnel Sans'; src: url('__FONT_SANS__') format('woff2-variations'); font-weight: 300 800; }
+  :root { --ink: #1d1d1f; --paper: #f5f5f7; --muted: #a1a1a6; --rojo: #ff453a; --verde: #1f8a4c; --ambar: #ffb21a; }
   * { box-sizing: border-box; margin: 0; }
-  html, body { width: 1280px; height: 720px; overflow: hidden; background: var(--ink); font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased; }
-  .escena { position: relative; width: 1280px; height: 720px; overflow: hidden; background: var(--ink); color: var(--paper); }
+  html, body { width: 1280px; height: 720px; overflow: hidden; background: #0b0b0c; font-family: 'Funnel Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+  .escena { position: relative; width: 1280px; height: 720px; overflow: hidden; color: var(--paper);
+    background: radial-gradient(60% 70% at 70% 110%, rgb(255 160 26 / 0.16), transparent 70%), #0b0b0c; }
+  .display { font-family: 'Funnel Display', sans-serif; letter-spacing: -0.04em; }
 
-  .reloj { position: absolute; left: 48px; top: 40px; font-size: 22px; font-stretch: 100%; color: #A9A9A1; opacity: 0; }
+  .reloj { position: absolute; left: 56px; top: 44px; font-size: 22px; color: var(--muted); opacity: 0; }
   .reloj strong { color: var(--paper); font-weight: 600; }
-  .contador { position: absolute; right: 48px; top: 30px; text-align: right; opacity: 0; }
-  .contador-valor { display: block; font-size: 96px; line-height: 0.9; font-weight: 750; font-stretch: 70%; color: var(--rojo); font-variant-numeric: tabular-nums; }
-  .contador span:last-child { font-size: 20px; color: #A9A9A1; }
+  .contador { position: absolute; right: 56px; top: 34px; text-align: right; opacity: 0; }
+  .contador-valor { display: block; font-family: 'Funnel Display', sans-serif; font-size: 92px; line-height: 0.9; font-weight: 600; letter-spacing: -0.04em; color: var(--rojo); font-variant-numeric: tabular-nums; }
+  .contador span:last-child { font-size: 19px; color: var(--muted); }
 
-  .pieza { position: absolute; left: 50%; top: 50%; width: 260px; margin: -48px 0 0 -130px; padding: 16px 18px; border-radius: 12px; background: #FFFFFF; color: var(--ink); box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.6); opacity: 0; }
-  .pieza small { display: block; font-size: 13px; font-weight: 600; color: #6B6B64; margin-bottom: 6px; font-stretch: 100%; }
-  .pieza p { font-size: 18px; line-height: 1.25; font-weight: 600; font-stretch: 88%; }
-  .pieza.excel small { color: #1D7044; } .pieza.mail small { color: #2A5BB8; } .pieza.wa small { color: #128C4A; } .pieza.postit { background: #FFE97A; }
+  .pieza { position: absolute; left: 50%; top: 50%; width: 250px; margin: -46px 0 0 -125px; padding: 16px 18px; border-radius: 20px;
+    background: rgb(255 255 255 / 0.94); color: var(--ink); box-shadow: inset 0 1px 0 #fff, 0 22px 44px -20px rgb(0 0 0 / 0.7); opacity: 0; }
+  .pieza small { display: block; font-size: 13px; font-weight: 600; color: #6e6e73; margin-bottom: 6px; }
+  .pieza p { font-size: 18px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
+  .pieza.excel small { color: #1f8a4c; } .pieza.mail small { color: #0a64d8; } .pieza.wa small { color: #1f8a4c; } .pieza.postit { background: #ffe58a; }
 
-  .cinta { position: absolute; left: 0; right: 0; top: 330px; height: 64px; background: var(--amarillo); color: var(--ink); clip-path: inset(0 100% 0 0);
-    background-image: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 16px), repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 80px);
-    background-size: 100% 14px, 100% 26px; background-repeat: repeat-x; background-position: 40px 0, 40px 0; }
-  .cinta span { position: absolute; top: 30px; font-size: 22px; font-weight: 750; font-stretch: 75%; transform: translateX(-50%); }
-  .cinta span.r { color: var(--rojo); }
-  .rotulo-medida { position: absolute; left: 0; right: 0; top: 432px; text-align: center; font-size: 44px; font-weight: 700; font-stretch: 72%; opacity: 0; }
-  .rotulo-medida em { font-style: normal; color: var(--amarillo); }
+  /* El ámbar líquido: primero llena un tubo; después toma la forma de la aplicación. */
+  .liquido { position: absolute; left: 64px; top: 404px; width: 1152px; height: 56px; border-radius: 28px; clip-path: inset(0 100% 0 0 round 28px);
+    background: linear-gradient(180deg, #ffd66b, #ffb21a 48%, #f08a0c);
+    box-shadow: inset 0 3px 2px rgb(255 255 255 / 0.55), inset 0 -6px 14px rgb(180 69 10 / 0.35), 0 30px 80px -20px rgb(255 160 26 / 0.45); }
+  .liquido::after { content: ''; position: absolute; left: 22px; right: 40%; top: 6px; height: 10px; border-radius: 99px; background: linear-gradient(90deg, rgb(255 255 255 / 0.75), transparent); }
+  .rotulo { position: absolute; left: 0; right: 0; top: 498px; text-align: center; font-size: 46px; font-weight: 600; opacity: 0; }
+  .rotulo em { font-style: normal; color: var(--ambar); }
 
-  .app { position: absolute; left: 140px; top: 70px; width: 1000px; height: 560px; border-radius: 18px; background: var(--paper); color: var(--ink); overflow: hidden; clip-path: inset(100% 0 0 0 round 18px); display: grid; grid-template-columns: 200px 1fr; grid-template-rows: 48px 1fr; }
-  .barra { grid-column: 1 / -1; background: #1F1F1D; display: flex; align-items: center; gap: 8px; padding: 0 18px; color: #A9A9A1; font-size: 15px; }
-  .barra i { width: 11px; height: 11px; border-radius: 50%; background: #3A3A36; } .barra i:first-child { background: var(--amarillo); }
-  .barra b { margin-left: auto; margin-right: auto; font-weight: 500; }
-  .lateral { list-style: none; padding: 22px 14px; background: #E8E8E3; display: grid; align-content: start; gap: 6px; }
-  .lateral li { padding: 10px 12px; border-radius: 8px; font-size: 16px; font-weight: 600; color: #55554F; opacity: 0; }
-  .lateral li.on { background: var(--ink); color: var(--amarillo); }
-  .contenido { padding: 26px 30px; display: grid; align-content: start; gap: 18px; }
-  .contenido h2 { font-size: 34px; font-weight: 750; font-stretch: 72%; }
-  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .kpi { background: #FFFFFF; border-radius: 12px; padding: 14px 16px; opacity: 0; }
-  .kpi small { font-size: 14px; color: #55554F; font-weight: 600; }
-  .kpi strong { display: block; font-size: 44px; line-height: 1; margin-top: 4px; font-weight: 750; font-stretch: 70%; font-variant-numeric: tabular-nums; }
+  .app { position: absolute; left: 154px; top: 84px; width: 972px; height: 532px; border-radius: 18px; background: var(--paper); color: var(--ink); overflow: hidden; opacity: 0;
+    display: grid; grid-template-columns: 196px 1fr; grid-template-rows: 46px 1fr; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.4); }
+  .barra { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; padding: 0 18px; color: #6e6e73; font-size: 15px; background: #ececef; border-bottom: 1px solid #dcdce0; }
+  .barra i { width: 12px; height: 12px; border-radius: 50%; background: #d2d2d7; } .barra i:first-child { background: #ff5f57; } .barra i:nth-child(2) { background: #febc2e; } .barra i:nth-child(3) { background: #28c840; }
+  .barra b { margin-left: auto; margin-right: auto; font-weight: 500; padding: 4px 60px; border-radius: 8px; background: #fff; }
+  .lateral { list-style: none; padding: 20px 12px; background: #ececef; display: grid; align-content: start; gap: 4px; }
+  .lateral li { padding: 9px 14px; border-radius: 10px; font-size: 16px; font-weight: 600; color: #6e6e73; opacity: 0; }
+  .lateral li.on { background: linear-gradient(180deg, #ffd25a, #ffa514); color: var(--ink); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6); }
+  .contenido { padding: 24px 28px; display: grid; align-content: start; gap: 16px; }
+  .contenido h2 { font-family: 'Funnel Display', sans-serif; font-size: 34px; font-weight: 600; letter-spacing: -0.035em; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .kpi { background: #fff; border-radius: 16px; padding: 14px 16px; opacity: 0; box-shadow: 0 1px 2px rgb(0 0 0 / 0.06); }
+  .kpi small { font-size: 14px; color: #6e6e73; font-weight: 500; }
+  .kpi strong { display: block; font-family: 'Funnel Display', sans-serif; font-size: 44px; line-height: 1; margin-top: 6px; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
   .kpi-valor { color: var(--verde); }
-  .tabla { background: #FFFFFF; border-radius: 12px; padding: 6px 16px; }
-  .fila { display: grid; grid-template-columns: 90px 1fr 120px; align-items: center; padding: 12px 0; border-bottom: 1px solid #E5E5E0; font-size: 17px; opacity: 0; }
+  .tabla { background: #fff; border-radius: 16px; padding: 4px 16px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.06); }
+  .fila { display: grid; grid-template-columns: 84px 1fr 120px; align-items: center; padding: 11px 0; border-bottom: 1px solid #ececef; font-size: 17px; opacity: 0; }
   .fila:last-child { border: 0; }
-  .fila b { font-variant-numeric: tabular-nums; color: #55554F; font-weight: 600; }
-  .estado { justify-self: end; padding: 4px 12px; border-radius: 99px; font-size: 14px; font-weight: 600; background: #E9E9E4; color: #55554F; }
-  .copiloto { position: absolute; right: 36px; bottom: 30px; display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: 14px; background: var(--ink); color: var(--paper); font-size: 16px; opacity: 0; box-shadow: 0 16px 36px -14px rgb(0 0 0 / 0.5); }
-  .copiloto i { width: 14px; height: 14px; border-radius: 50%; background: var(--amarillo); }
-  .copiloto strong { display: block; }
-  .copiloto span { color: #A9A9A1; font-size: 14px; }
+  .fila b { font-variant-numeric: tabular-nums; color: #6e6e73; font-weight: 600; }
+  .estado { justify-self: end; padding: 4px 12px; border-radius: 99px; font-size: 14px; font-weight: 600; background: #ececef; color: #6e6e73; }
+  .copiloto { position: absolute; right: 30px; bottom: 26px; display: flex; gap: 12px; align-items: center; padding: 12px 20px 12px 14px; border-radius: 99px;
+    background: rgb(29 29 31 / 0.88); color: var(--paper); font-size: 16px; opacity: 0; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 16px 36px -14px rgb(0 0 0 / 0.5); }
+  .copiloto i { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffe08a, #ffb21a 55%, #e07a08); }
+  .copiloto strong { display: block; font-size: 15px; }
+  .copiloto span { color: var(--muted); font-size: 14px; }
 
-  .cierre { position: absolute; inset: 0; background: var(--amarillo); color: var(--ink); clip-path: inset(100% 0 0 0); padding: 96px 96px 0; }
-  .cierre h1 { font-size: 150px; line-height: 0.88; font-weight: 780; font-stretch: 66%; letter-spacing: -0.01em; }
-  .cierre-linea { display: block; overflow: hidden; } .cierre-linea > span { display: block; }
-  .cierre-pie { position: absolute; left: 96px; bottom: 74px; font-size: 26px; font-weight: 600; opacity: 0; }
-  .cierre-pie b { font-weight: 800; }
-  .cierre-cinta { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: var(--ink); transform-origin: left; transform: scaleX(0);
-    background-image: repeating-linear-gradient(90deg, var(--amarillo) 0 2px, transparent 2px 16px); background-size: 100% 12px; background-repeat: repeat-x; }
+  .cierre { position: absolute; inset: 0; background: #0b0b0c; opacity: 0; }
+  .cierre h1 { position: absolute; left: 88px; top: 92px; font-size: 104px; line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; }
+  .cierre-linea { display: block; overflow: hidden; padding-bottom: 0.08em; } .cierre-linea > span { display: block; }
+  .cierre h1 em { font-style: normal; color: var(--ambar); }
+  .cierre-pie { position: absolute; left: 92px; bottom: 64px; font-size: 24px; color: var(--muted); opacity: 0; }
+  .cierre-pie b { color: var(--paper); font-weight: 700; }
+  .gota { position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%, #fff4cf 0 6%, #ffd66b 22%, #ffb21a 55%, #f08a0c 85%);
+    box-shadow: inset -10px -14px 30px rgb(180 69 10 / 0.35), 0 30px 80px -10px rgb(255 160 26 / 0.45); }
+  .g1 { width: 380px; height: 380px; right: -60px; bottom: -150px; }
+  .g2 { width: 170px; height: 170px; right: 300px; bottom: -40px; }
+  .g3 { width: 84px; height: 84px; right: 250px; bottom: 170px; }
 </style>
 </head>
 <body>
@@ -75,8 +86,8 @@
   <div class="pieza excel"><small>Excel</small><p>Stock tienda 4 (no tocar)</p></div>
   <div class="pieza"><small>Teléfono</small><p>3 llamadas perdidas</p></div>
 
-  <div class="cinta" aria-hidden="true">__TICKS__</div>
-  <p class="rotulo-medida">Primero medimos <em>tu proceso real.</em></p>
+  <div class="liquido" aria-hidden="true"></div>
+  <p class="rotulo display">Primero entendemos <em>tu proceso real.</em></p>
 
   <div class="app">
     <div class="barra"><i></i><i></i><i></i><b>tunegocio.es/pedidos</b></div>
@@ -93,16 +104,15 @@
         <div class="fila"><b>#2042</b><span>Hnos. Vidal · 4 palés</span><span class="estado">Facturado</span></div>
         <div class="fila"><b>#2043</b><span>Talleres Norte · 200 uds BR-50</span><span class="estado">Facturado</span></div>
         <div class="fila"><b>#2044</b><span>Frutas Ribera · 8 palés</span><span class="estado">Facturado</span></div>
-        <div class="fila"><b>#2045</b><span>Clínica Alba · material fungible</span><span class="estado">Facturado</span></div>
       </div>
     </div>
     <div class="copiloto"><i></i><div><strong>Copiloto</strong><span>12 albaranes leídos y conciliados</span></div></div>
   </div>
 
   <div class="cierre">
-    <h1><span class="cierre-linea"><span>Hecho a</span></span><span class="cierre-linea"><span>tu medida.</span></span></h1>
+    <span class="gota g1"></span><span class="gota g2"></span><span class="gota g3"></span>
+    <h1 class="display"><span class="cierre-linea"><span>Software que toma</span></span><span class="cierre-linea"><span>la <em>forma</em> de tu</span></span><span class="cierre-linea"><span>negocio.</span></span></h1>
     <p class="cierre-pie"><b>Kreatya Labs</b> · Software a medida + IA · en uso en 6 semanas</p>
-    <div class="cierre-cinta"></div>
   </div>
 </div>
 <script>__SCRIPT__</script>

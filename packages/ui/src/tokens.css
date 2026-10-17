@@ -1,33 +1,40 @@
 /*
- * Tokens de Kreatya Labs — mundo «A medida» (cinta métrica de sastre).
- * Amarillo cinta como campo de color comprometido, negro de imprenta, rojo de medida.
- * Los nombres de token se mantienen; los valores definen el mundo nuevo (ver /DESIGN.md).
+ * Tokens de Kreatya Labs — mundo «Líquido».
+ * Ámbar líquido bajo vidrio (Liquid Glass): grises de Apple, un único material de color.
+ * Decisiones en /DESIGN.md.
  */
 :root {
-  --ink: #151515;
-  --paper: #f2f2ef;
-  --signal: #ffcc00; /* amarillo cinta */
-  --mark: #c8231b; /* rojo de las marcas de 10 cm (texto AA sobre blanco) */
-  --blueprint: #151515;
-  --success: #0b7a47;
+  --ink: #1d1d1f;
+  --paper: #f5f5f7;
+  --signal: #ffb21a; /* ámbar líquido: rellenos y CTA */
+  --mark: #b4450a; /* ámbar oscuro: texto y énfasis (AA sobre blanco y papel) */
+  --blueprint: #1d1d1f;
+  --success: #177540;
 
   --bg: var(--paper);
   --bg-raised: #ffffff;
   --fg: var(--ink);
-  --fg-muted: #54544e;
-  --line: #d4d4cd;
+  --fg-muted: #636366;
+  --line: #d2d2d7;
   --accent: var(--signal);
-  --on-accent: var(--ink);
-  --diagram: #151515;
-  --positive: #0b7a47;
-  --positive-strong: #0b7a47;
-  --focus: #1f4fd1;
-  --placeholder: #64645d;
-  --tinta: #151515;
-  --tinta-2: #232321;
-  --shadow-lift: 0 1px 2px rgb(21 21 21 / 0.06), 0 14px 34px -14px rgb(21 21 21 / 0.28);
+  --on-accent: #1d1d1f;
+  --diagram: #1d1d1f;
+  --positive: #177540;
+  --positive-strong: #177540;
+  --focus: #0a64d8;
+  --placeholder: #636366;
+  --tinta: #1d1d1f;
+  --tinta-2: #2c2c2e;
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.04), 0 24px 48px -24px rgb(0 0 0 / 0.18);
 
-  /* Movimiento (Emil Kowalski): curvas propias, nunca ease-in ni rebote */
+  /* Vidrio líquido */
+  --glass-tint: rgb(255 255 255 / 0.52);
+  --glass-tint-strong: rgb(255 255 255 / 0.78);
+  --glass-edge: rgb(255 255 255 / 0.85);
+  --glass-shade: rgb(0 0 0 / 0.08);
+  --glass-shadow: 0 1px 1px rgb(0 0 0 / 0.04), 0 12px 32px -10px rgb(0 0 0 / 0.22);
+
+  /* Movimiento (Emil Kowalski) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
@@ -39,38 +46,56 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #121211;
-    --bg-raised: #1c1c1a;
-    --fg: #f2f2ee;
-    --fg-muted: #b0b0a7;
-    --line: #34342f;
-    --diagram: #f2f2ee;
-    --mark: #ff6a5f;
-    --positive: #4fd08e;
-    --positive-strong: #4fd08e;
-    --focus: #ffcc00;
-    --placeholder: #9a9a91;
-    --tinta: #1c1c1a;
-    --tinta-2: #2a2a27;
-    --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 36px -14px rgb(0 0 0 / 0.7);
+    --bg: #0a0a0b;
+    --bg-raised: #1c1c1e;
+    --fg: #f5f5f7;
+    --fg-muted: #a1a1a6;
+    --line: #38383a;
+    --diagram: #f5f5f7;
+    --mark: #ffb35c;
+    --positive: #4ad083;
+    --positive-strong: #4ad083;
+    --focus: #6aa8ff;
+    --placeholder: #8e8e93;
+    --tinta: #1c1c1e;
+    --tinta-2: #2c2c2e;
+    --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.4), 0 24px 48px -24px rgb(0 0 0 / 0.8);
+    --glass-tint: rgb(40 40 44 / 0.5);
+    --glass-tint-strong: rgb(40 40 44 / 0.78);
+    --glass-edge: rgb(255 255 255 / 0.28);
+    --glass-shade: rgb(0 0 0 / 0.3);
+    --glass-shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 14px 36px -10px rgb(0 0 0 / 0.7);
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #121211;
-  --bg-raised: #1c1c1a;
-  --fg: #f2f2ee;
-  --fg-muted: #b0b0a7;
-  --line: #34342f;
-  --diagram: #f2f2ee;
-  --mark: #ff6a5f;
-  --positive: #4fd08e;
-  --positive-strong: #4fd08e;
-  --focus: #ffcc00;
-  --placeholder: #9a9a91;
-  --tinta: #1c1c1a;
-  --tinta-2: #2a2a27;
-  --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 36px -14px rgb(0 0 0 / 0.7);
+  --bg: #0a0a0b;
+  --bg-raised: #1c1c1e;
+  --fg: #f5f5f7;
+  --fg-muted: #a1a1a6;
+  --line: #38383a;
+  --diagram: #f5f5f7;
+  --mark: #ffb35c;
+  --positive: #4ad083;
+  --positive-strong: #4ad083;
+  --focus: #6aa8ff;
+  --placeholder: #8e8e93;
+  --tinta: #1c1c1e;
+  --tinta-2: #2c2c2e;
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.4), 0 24px 48px -24px rgb(0 0 0 / 0.8);
+  --glass-tint: rgb(40 40 44 / 0.5);
+  --glass-tint-strong: rgb(40 40 44 / 0.78);
+  --glass-edge: rgb(255 255 255 / 0.28);
+  --glass-shade: rgb(0 0 0 / 0.3);
+  --glass-shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 14px 36px -10px rgb(0 0 0 / 0.7);
   color-scheme: dark;
+}
+
+/* Ajustes de accesibilidad del sistema: menos transparencia = vidrio opaco. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-tint: var(--bg-raised);
+    --glass-tint-strong: var(--bg-raised);
+  }
 }

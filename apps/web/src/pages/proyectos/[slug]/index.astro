@@ -48,7 +48,7 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
           <a href={similarHref} class="btn btn-secondary" data-cta="similar-header">Quiero algo parecido</a>
         </div>
       </div>
-      <dl class="grid grid-cols-2 self-start border border-line bg-raised text-sm">
+      <dl class="grid grid-cols-2 self-start rounded-3xl border border-line bg-raised text-sm">
         <div class="border-b border-r border-line p-4"><dt class="etiqueta">Sector</dt><dd class="mt-1 font-medium">{p.sectors.map((sl) => <a class="hover:text-diagram" href={`/sectores/${sl}`}>{sectorName(s, sl)}</a>)}</dd></div>
         <div class="border-b border-line p-4"><dt class="etiqueta">Plazo</dt><dd class="mt-1 font-medium tabular-nums">{p.durationWeeks} semanas</dd></div>
         <div class="border-b border-r border-line p-4"><dt class="etiqueta">Servicios</dt><dd class="mt-1 grid gap-1 font-medium">{services.map((x) => <a class="inline-block py-1 hover:text-diagram" href={`/soluciones/${x.slug}`}>{x.name}</a>)}</dd></div>
@@ -60,7 +60,7 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
     <!-- 2. Vídeo principal -->
     <section class="wrap pb-16" aria-label="Vídeo del proyecto">
       {p.mainVideo ? <VideoFacade video={p.mainVideo} title={p.title} /> : (
-        <img src={p.cover} alt={`Vista general de la solución: ${p.title}`} width="1280" height="720" fetchpriority="high" class="aspect-video w-full border border-line object-cover" />
+        <img src={p.cover} alt={`Vista general de la solución: ${p.title}`} width="1280" height="720" fetchpriority="high" class="aspect-video w-full rounded-3xl border border-line object-cover" />
       )}
     </section>
 
@@ -108,7 +108,7 @@ const similarHref = `/diagnostico?sector=${p.sectors[0] ?? ''}&tipo=${kinds[0] ?
 
       <!-- 9. Vista previa -->
       {hasDemo && (
-        <section id="demo" aria-labelledby="demo-title" class="grid gap-4 border border-line p-5 sm:p-8">
+        <section id="demo" aria-labelledby="demo-title" class="grid gap-4 rounded-3xl border border-line p-5 sm:p-8">
           <h2 id="demo-title" class="text-heading">Prueba la solución</h2>
           {p.demoType === 'on_request' ? (
             <>

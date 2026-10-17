@@ -153,7 +153,7 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
   if (status === 'done') {
     const calUrl = `https://cal.com/${siteConfig.calLink}?name=${encodeURIComponent(s.name)}&email=${encodeURIComponent(s.email)}`;
     return (
-      <div className="grid gap-6 border border-line bg-raised p-6 sm:p-10">
+      <div className="grid gap-6 rounded-3xl border border-line bg-raised p-6 sm:p-10">
         <p className="etiqueta">Paso final · reserva tu cita</p>
         <h2 ref={headingRef} tabIndex={-1} className="font-display text-3xl font-semibold">
           Gracias, {s.name.split(' ')[0]}. Ya tenemos tu diagnóstico.
@@ -180,7 +180,7 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
           <iframe
             title="Agenda de Kreatya Labs"
             src={`${calUrl}&embed=true`}
-            className="h-[560px] w-full border border-line bg-bg"
+            className="h-[560px] w-full rounded-3xl border border-line bg-bg"
             loading="lazy"
           />
         ) : (
@@ -219,7 +219,7 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
   ) => (
     <label
       key={value}
-      className={`flex min-h-[52px] cursor-pointer items-center gap-3 border px-4 py-3 text-sm transition-colors ${checked ? 'border-blueprint bg-bg font-semibold' : 'border-line hover:border-diagram'}`}
+      className={`flex min-h-[52px] cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-sm transition-colors ${checked ? 'border-blueprint bg-bg font-semibold' : 'border-line hover:border-diagram'}`}
     >
       <input
         type={type}
@@ -235,7 +235,7 @@ export default function DiagnosticForm({ sectors, kindLabels }: Props) {
 
   return (
     <form
-      className="grid gap-6 rounded-xl border border-line bg-raised p-5 sm:p-8"
+      className="grid gap-6 rounded-3xl border border-line bg-raised p-5 sm:p-8"
       onSubmit={next}
       noValidate
     >

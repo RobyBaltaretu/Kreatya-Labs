@@ -55,7 +55,7 @@ export default function InvestmentCalculator() {
   );
 
   return (
-    <div className="grid gap-8 rounded-xl border border-line bg-raised p-5 sm:p-8 lg:grid-cols-2">
+    <div className="grid gap-8 rounded-3xl border border-line bg-raised p-5 sm:p-8 lg:grid-cols-2">
       <div>
         {stepper('inv-mod', 'Módulos principales', modules, setModules, 1, 12)}
         {stepper('inv-users', 'Usuarios', users, setUsers, 1, 500)}

@@ -6,13 +6,15 @@
   "exports": {
     "./theme.css": "./src/theme.css",
     "./tokens.css": "./src/tokens.css",
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./liquid-glass": "./src/liquid-glass.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@fontsource-variable/archivo": "^5.2.0"
+    "@fontsource-variable/funnel-display": "^5.2.0",
+    "@fontsource-variable/funnel-sans": "^5.2.0"
   },
   "peerDependencies": {
     "react": "^19.0.0"

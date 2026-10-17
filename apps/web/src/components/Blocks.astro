@@ -14,7 +14,7 @@ const slugify = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]
       case 'list': return b.ordered ? <ol>{b.items.map((i) => <li>{i}</li>)}</ol> : <ul>{b.items.map((i) => <li>{i}</li>)}</ul>;
       case 'quote': return <blockquote class="font-display text-2xl leading-snug tracking-tight">{b.text}{b.cite && <footer class="mt-2 font-sans text-sm text-muted">— {b.cite}</footer>}</blockquote>;
       case 'callout': return <aside class="rounded-xl bg-raised p-5 ring-1 ring-line"><p class="font-semibold">{b.title}</p><p class="mt-1 text-muted">{b.text}</p></aside>;
-      case 'image': return <figure><img src={b.src} alt={b.alt} width={b.width} height={b.height} loading="lazy" class="rounded-lg border border-line" />{b.caption && <figcaption class="mt-2 text-sm text-muted">{b.caption}</figcaption>}</figure>;
+      case 'image': return <figure><img src={b.src} alt={b.alt} width={b.width} height={b.height} loading="lazy" class="rounded-3xl border border-line" />{b.caption && <figcaption class="mt-2 text-sm text-muted">{b.caption}</figcaption>}</figure>;
     }
   })}
 </div>

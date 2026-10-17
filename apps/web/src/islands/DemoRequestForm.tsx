@@ -30,7 +30,7 @@ export default function DemoRequestForm({
   }
   return (
     <form
-      className="grid gap-4 border border-line bg-raised p-6"
+      className="grid gap-4 rounded-3xl border border-line bg-raised p-6"
       onSubmit={async (e) => {
         e.preventDefault();
         if (!consent) return setStatus('Necesitamos tu consentimiento para enviarte el acceso.');

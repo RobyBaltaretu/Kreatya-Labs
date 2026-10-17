@@ -29,7 +29,7 @@ const solution = s.solutions.find((x) => x.slug === post.solutionSlug);
   </div>
   <aside class="grid content-start gap-6 lg:sticky lg:top-24">
     {solution && (
-      <a href={`/soluciones/${solution.slug}`} class="group flex items-center justify-between gap-4 rounded-xl border border-line p-5 transition-colors hover:border-fg/40">
+      <a href={`/soluciones/${solution.slug}`} class="group flex items-center justify-between gap-4 rounded-3xl border border-line p-5 transition-colors hover:border-fg/40">
         <span><span class="block text-sm text-muted">Solución relacionada</span><span class="font-display text-lg font-semibold">{solution.name}</span></span>
         <Icon name="arrow-right" />
       </a>

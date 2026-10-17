@@ -22,15 +22,17 @@ function wrap(text: string, max = 26): string[] {
 export function ogSvg(title: string, eyebrow: string) {
   const lines = wrap(title.replace(` | ${siteConfig.name}`, ''));
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#FFCC00" stroke-opacity=".12"/></pattern>
-  <pattern id="G" width="150" height="150" patternUnits="userSpaceOnUse"><path d="M150 0H0V150" fill="none" stroke="#FFCC00" stroke-opacity=".22"/></pattern></defs>
-  <rect width="1200" height="630" fill="#151515"/><rect width="1200" height="630" fill="url(#g)"/><rect width="1200" height="630" fill="url(#G)"/>
-  <path d="M80 70h1040M80 62v16M1120 62v16" stroke="#FFCC00" stroke-width="2"/>
-  <text x="80" y="128" font-family="DejaVu Sans, sans-serif" font-size="24" letter-spacing="4" fill="#FFCC00">${esc(eyebrow.toUpperCase())}</text>
-  ${lines.map((l, i) => `<text x="80" y="${230 + i * 84}" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="70" fill="#F2F2EE">${esc(l)}</text>`).join('')}
-  <rect x="80" y="520" width="56" height="56" rx="10" fill="none" stroke="#F2F2EE" stroke-width="4"/>
-  <path d="M98 534v28M98 548l16-14M103 544l14 18" stroke="#F2F2EE" stroke-width="4.5" fill="none" stroke-linecap="round"/><circle cx="120" cy="537" r="5" fill="#FFCC00"/>
-  <text x="156" y="560" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="30" fill="#F2F2EE">${esc(siteConfig.name)}</text>
-  <rect x="860" y="520" width="260" height="56" rx="8" fill="#FFCC00"/><text x="990" y="556" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="22" fill="#151515">${esc(siteConfig.domains.web)}</text>
+  <defs>
+    <radialGradient id="a" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#ffd66b"/><stop offset=".55" stop-color="#ff9d14"/><stop offset="1" stop-color="#b4450a"/></radialGradient>
+    <filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="40"/></filter>
+    <linearGradient id="l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd25a"/><stop offset="1" stop-color="#f08a0c"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#1d1d1f"/>
+  <g filter="url(#b)" opacity=".9"><circle cx="1060" cy="560" r="230" fill="url(#a)"/><circle cx="860" cy="660" r="140" fill="url(#a)"/><circle cx="1150" cy="170" r="90" fill="url(#a)"/></g>
+  <text x="80" y="128" font-family="DejaVu Sans, sans-serif" font-size="26" fill="#ffb35c">${esc(eyebrow)}</text>
+  ${lines.map((l, i) => `<text x="80" y="${230 + i * 84}" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="70" letter-spacing="-2" fill="#f5f5f7">${esc(l)}</text>`).join('')}
+  <g transform="translate(80 520) scale(1.75)"><rect x="1" y="1" width="30" height="30" rx="9" fill="#2c2c2e"/><path d="M1 19c6-3.2 11.5 2.6 17.5-.4S27 15 31 16.6V22a9 9 0 0 1-9 9H10a9 9 0 0 1-9-9z" fill="url(#l)"/><path d="M11 8.5v15M11 16.5 19.5 8.5M14.2 13.6 21 23.5" fill="none" stroke="#f5f5f7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <text x="156" y="560" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="30" fill="#f5f5f7">${esc(siteConfig.name)}</text>
+  <text x="156" y="590" font-family="DejaVu Sans, sans-serif" font-size="20" fill="#a1a1a6">${esc(siteConfig.domains.web)}</text>
 </svg>`;
 }

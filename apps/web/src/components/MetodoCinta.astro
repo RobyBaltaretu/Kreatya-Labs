@@ -9,14 +9,16 @@ const fases = [
 const TOTAL = 9; // semanas visibles en la cinta
 ---
 <div class="metodo">
-  <div class="metodo-cinta" aria-hidden="true">
-    {Array.from({ length: TOTAL + 1 }, (_, i) => <span class:list={['metodo-num', i === 0 && 'primero', i === TOTAL && 'ultimo']} style={`left:${(i / TOTAL) * 100}%`}>{i === 0 ? '0' : `${i} sem`}</span>)}
+  <div class="metodo-tubo" aria-hidden="true">
+    <div class="metodo-liquido" style={`--lleno:${(6 / TOTAL) * 100}%`}><span class="metodo-ola"></span></div>
     {fases.map((f) => <span class="metodo-hito" style={`left:${(f.semana / TOTAL) * 100}%`}></span>)}
+  </div>
+  <div class="metodo-escala" aria-hidden="true">
+    {Array.from({ length: TOTAL + 1 }, (_, i) => <span class:list={['metodo-num', i === 0 && 'primero', i === TOTAL && 'ultimo']} style={`left:${(i / TOTAL) * 100}%`}>{i === 0 ? '0' : `${i} sem`}</span>)}
   </div>
   <ol class="metodo-fases">
     {fases.map((f, i) => (
-      <li class="metodo-fase" style={`--pos:${(f.semana / TOTAL) * 100}%; --i:${i}`}>
-        <span class="metodo-punto" aria-hidden="true"></span>
+      <li class="metodo-fase" style={`--i:${i}`}>
         <p class="medida text-mark">{f.plazo}</p>
         <h3 class="mt-1 text-2xl">{f.titulo}</h3>
         <p class="mt-2 text-muted">{f.texto}</p>
@@ -25,73 +27,123 @@ const TOTAL = 9; // semanas visibles en la cinta
   </ol>
 </div>
 <style>
-  .metodo-cinta {
+  /* Un tubo de vidrio que el ámbar llena hasta la semana 6: el primer módulo ya en uso. */
+  .metodo-tubo {
     position: relative;
-    height: 48px;
-    border-radius: 6px;
-    background-color: var(--signal);
-    background-image:
-      repeating-linear-gradient(90deg, #151515 0 1.5px, transparent 1.5px calc(100% / 45)),
-      repeating-linear-gradient(90deg, #151515 0 2px, transparent 2px calc(100% / 9));
-    background-size: 100% 10px, 100% 22px;
-    background-repeat: repeat-x;
-    color: #151515;
+    height: 44px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--fg) 5%, transparent);
+    box-shadow:
+      inset 0 1px 2px rgb(0 0 0 / 0.12),
+      inset 0 -1px 0 rgb(255 255 255 / 0.5),
+      0 0 0 1px var(--line);
   }
-  .metodo-num {
+  .metodo-liquido {
     position: absolute;
-    top: 24px;
-    transform: translateX(-50%);
-    font-size: 0.8125rem;
-    font-weight: 720;
-    font-stretch: 78%;
-    white-space: nowrap;
+    inset: 4px auto 4px 4px;
+    width: calc(var(--lleno) - 4px);
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffd66b, #ffb21a 48%, #f08a0c);
+    box-shadow:
+      inset 0 2px 1px rgb(255 255 255 / 0.55),
+      inset 0 -3px 6px rgb(180 69 10 / 0.3);
+    transform-origin: left center;
   }
-  .metodo-num.primero {
-    transform: translateX(6px);
+  html.js .metodo:not([data-lleno]) .metodo-liquido {
+    clip-path: inset(0 100% 0 0 round 999px);
   }
-  .metodo-num.ultimo {
-    transform: translateX(calc(-100% - 6px));
+  .metodo-liquido {
+    clip-path: inset(0 0 0 0 round 999px);
+    transition: clip-path 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  /* Brillo que recorre la superficie del líquido. */
+  .metodo-ola {
+    position: absolute;
+    inset: 3px 12px auto;
+    height: 9px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.7), transparent);
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    animation: brillo 4.5s ease-in-out infinite;
+  }
+  @keyframes brillo {
+    from {
+      background-position: -40% 0;
+    }
+    to {
+      background-position: 140% 0;
+    }
   }
   .metodo-hito {
     position: absolute;
-    bottom: -9px;
-    width: 0;
-    height: 0;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-bottom: 9px solid var(--mark);
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    border-radius: 50%;
+    background: var(--fg);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--bg) 70%, transparent);
+  }
+  .metodo-hito:first-of-type {
+    margin-left: 14px;
+  }
+  .metodo-escala {
+    position: relative;
+    height: 1.5rem;
+    margin-top: 0.5rem;
+    color: var(--fg-muted);
+  }
+  .metodo-num {
+    position: absolute;
     transform: translateX(-50%);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .metodo-num.primero {
+    transform: translateX(10px);
+  }
+  .metodo-num.ultimo {
+    transform: translateX(calc(-100% - 10px));
   }
   .metodo-fases {
     display: grid;
     gap: 2.25rem;
     margin-top: 1.75rem;
   }
-  .metodo-fase {
-    position: relative;
-    padding-left: 1.5rem;
-  }
-  .metodo-punto {
-    position: absolute;
-    left: 0;
-    top: 0.3rem;
-    width: 2px;
-    height: 1.1rem;
-    background: var(--mark);
+  @media (max-width: 639px) {
+    .metodo-num:nth-child(even) {
+      visibility: hidden;
+    }
   }
   @media (min-width: 900px) {
     .metodo-fases {
-      position: relative;
       grid-template-columns: repeat(4, 1fr);
       gap: 2rem;
     }
-    .metodo-fase {
-      padding-left: 0;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--line);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .metodo-liquido {
+      transition: none;
     }
-    .metodo-punto {
-      display: none;
+    .metodo-ola {
+      animation: none;
     }
   }
 </style>
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('.metodo')) {
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e?.isIntersecting) return;
+        el.dataset.lleno = '';
+        io.disconnect();
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(el);
+  }
+</script>

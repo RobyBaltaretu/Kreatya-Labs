@@ -14,13 +14,19 @@ const path = Astro.url.pathname;
 const active = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 <a href="#contenido" class="sr-only-focusable fixed left-4 top-4 z-50 rounded-lg bg-signal px-4 py-2 font-semibold text-ink">Saltar al contenido</a>
-<header class="site-header sticky z-40 border-b border-line/70 bg-bg/92 backdrop-blur-md" style="top: env(safe-area-inset-top, 0px)">
-  <div class="wrap flex h-16 items-center justify-between gap-6">
-    <a href="/" class="flex items-center gap-2.5 font-display text-[1.0625rem] font-semibold tracking-tight" aria-label={`${siteConfig.name}, inicio`}>
+<header class="site-header sticky z-40 px-3 pt-3 sm:px-4" style="top: env(safe-area-inset-top, 0px)">
+  <div class="barra glass glass-luz mx-auto flex h-14 max-w-[1040px] items-center justify-between gap-4 rounded-full pl-3 pr-2" data-glass data-glass-grosor="40" data-glass-bisel="18">
+    <a href="/" class="flex items-center gap-2 rounded-full px-1 font-display text-[1.0625rem] font-semibold tracking-tight" aria-label={`${siteConfig.name}, inicio`}>
       <svg viewBox="0 0 32 32" class="h-8 w-8" aria-hidden="true">
-        <rect x="1" y="1" width="30" height="30" rx="7" fill="var(--signal)"></rect>
-        <path d="M10.5 8v16M10.5 16.5 19 8M13.6 13.4 21 24" fill="none" stroke="#151515" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
-        <path d="M25 6v20" stroke="#151515" stroke-width="2" stroke-linecap="round"></path>
+        <defs>
+          <linearGradient id="logo-ambar" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffd25a"></stop>
+            <stop offset="1" stop-color="#f08a0c"></stop>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#1d1d1f"></rect>
+        <path d="M1 19c6-3.2 11.5 2.6 17.5-.4S27 15 31 16.6V22a9 9 0 0 1-9 9H10a9 9 0 0 1-9-9z" fill="url(#logo-ambar)"></path>
+        <path d="M11 8.5v15M11 16.5 19.5 8.5M14.2 13.6 21 23.5" fill="none" stroke="#f5f5f7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
       <span>Kreatya Labs</span>
     </a>
@@ -28,56 +34,68 @@ const active = (href: string) => path === href || path.startsWith(`${href}/`);
       <ul class="flex items-center gap-0.5 text-[0.9375rem]">
         {nav.map((n) => (
           <li>
-            <a href={n.href} class:list={['nav-link relative rounded-md px-3 py-2 text-muted transition-colors hover:text-fg', active(n.href) && 'is-active text-fg']} aria-current={active(n.href) ? 'page' : undefined}>{n.label}</a>
+            <a href={n.href} class:list={['nav-link relative rounded-full px-3 py-1.5 text-muted transition-colors hover:text-fg', active(n.href) && 'is-active text-fg']} aria-current={active(n.href) ? 'page' : undefined}>{n.label}</a>
           </li>
         ))}
       </ul>
     </nav>
-    <div class="flex items-center gap-2">
-      <a href={siteConfig.primaryCta.href} class="btn btn-primary hidden min-h-10 py-2 sm:inline-flex" data-cta="header">{siteConfig.primaryCta.label}</a>
-      <button type="button" class="btn btn-secondary min-h-11 px-3 lg:hidden" id="menu-open" aria-controls="menu-movil" aria-expanded="false">
+    <div class="flex items-center gap-1.5">
+      <a href={siteConfig.primaryCta.href} class="btn btn-primary hidden min-h-10 py-2 text-[0.9375rem] sm:inline-flex" data-cta="header">{siteConfig.primaryCta.label}</a>
+      <button type="button" class="btn min-h-10 w-10 px-0 lg:hidden" id="menu-open" aria-controls="menu-movil" aria-expanded="false">
         <span class="sr-only">Abrir menú</span>
         <Icon name="menu" size={20} />
       </button>
     </div>
   </div>
 </header>
-<div id="menu-movil" class="menu-movil fixed inset-0 z-50 sobre-tinta flex flex-col bg-tinta lg:hidden" role="dialog" aria-modal="true" aria-label="Menú" data-open="false" inert>
+<div id="menu-movil" class="menu-movil sobre-tinta fixed inset-0 z-50 flex flex-col lg:hidden" role="dialog" aria-modal="true" aria-label="Menú" data-open="false" inert>
   <div class="wrap flex h-16 items-center justify-end" style="margin-top: env(safe-area-inset-top, 0px)">
-    <button type="button" class="btn btn-secondary min-h-11 px-3" id="menu-close"><span class="sr-only">Cerrar menú</span><Icon name="x" size={20} /></button>
+    <button type="button" class="btn btn-glass min-h-11 w-11 px-0" id="menu-close"><span class="sr-only">Cerrar menú</span><Icon name="x" size={20} /></button>
   </div>
   <nav class="wrap flex-1 overflow-y-auto pb-10" aria-label="Principal móvil">
     <ul class="grid pt-4">
       {[{ href: '/', label: 'Inicio' }, ...nav, { href: '/empresa', label: 'Empresa' }, { href: '/blog', label: 'Blog y guías' }].map((n, i) => (
-        <li class="menu-item" style={`--i:${i}`}><a href={n.href} class="block border-b border-paper/15 py-3.5 font-display text-[2rem] font-semibold tracking-tight">{n.label}</a></li>
+        <li class="menu-item" style={`--i:${i}`}><a href={n.href} class="block border-b border-white/10 py-3.5 font-display text-[2rem] font-semibold tracking-tight">{n.label}</a></li>
       ))}
     </ul>
     <a href={siteConfig.primaryCta.href} class="btn btn-primary mt-8 w-full text-lg">{siteConfig.primaryCta.label}</a>
   </nav>
 </div>
 <style>
-  .nav-link.is-active::after {
-    content: '';
-    position: absolute;
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: 0.2rem;
-    border-top: 2px solid var(--fg);
+  /* Barra flotante: el vidrio gana opacidad al haber contenido debajo. */
+  .barra {
+    transition:
+      background-color 240ms ease,
+      box-shadow 240ms ease;
   }
-  /* Menú móvil: se despliega como una lámina que baja (Emil: ease-drawer, salida más rápida). */
+  .site-header[data-scroll='true'] .barra {
+    background: var(--glass-tint-strong);
+  }
+  .nav-link.is-active {
+    background: color-mix(in oklab, var(--fg) 8%, transparent);
+  }
+  /* Menú móvil: una lámina de vidrio oscuro que se aclara desde arriba. */
   .menu-movil {
-    clip-path: inset(0 0 100% 0);
+    background: rgb(22 22 24 / 0.72);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    opacity: 0;
     visibility: hidden;
     transition:
-      clip-path 200ms var(--ease-out),
+      opacity 200ms var(--ease-out),
       visibility 0s linear 200ms;
   }
   .menu-movil[data-open='true'] {
-    clip-path: inset(0 0 0 0);
+    opacity: 1;
     visibility: visible;
     transition:
-      clip-path 360ms var(--ease-drawer),
+      opacity 280ms var(--ease-out),
       visibility 0s;
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .menu-movil {
+      background: var(--tinta);
+    }
   }
   .menu-item {
     opacity: 0;
@@ -94,6 +112,13 @@ const active = (href: string) => path === href || path.startsWith(`${href}/`);
   }
 </style>
 <script>
+  import { initLiquidGlass, initLuzGlass } from '@kreatya/ui/liquid-glass';
+  const header = document.querySelector<HTMLElement>('.site-header')!;
+  const marcar = () => (header.dataset.scroll = String(window.scrollY > 8));
+  marcar();
+  window.addEventListener('scroll', marcar, { passive: true });
+  initLiquidGlass(header);
+  initLuzGlass();
   const panel = document.getElementById('menu-movil')!;
   const openBtn = document.getElementById('menu-open')!;
   const closeBtn = document.getElementById('menu-close')!;

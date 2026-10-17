@@ -30,7 +30,11 @@ export default function DemoTour({ steps, projectSlug }: { steps: Step[]; projec
   return (
     <div className="grid gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div role="group" aria-label="Dispositivo" className="inline-flex border border-line">
+        <div
+          role="group"
+          aria-label="Dispositivo"
+          className="inline-flex rounded-full overflow-hidden border border-line"
+        >
           {DEVICES.map((d) => (
             <button
               key={d.key}
@@ -47,7 +51,7 @@ export default function DemoTour({ steps, projectSlug }: { steps: Step[]; projec
           Paso {i + 1} / {steps.length}
         </p>
       </div>
-      <div className="grid place-items-center border border-line p-3 sm:p-8">
+      <div className="grid place-items-center rounded-3xl border border-line p-3 sm:p-8">
         <div
           className="relative w-full overflow-hidden rounded-lg border-[6px] border-ink bg-bg shadow-xl transition-[max-width] duration-300"
           style={{ maxWidth: DEVICES.find((d) => d.key === device)!.width }}
@@ -65,7 +69,7 @@ export default function DemoTour({ steps, projectSlug }: { steps: Step[]; projec
         </div>
       </div>
       <div
-        className="grid gap-3 border border-line bg-raised p-5 sm:grid-cols-[1fr_auto] sm:items-center"
+        className="grid gap-3 rounded-3xl border border-line bg-raised p-5 sm:grid-cols-[1fr_auto] sm:items-center"
         aria-live="polite"
       >
         <div>

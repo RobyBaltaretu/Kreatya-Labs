@@ -54,10 +54,10 @@ export default function CookieBanner() {
   return (
     <section
       aria-labelledby="cookies-title"
-      className="cookie-banner fixed inset-x-0 bottom-0 z-50 border-t border-line bg-raised shadow-[0_-12px_32px_-16px_rgb(20_33_61/0.25)]"
+      className="cookie-banner glass fixed inset-x-3 bottom-3 z-50 mx-auto max-w-[1040px] rounded-[1.75rem] [--glass-tint:var(--glass-tint-strong)]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
-      <div className="wrap grid gap-4 py-5 md:grid-cols-[1fr_auto] md:items-center">
+      <div className="grid gap-4 px-5 py-5 sm:px-7 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <h2 id="cookies-title" className="font-display text-lg font-semibold">
             Tu privacidad
@@ -75,7 +75,7 @@ export default function CookieBanner() {
               <input
                 id="consent-media"
                 type="checkbox"
-                className="h-5 w-5 accent-[var(--blueprint)]"
+                className="h-5 w-5 accent-[var(--fg)]"
                 checked={media}
                 onChange={(e) => setMedia(e.target.checked)}
               />

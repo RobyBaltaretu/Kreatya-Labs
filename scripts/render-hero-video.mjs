@@ -46,20 +46,19 @@ const bundle = await build({
   minify: true,
   target: 'chrome120',
 });
-const fontPath = require.resolve(
-  '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2',
-  { paths: [join(root, 'packages/ui')] },
-);
-
-// Cinta métrica: marcas cada 80 px con números; uno de cada cinco en rojo, como en una cinta real.
-const ticks = Array.from(
-  { length: 16 },
-  (_, i) =>
-    `<span class="${i % 5 === 0 ? 'r' : ''}" style="left:${40 + i * 80}px">${i * 10}</span>`,
-).join('');
+const fuente = (pkg, file) =>
+  require.resolve(`@fontsource-variable/${pkg}/files/${file}`, {
+    paths: [join(root, 'packages/ui')],
+  });
 const html = (await readFile(join(src, 'index.html'), 'utf8'))
-  .replace('__FONT__', `file://${fontPath}`)
-  .replace('__TICKS__', ticks)
+  .replace(
+    '__FONT_DISPLAY__',
+    `file://${fuente('funnel-display', 'funnel-display-latin-wght-normal.woff2')}`,
+  )
+  .replace(
+    '__FONT_SANS__',
+    `file://${fuente('funnel-sans', 'funnel-sans-latin-wght-normal.woff2')}`,
+  )
   .replace('__SCRIPT__', () => bundle.outputFiles[0].text);
 await rm(frames, { recursive: true, force: true });
 await mkdir(frames, { recursive: true });

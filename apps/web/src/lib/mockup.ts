@@ -26,21 +26,21 @@ export function mockupSvg(opts: {
         : kind === 'cover'
           ? [1280, 720]
           : [1440, 900];
-  const ink = '#151515',
-    paper = '#F2F2EF',
-    blue = '#55554F',
-    signal = '#FFCC00',
-    green = '#0B7A47',
-    line = '#D4D4CD';
+  const ink = '#1d1d1f',
+    paper = '#F5F5F7',
+    blue = '#6E6E73',
+    signal = '#FFB21A',
+    green = '#1F8A4C',
+    line = '#D2D2D7';
   const grid = `<defs><pattern id="g${h}" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="${ink}" stroke-opacity=".05"/></pattern></defs>`;
 
   if (kind === 'mobile') {
     const rows = Array.from({ length: 6 }, (_, i) => {
       const y = 250 + i * 86;
       const done = (h >>> i) & 1;
-      return `<rect x="24" y="${y}" width="342" height="72" rx="10" fill="#fff" stroke="${line}"/><rect x="40" y="${y + 18}" width="${120 + ((h >>> (i + 2)) % 90)}" height="12" rx="6" fill="${ink}" fill-opacity=".8"/><rect x="40" y="${y + 42}" width="140" height="9" rx="4.5" fill="${ink}" fill-opacity=".3"/><rect x="${done ? 268 : 280}" y="${y + 24}" width="${done ? 82 : 70}" height="24" rx="12" fill="${done ? green : signal}" fill-opacity=".2"/><text x="${done ? 309 : 315}" y="${y + 40}" font-family="sans-serif" font-size="12" text-anchor="middle" fill="${ink}">${done ? 'Hecho' : 'Pendiente'}</text>`;
+      return `<rect x="24" y="${y}" width="342" height="72" rx="14" fill="#fff" stroke="${line}"/><rect x="40" y="${y + 18}" width="${120 + ((h >>> (i + 2)) % 90)}" height="12" rx="6" fill="${ink}" fill-opacity=".8"/><rect x="40" y="${y + 42}" width="140" height="9" rx="4.5" fill="${ink}" fill-opacity=".3"/><rect x="${done ? 268 : 280}" y="${y + 24}" width="${done ? 82 : 70}" height="24" rx="12" fill="${done ? green : signal}" fill-opacity=".2"/><text x="${done ? 309 : 315}" y="${y + 40}" font-family="sans-serif" font-size="12" text-anchor="middle" fill="${ink}">${done ? 'Hecho' : 'Pendiente'}</text>`;
     }).join('');
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${grid}<rect width="${W}" height="${H}" fill="${paper}"/><rect width="${W}" height="${H}" fill="url(#g${h})"/><rect width="${W}" height="120" fill="${ink}"/><text x="24" y="70" font-family="sans-serif" font-size="15" fill="${paper}" fill-opacity=".7">${esc(screen)}</text><text x="24" y="98" font-family="sans-serif" font-weight="700" font-size="22" fill="${paper}">${esc(title.slice(0, 26))}</text><rect x="24" y="144" width="342" height="84" rx="12" fill="#fff" stroke="${line}"/><text x="40" y="176" font-family="monospace" font-size="12" fill="${blue}" letter-spacing="1">HOY</text><text x="40" y="210" font-family="sans-serif" font-weight="700" font-size="26" fill="${green}">${esc(metric ?? '8 de 12')}</text>${rows}<rect x="24" y="772" width="342" height="52" rx="12" fill="${signal}"/><text x="195" y="804" font-family="sans-serif" font-weight="700" font-size="17" text-anchor="middle" fill="${ink}">Firmar y cerrar</text></svg>`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${grid}<rect width="${W}" height="${H}" fill="${paper}"/><rect width="${W}" height="${H}" fill="url(#g${h})"/><rect width="${W}" height="120" fill="${ink}"/><text x="24" y="70" font-family="sans-serif" font-size="15" fill="${paper}" fill-opacity=".7">${esc(screen)}</text><text x="24" y="98" font-family="sans-serif" font-weight="700" font-size="22" fill="${paper}">${esc(title.slice(0, 26))}</text><rect x="24" y="144" width="342" height="84" rx="12" fill="#fff" stroke="${line}"/><text x="40" y="176" font-family="sans-serif" font-size="12" fill="${blue}" letter-spacing="1">HOY</text><text x="40" y="210" font-family="sans-serif" font-weight="700" font-size="26" fill="${green}">${esc(metric ?? '8 de 12')}</text>${rows}<rect x="24" y="772" width="342" height="52" rx="12" fill="${signal}"/><text x="195" y="804" font-family="sans-serif" font-weight="700" font-size="17" text-anchor="middle" fill="${ink}">Firmar y cerrar</text></svg>`;
   }
 
   const side = kind === 'tablet' ? 0 : 220;
@@ -50,7 +50,7 @@ export function mockupSvg(opts: {
     .map((i) => {
       const x = side + 24 + i * (kpiW + 16);
       const v = i === 0 && metric ? metric : `${((h >>> (i * 3)) % 90) + 10}${i === 1 ? ' h' : ''}`;
-      return `<rect x="${x}" y="${top + 72}" width="${kpiW}" height="110" rx="8" fill="#fff" stroke="${line}"/><text x="${x + 20}" y="${top + 104}" font-family="monospace" font-size="13" letter-spacing="1.5" fill="${blue}">${['IMPACTO', 'AHORRO/SEM', 'ACTIVOS'][i]}</text><text x="${x + 20}" y="${top + 152}" font-family="sans-serif" font-weight="700" font-size="36" fill="${i === 0 ? green : ink}">${esc(v)}</text>`;
+      return `<rect x="${x}" y="${top + 72}" width="${kpiW}" height="110" rx="14" fill="#fff" stroke="${line}"/><text x="${x + 20}" y="${top + 104}" font-family="sans-serif" font-size="13" letter-spacing="1.5" fill="${blue}">${['IMPACTO', 'AHORRO/SEM', 'ACTIVOS'][i]}</text><text x="${x + 20}" y="${top + 152}" font-family="sans-serif" font-weight="700" font-size="36" fill="${i === 0 ? green : ink}">${esc(v)}</text>`;
     })
     .join('');
   const chartY = top + 206;
@@ -82,5 +82,5 @@ export function mockupSvg(opts: {
       ? `<g transform="translate(${W - 420} ${H - 118})"><rect width="380" height="78" rx="12" fill="${ink}"/><circle cx="34" cy="39" r="13" fill="${signal}"/><text x="62" y="34" font-family="sans-serif" font-weight="700" font-size="17" fill="${paper}">Copiloto</text><text x="62" y="58" font-family="sans-serif" font-size="15" fill="#C9D3E4">Tarea repetitiva resuelta · revisa y confirma</text></g>`
       : '';
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${grid}<rect width="${W}" height="${H}" fill="${paper}"/><rect width="${W}" height="${H}" fill="url(#g${h})"/><rect width="${W}" height="${top}" fill="${ink}"/><circle cx="28" cy="32" r="7" fill="${signal}"/><circle cx="50" cy="32" r="7" fill="${paper}" fill-opacity=".4"/><circle cx="72" cy="32" r="7" fill="${paper}" fill-opacity=".4"/><text x="${W / 2}" y="38" text-anchor="middle" font-family="monospace" font-size="15" fill="${paper}" fill-opacity=".85">${esc(screen)}</text>${sidebar}<text x="${side + 24}" y="${top + 48}" font-family="sans-serif" font-weight="700" font-size="26" fill="${ink}">${esc(title.slice(0, 60))}</text>${kpis}<rect x="${side + 24}" y="${chartY}" width="${cw}" height="${chartH}" rx="8" fill="#fff" stroke="${line}"/>${bars}<rect x="${listX}" y="${chartY}" width="${listW}" height="${chartH}" rx="8" fill="#fff" stroke="${line}"/><text x="${listX + 16}" y="${chartY + 30}" font-family="monospace" font-size="13" letter-spacing="1.5" fill="${blue}">ACTIVIDAD</text>${list}<rect x="${side + 24}" y="${tableY}" width="${W - side - 48}" height="44" fill="${ink}" fill-opacity=".06"/>${table}${copilot}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${grid}<rect width="${W}" height="${H}" fill="${paper}"/><rect width="${W}" height="${H}" fill="url(#g${h})"/><rect width="${W}" height="${top}" fill="${ink}"/><circle cx="28" cy="32" r="7" fill="${signal}"/><circle cx="50" cy="32" r="7" fill="${paper}" fill-opacity=".4"/><circle cx="72" cy="32" r="7" fill="${paper}" fill-opacity=".4"/><text x="${W / 2}" y="38" text-anchor="middle" font-family="sans-serif" font-size="15" fill="${paper}" fill-opacity=".85">${esc(screen)}</text>${sidebar}<text x="${side + 24}" y="${top + 48}" font-family="sans-serif" font-weight="700" font-size="26" fill="${ink}">${esc(title.slice(0, 60))}</text>${kpis}<rect x="${side + 24}" y="${chartY}" width="${cw}" height="${chartH}" rx="14" fill="#fff" stroke="${line}"/>${bars}<rect x="${listX}" y="${chartY}" width="${listW}" height="${chartH}" rx="14" fill="#fff" stroke="${line}"/><text x="${listX + 16}" y="${chartY + 30}" font-family="sans-serif" font-size="13" letter-spacing="1.5" fill="${blue}">ACTIVIDAD</text>${list}<rect x="${side + 24}" y="${tableY}" width="${W - side - 48}" height="44" fill="${ink}" fill-opacity=".06"/>${table}${copilot}</svg>`;
 }

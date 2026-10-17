@@ -109,7 +109,7 @@ export default function AiDocDemo() {
           </button>
         ))}
       </div>
-      <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">
+      <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-2">
         <div className="bg-raised p-5">
           <p className="etiqueta mb-3">Documento</p>
           <div

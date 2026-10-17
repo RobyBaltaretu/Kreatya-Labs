@@ -85,8 +85,8 @@ Entornos: `main` → producción; cualquier otra rama → preview de Pages con D
 
 | Épica | Estado |
 |---|---|
-| E1 Sistema de diseño y layout | Hecho: tokens claro/oscuro, retícula de plano, tipografías autoalojadas, cabecera fija y menú móvil a pantalla completa |
-| E2 Home | Hecho: los 10 bloques (hero «Blueprint vivo», prueba social, «¿Qué te frena hoy?», pilares, destacados, demo IA, método, calculadora, testimonios, FAQ + CTA) |
+| E1 Sistema de diseño y layout | Hecho: identidad «Líquido» (ámbar líquido + vidrio líquido), tokens claro/oscuro, Funnel Display/Sans autoalojadas, barra flotante de vidrio y menú móvil |
+| E2 Home | Hecho: los 10 bloques (hero «Líquido» con película Motion, prueba social, «¿Qué te frena hoy?», pilares, destacados, demo IA, método, calculadora, testimonios, FAQ + CTA) |
 | E3 Portfolio y fichas | Hecho: filtros con estado en la URL y sin JS, ficha con plantilla de 10 bloques, NDA, lightbox |
 | E4 Vistas previas | Niveles 1 (recorrido guiado) y 3 (bajo solicitud, acceso 72 h) hechos. Nivel 2 (sandbox) preparado en datos y página; falta el subdominio `demo.` |
 | E5 Conversión | Hecho: diagnóstico en 5 pasos + Cal.com, calculadoras de ahorro e inversión, mini CRM |

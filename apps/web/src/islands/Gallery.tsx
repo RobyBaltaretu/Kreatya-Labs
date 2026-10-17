@@ -40,7 +40,7 @@ export default function Gallery({ items }: { items: Item[] }) {
           <li key={it.src}>
             <button
               type="button"
-              className="group block w-full border border-line bg-raised text-left"
+              className="group block w-full rounded-3xl border border-line bg-raised text-left"
               onClick={() => setOpen(i)}
             >
               <img

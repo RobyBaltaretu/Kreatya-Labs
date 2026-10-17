@@ -16,7 +16,7 @@ const phases = [
   <section class="wrap pb-20">
     <ol class="relative grid gap-6 border-l border-dashed border-diagram pl-8">
       {phases.map((p) => (
-        <li class="relative grid gap-4 rounded-xl border border-line bg-raised p-6 md:grid-cols-[1fr_2fr]">
+        <li class="relative grid gap-4 rounded-3xl border border-line bg-raised p-6 md:grid-cols-[1fr_2fr]">
           <span class="absolute -left-[3.05rem] top-6 grid h-9 w-9 place-items-center rounded-full border-2 border-diagram bg-bg font-mono font-semibold">{p.n}</span>
           <div><h2 class="text-heading">{p.name}</h2><p class="etiqueta mt-1">{p.time}</p></div>
           <dl class="grid gap-3"><div><dt class="text-sm font-semibold">Qué hacemos</dt><dd class="text-muted">{p.does}</dd></div><div><dt class="text-sm font-semibold">Qué recibes</dt><dd class="text-muted">{p.get}</dd></div></dl>

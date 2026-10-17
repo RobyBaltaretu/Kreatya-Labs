@@ -22,7 +22,7 @@ const kinds = projectKinds(p, s);
 const hasDemo = p.demoType !== 'none';
 ---
 <article
-  class:list={['ficha group relative grid overflow-hidden rounded-xl border border-line bg-raised', lead && 'md:grid-cols-[1.35fr_1fr]']}
+  class:list={['ficha group relative grid overflow-hidden rounded-[1.75rem] bg-raised shadow-[0_0_0_1px_var(--line),0_18px_40px_-28px_rgb(0_0_0/0.25)]', lead && 'md:grid-cols-[1.35fr_1fr]']}
   data-project
   data-sector={p.sectors.join(' ')}
   data-tipo={kinds.join(' ')}
@@ -33,13 +33,13 @@ const hasDemo = p.demoType !== 'none';
 >
   <div class:list={['relative overflow-hidden bg-bg', lead ? 'aspect-[16/10] md:aspect-auto md:min-h-full' : 'aspect-[16/10]']}>
     <img src={p.cover} alt="" width="800" height="500" loading={eager ? 'eager' : 'lazy'} decoding="async" class="ficha-img h-full w-full object-cover" />
-    {hasDemo && <span class="absolute left-3 top-3 rounded-md bg-ink px-2 py-1 text-xs font-semibold text-paper">Demo disponible</span>}
+    {hasDemo && <span class="btn-glass absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-semibold">Demo disponible</span>}
   </div>
   <div class="flex flex-col">
     <div class="flex flex-1 flex-col gap-3 p-5 sm:p-6">
       <p class="text-sm text-muted">{clientLabel(p, sector)}</p>
       <Heading class:list={['leading-snug', lead ? 'text-heading' : 'text-xl']}>
-        <a href={`/proyectos/${p.slug}`} class="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none">{p.title}</a>
+        <a href={`/proyectos/${p.slug}`} class="after:absolute after:inset-0 after:rounded-[1.75rem] focus-visible:outline-none">{p.title}</a>
       </Heading>
       {lead && <p class="text-muted">{p.summary}</p>}
       {metric && (

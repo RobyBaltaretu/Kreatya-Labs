@@ -26,7 +26,7 @@ const p = s.projects.find((x) => x.slug === Astro.params.slug)!;
     <h1 class="text-title">{p.title}</h1>
     {p.demoType === 'tour' && p.demoTour.length > 0 && <DemoTour client:load steps={p.demoTour} projectSlug={p.slug} />}
     {p.demoType === 'sandbox' && p.demoUrl && (
-      <iframe src={p.demoUrl} title={`Demo navegable: ${p.title}`} sandbox="allow-scripts allow-forms allow-same-origin" class="h-[80vh] w-full border border-line" loading="lazy"></iframe>
+      <iframe src={p.demoUrl} title={`Demo navegable: ${p.title}`} sandbox="allow-scripts allow-forms allow-same-origin" class="h-[80vh] w-full rounded-3xl border border-line" loading="lazy"></iframe>
     )}
     {p.demoType === 'on_request' && <DemoRequestForm client:load projectSlug={p.slug} projectTitle={p.title} />}
     <p class="text-sm text-muted">Las demos se reinician automáticamente cada 24 horas.</p>

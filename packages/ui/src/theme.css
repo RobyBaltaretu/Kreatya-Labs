@@ -3,9 +3,9 @@
  * Uso: @import "tailwindcss"; @import "@kreatya/ui/theme.css";
  * Decisiones en /DESIGN.md.
  */
-/* Archivo (Omnibus-Type): una superfamilia con eje de anchura 62–125 %.
-   Titulares condensados, texto a anchura normal, datos con cifras tabulares. */
-@import '@fontsource-variable/archivo/wdth.css';
+/* Funnel Display (titulares) y Funnel Sans (texto): limpieza de Apple con formas suaves. */
+@import '@fontsource-variable/funnel-display/wght.css';
+@import '@fontsource-variable/funnel-sans/wght.css';
 @import './tokens.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
@@ -30,9 +30,9 @@
   --color-positive: var(--positive);
   --color-positive-strong: var(--positive-strong);
 
-  --font-display: 'Archivo Variable', 'Arial Narrow', ui-sans-serif, sans-serif;
-  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Archivo Variable', ui-sans-serif, sans-serif;
+  --font-display: 'Funnel Display Variable', -apple-system, 'SF Pro Display', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Funnel Sans Variable', -apple-system, 'SF Pro Text', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Funnel Sans Variable', ui-sans-serif, sans-serif;
   --color-mark: var(--mark);
 
   --ease-out: var(--ease-out);
@@ -57,16 +57,15 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 720;
-    font-stretch: 74%;
-    letter-spacing: -0.012em;
-    line-height: 0.98;
+    font-weight: 620;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
     text-wrap: balance;
   }
   h3,
   h4 {
-    font-stretch: 86%;
-    line-height: 1.1;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
   p {
     text-wrap: pretty;
@@ -95,36 +94,73 @@
 }
 
 @layer components {
-  /* Contexto sobre negro: el texto secundario se aclara, nunca gris medio. */
+  /* Contexto sobre superficies oscuras. */
   .sobre-tinta {
-    --fg: #f2f2ee;
-    --fg-muted: #bdbdb4;
-    --line: #3a3a35;
-    --diagram: #f2f2ee;
-    --positive: #4fd08e;
-    --positive-strong: #4fd08e;
-    --mark: #ff6a5f;
-    --focus: #ffcc00;
+    --bg: #1d1d1f;
+    --fg: #f5f5f7;
+    --fg-muted: #a1a1a6;
+    --line: #3a3a3c;
+    --diagram: #f5f5f7;
+    --positive: #4ad083;
+    --positive-strong: #4ad083;
+    --mark: #ffb35c;
+    --focus: #6aa8ff;
     --bg-raised: var(--tinta-2);
+    --glass-tint: rgb(40 40 44 / 0.5);
+    --glass-tint-strong: rgb(40 40 44 / 0.78);
+    --glass-edge: rgb(255 255 255 / 0.28);
     color: var(--fg);
   }
-  /* Contexto sobre amarillo cinta. */
-  .sobre-amarillo {
-    --fg: #151515;
-    --fg-muted: #3d3a2a;
-    --line: rgb(21 21 21 / 0.25);
-    --diagram: #151515;
-    --mark: #a3170f;
-    --focus: #151515;
-    background: var(--signal);
-    color: var(--fg);
+
+  /*
+   * Vidrio líquido. Base válida en todos los navegadores (desenfoque, saturación,
+   * brillo especular en el borde); liquid-glass.ts añade refracción física en Chromium.
+   */
+  .glass {
+    position: relative;
+    isolation: isolate;
+    background: var(--glass-tint);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      inset 1px 0 0 rgb(255 255 255 / 0.25),
+      inset 0 -1px 0 var(--glass-shade),
+      var(--glass-shadow);
+  }
+  .glass[data-refraccion] {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .glass[data-refraccion]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    -webkit-backdrop-filter: var(--glass-filter);
+    backdrop-filter: var(--glass-filter);
+  }
+  /* Brillo especular que sigue al puntero (variable --mx/--my). */
+  .glass-luz::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(160px circle at var(--mx, 30%) var(--my, 0%), rgb(255 255 255 / 0.35), transparent 70%);
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .glass-luz:hover::before {
+      opacity: 1;
+    }
   }
   /* Medida o dato: mono solo para cifras, plazos y cajetines. */
   .medida {
-    font-stretch: 80%;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.01em;
   }
 
   .btn {
@@ -135,8 +171,8 @@
     min-height: 44px;
     padding: 0.625rem 1.125rem;
     border-radius: 999px;
-    font-weight: 650;
-    font-stretch: 92%;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     line-height: 1.2;
     white-space: nowrap;
     -webkit-tap-highlight-color: transparent;
@@ -157,13 +193,33 @@
     transition: transform var(--dur-ui) var(--ease-out);
   }
   .btn-primary {
-    background: var(--signal);
-    color: #151515;
+    background: var(--fg);
+    color: var(--bg);
   }
-  /* Negro de imprenta: el CTA sobre campos amarillos. */
   .btn-ink {
-    background: #151515;
-    color: var(--signal);
+    background: #1d1d1f;
+    color: #f5f5f7;
+  }
+  /* Ámbar líquido: la única acción con color, reservada a la conversión. */
+  .btn-ambar {
+    color: #1d1d1f;
+    background: linear-gradient(180deg, #ffcf5a, #ff9d14);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.65),
+      inset 0 -2px 6px rgb(180 69 10 / 0.25),
+      0 10px 28px -8px rgb(255 150 20 / 0.55);
+  }
+  /* Botón de vidrio líquido (controles flotantes). */
+  .btn-glass {
+    color: var(--fg);
+    background: var(--glass-tint);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    backdrop-filter: blur(14px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      inset 0 -1px 0 var(--glass-shade),
+      inset 0 0 0 1px rgb(255 255 255 / 0.18),
+      var(--glass-shadow);
   }
   .btn-secondary {
     background: transparent;
@@ -171,11 +227,13 @@
     box-shadow: inset 0 0 0 1.5px currentColor;
   }
   @media (hover: hover) and (pointer: fine) {
-    .btn-primary:hover {
-      background: #ffd633;
-    }
+    .btn-primary:hover,
+    .btn-ambar:hover,
     .btn-ink:hover {
-      background: #2a2a27;
+      opacity: 0.86;
+    }
+    .btn-glass:hover {
+      background: var(--glass-tint-strong);
     }
     .btn-secondary:hover {
       background: color-mix(in oklab, currentColor 8%, transparent);
