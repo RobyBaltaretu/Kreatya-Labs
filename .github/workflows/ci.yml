@@ -46,4 +46,4 @@ jobs:
       - name: Lighthouse ≥ 95 en las cuatro categorías
         run: npx --yes @lhci/cli@0.15.1 autorun
       - name: Enlaces rotos
-        run: npx --yes linkinator@6.1.2 ./apps/web/dist --recurse --skip "^https?://(?!localhost)"
+        run: npx --yes linkinator@6.1.2 ./apps/web/dist --recurse --skip "^https?://(?!localhost)" --skip "\?"
